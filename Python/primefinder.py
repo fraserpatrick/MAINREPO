@@ -1,4 +1,4 @@
-n = 500933
+n = 0
 primes = []
 valid = True
 
