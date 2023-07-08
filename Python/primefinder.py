@@ -1,4 +1,4 @@
-n = 0 
+n = 10
 primes = []
 valid = True
 
