@@ -1,0 +1,42 @@
+<html>
+<head>
+
+<title>INSERT PAGE TITLE</title>
+
+<link rel="stylesheet" href="GroupProjectCSS.css">
+
+</head>
+
+<body>
+
+<h1 class="heading">INSERT HEADING</h1>
+
+<div id="navbar">
+<a href="Home.html">Home</a>
+<a href="CryptoCurrency.html">Crypto Currency</a>
+<a href="ElectricCars.html">Electric Cars</a>
+<a href="EWaste.html">E-Waste</a>
+<a href="ManufacturingEmissions.html">Manufacturing Emissions</a>
+<a href="Bibliography.html">Bibliography</a>
+</div>
+<br>
+<br>
+
+<div class="maintext">
+	ENTER MAIN TEXT HERE
+</div>
+
+<script>
+window.onscroll = function() {myFunction()};
+var navbar = document.getElementById("navbar");
+var stickynav = navbar.offsetTop;
+function myFunction() {
+if (window.pageYOffset >= stickynav) {
+navbar.classList.add("stickynav")}
+else {
+navbar.classList.remove("stickynav");}}
+</script>
+
+</body>
+
+</html>
