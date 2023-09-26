@@ -28,12 +28,12 @@ public class Tests {
 			for (; trial < 10000; trial++) {
 
 				int d = random.nextInt(1, 7); // Returns equally likely integer number from {1,2,3,4,5,6} set.  This simulates a single die roll.
-				if(d == 6)
+				if((d % 2) != 0)
 					pos ++;
 			}
 
 			double p  = (double)pos/trial;   // We need a cast to double to avoid integer division
-			System.out.print(" Single die roll, P(6):");
+			System.out.print(" Single die roll, P(1, 3, 5):");
 			System.out.print(" positive outcomes = ");
 			System.out.print(pos);
 			System.out.print(" number of trials = ");
@@ -42,11 +42,11 @@ public class Tests {
 			System.out.println(p);
 
 			// Check that the probability obtained by our experiments is as it should be according to the theory:
-			Assert(Math.abs(p - 1/6.) < 0.01); // abs() calculates absolute value: abs(x) = x if x > 0, -x otherwise.
+			Assert(Math.abs(p - 1/2.) < 0.01); // abs() calculates absolute value: abs(x) = x if x > 0, -x otherwise.
 
 		}
 
-		// 2 Die Rolls: P(6+6) - probability of getting 6 followed by another 6
+		// 2 Die Rolls: P(4) - probability of getting 6 followed by another 6
 		{
 			int pos = 0;
 			int trial = 0;
@@ -55,12 +55,38 @@ public class Tests {
 
 				int d1 = random.nextInt(1, 7);
 				int d2 = random.nextInt(1, 7);
-				if(d1 == 6 && d2 == 6)
+				if(d1 + d2 == 4)
 					pos ++;
 			}
 
 			double p  = (double)pos/trial;
-			System.out.print(" Two die rolls, P(6,6):");
+			System.out.print(" Two die rolls, P(4):");
+			System.out.print(" positive outcomes = ");
+			System.out.print(pos);
+			System.out.print(" number of trails = ");
+			System.out.print(trial);
+			System.out.print(" probability of event = ");
+			System.out.println(p);
+			// Check that the probability obtained by our experiments is as it should be according to the theory:
+			Assert(Math.abs(p - 1/12.) < 0.01);
+		}
+
+		// 3 Die Rolls: P(5) - probability of getting 6 followed by another 6
+		{
+			int pos = 0;
+			int trial = 0;
+
+			for (; trial < 100000; trial++) {
+
+				int d1 = random.nextInt(1, 7);
+				int d2 = random.nextInt(1, 7);
+				int d3 = random.nextInt(1, 7);
+				if(d1 + d2 + d3 == 5)
+					pos ++;
+			}
+
+			double p  = (double)pos/trial;
+			System.out.print(" Three die rolls, P(5):");
 			System.out.print(" positive outcomes = ");
 			System.out.print(pos);
 			System.out.print(" number of trails = ");
@@ -81,9 +107,9 @@ public class Tests {
 			for (; trial < 100000; trial++) {
 
 				int d = random.nextInt(1, 7);
-				if(d < 4) {
+				if(d < 5) {
 					cond ++;
-					if(d == 1 || d == 2)
+					if(d == 2 || d == 3)
 						pos ++;
 				}
 			}
@@ -98,7 +124,7 @@ public class Tests {
 			System.out.println(p);
 
 			// Check that the probability obtained by our experiments is as it should be according to the theory:
-			Assert(Math.abs(p - 2/3.) < 0.01);
+			Assert(Math.abs(p - 1/2.) < 0.01);
 
 		}
 
@@ -112,9 +138,9 @@ public class Tests {
 
 			int d1 = random.nextInt(1, 7);
 			int d2 = random.nextInt(1, 7);
-			if(d1+d2 == 1 || d1+d2 == 3 || d1+d2 == 5 || d1+d2 == 7 || d1+d2 == 9 || d1+d2 == 11) {
+			if(((d1+d2) %2)==0) {
 				cond ++;
-				if(d1+d2 == 3)
+				if(d1+d2 == 4)
 					pos ++;
 			}
 		}
@@ -129,7 +155,7 @@ public class Tests {
 		System.out.println(p);
 
 		// Check that the probability obtained by our experiments is as it should be according to the theory:
-		Assert(Math.abs(p - 1/9.) < 0.01);
+		Assert(Math.abs(p - 1/6.) < 0.01);
 
 		System.out.print("All tests fine.");
 
