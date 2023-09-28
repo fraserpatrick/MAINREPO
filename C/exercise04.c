@@ -2,10 +2,17 @@
 
 int main(void){
 
-  char input[10] = "";
+  int input = 0;
   printf("Enter a two digit positive integer: ");
-  scanf("%s", input);
-  printf("The reversal is: %s and size %ld \n", input, sizeof(input));
+  scanf("%d", &input);
+
+  if(input <= 9 || input >= 100){
+    printf("Invalid input! \n");
+  }
+  else{
+    //char output[2] = input;
+    printf("The reversal is: %d \n", output);
+  }
 
   return 0;
 }
