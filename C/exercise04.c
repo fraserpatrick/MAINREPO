@@ -3,9 +3,9 @@
 int main(void){
 
   int input = 0;
-  char output[2];
+  char output[5];
   printf("Enter a two digit positive integer: ");
-  scanf("%d", &input);
+  scanf("%s", output);
 
   if(input <= 9 || input >= 100){
     printf("Invalid input! \n");
