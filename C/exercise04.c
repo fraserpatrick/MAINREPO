@@ -5,14 +5,13 @@ int main(void){
   int input = 0;
   char output[5];
   printf("Enter a two digit positive integer: ");
-  scanf("%s", output);
+  scanf("%d", input);
 
   if(input <= 9 || input >= 100){
     printf("Invalid input! \n");
   }
   else{
-    sprintf(output, "%d", input);
-    printf("The reversal is: %d%d \n", output[1], output[0]);
+    printf("The reversal is: %d \n", input);
   }
 
   return 0;
