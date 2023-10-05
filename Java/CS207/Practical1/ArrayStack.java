@@ -8,11 +8,16 @@ public class ArrayStack<E> implements StackADT<E>
     public ArrayStack(int capacity)
     {
         top = -1;
-        S = (E[]) new Object[capacity]; 
+        S = (E[]) new Object[capacity];
         // Casting is used in the above as generic arrays cannot be created using new E[]
     }
 
-   /** 
+    public ArrayStack(){
+      top = -1;
+      S = (E[]) new Object[5];
+    }
+
+   /**
      @throws FullStackException
    */
    public void push(E element){
@@ -33,19 +38,28 @@ public class ArrayStack<E> implements StackADT<E>
      top--;
      return element;
    }
-    
+
    /**
      @throws EmptyStackException
    */
    public E top(){
-     //add method body
+     E element;
+     if (isEmpty())
+        throw new EmptyStackException("Stack is empty, so cannot pop from stack");
+     element = S[top];
+     return element;
    }
 
    public int size(){
-      //add method body
+      return top + 1;
    }
 
    public boolean isEmpty(){
-      //add method body
-   }  
+      if (top == -1){
+        return true;
+      }
+      else {
+        return false;
+      }
+   }
 }
