@@ -11,23 +11,27 @@ void print_digit(int digit) {
 }
 
 int main(void){
-  int input = 'q';
-
-  printf("Enter a single digit: ");
-  scanf("%d", &input);
+  char input;
 
   while (1){
+    printf("Enter a single digit: ");
+    if (scanf(" %c", &input) != 1){
+      printf("Invalid input!\n");
+      while (getchar() != '\n');
+      continue;
+    }
+
     if (input == 'q'){
       break;
     }
-    else if (input >= 0 && input <= 9){
-      print_digit(input);
+
+    else if (input >= '0' && input <= '9'){
+    //  printf("PASS %d\n", input);
+      print_digit(input-48);
     }
     else {
-      printf("Invalid input!\n");
+      printf("Invalid Input!\n");
     }
-    printf("Enter a single digit: ");
-    scanf("%d", &input);
   }
   return 0;
 }
