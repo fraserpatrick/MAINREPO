@@ -45,7 +45,7 @@ public class ArrayStack<E> implements StackADT<E>
    public E top(){
      E element;
      if (isEmpty())
-        throw new EmptyStackException("Stack is empty, so cannot pop from stack");
+        throw new EmptyStackException("Stack is empty, so cannot get top from stack");
      element = S[top];
      return element;
    }
