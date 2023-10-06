@@ -4,23 +4,24 @@ public class stack{
   public static void main(String[] args){
     StackADT<Integer> myStack = new ArrayStack<>();
     String input = "";
-    Scanner myObj = new Scanner(System.in);
+    Scanner myScanner = new Scanner(System.in);
 
     do{
       System.out.print("Enter command: push, pop, top, size, isEmpty:  ");
-      input = myObj.nextLine();
+      input = myScanner.nextLine();
 
       switch (input){
         case "push":
           try {
             System.out.print("Enter item:  ");
-            int newItem = myObj.nextShort();
+            int newItem = myScanner.nextShort();
             myStack.push(newItem);
             System.out.println("Adding " + newItem + " to top of stack");
           }
           catch(Exception FullStackException) {
             System.err.println("The stack is full, item not added");
           }
+          myScanner.nextLine();
           break;
 
         case "pop":
