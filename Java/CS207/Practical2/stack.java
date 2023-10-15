@@ -2,9 +2,10 @@ import java.util.Scanner;
 
 public class stack{
   public static void main(String[] args){
-    StackADT<Integer> myStack = new ArrayStack<>();
+    StackADT<Integer> myStack = new ExtendableArrayStack<>();
     String input = "";
     Scanner myScanner = new Scanner(System.in);
+    int newItem = 0;
 
     do{
       System.out.print("Enter command: push, pop, top, size, isEmpty:  ");
@@ -14,12 +15,24 @@ public class stack{
         case "push":
           try {
             System.out.print("Enter item:  ");
-            int newItem = myScanner.nextShort();
+            newItem = myScanner.nextShort();
             myStack.push(newItem);
             System.out.println("Adding " + newItem + " to top of stack");
           }
           catch(Exception FullStackException) {
-            System.err.println("The stack is full, item not added");
+            int oldSize = myStack.size();
+            StackADT<Integer> tempStack = new ExtendableArrayStack<>(oldSize-5);
+            for (int counter = 0; counter < oldSize; counter++){
+              tempStack.push(myStack.top());
+              myStack.pop();
+            }
+            myStack = new ExtendableArrayStack<>(oldSize);
+            for (int counter = 0; counter < oldSize; counter++){
+              myStack.push(tempStack.top());
+              tempStack.pop();
+            }
+            myStack.push(newItem);
+            System.out.println("Adding " + newItem + " to top of stack");
           }
           myScanner.nextLine();
           break;

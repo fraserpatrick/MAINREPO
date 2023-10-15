@@ -8,7 +8,7 @@ public class ExtendableArrayStack<E> implements StackADT<E>
     public ExtendableArrayStack(int capacity)
     {
         top = -1;
-        S = (E[]) new Object[capacity];
+        S = (E[]) new Object[capacity+5];
         // Casting is used in the above as generic arrays cannot be created using new E[]
     }
 
@@ -21,10 +21,14 @@ public class ExtendableArrayStack<E> implements StackADT<E>
      @throws FullStackException
    */
    public void push(E element){
-     if (top == S.length-1)
-        throw new FullStackException("Stack is full, so cannot push on to stack");
-     top++;
-     S[top] = element;
+     if (top == S.length-1) {
+       throw new FullStackException("Stack is full, so cannot push on to stack");
+     }
+    else {
+      top++;
+      S[top] = element;
+      }
+
    }
 
    /**
