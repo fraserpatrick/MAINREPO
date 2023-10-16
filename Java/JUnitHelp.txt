@@ -1,0 +1,2 @@
+//to run JUnit tests
+javac -cp "C:\Program Files\JUnit\junit-4.13.1.jar" org.junit.runner.JUnitCore FILENAME.java
