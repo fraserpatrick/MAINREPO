@@ -42,6 +42,9 @@ public class ArrayQueue<E> implements QueueADT<E>
      @throws EmptyQueueException
    */
    public E dequeue(){
+     if (isEmpty())
+      throw new EmptyQueueException("Nothing in queue");
+     return Q[f];
    }
 
    /**
