@@ -33,9 +33,10 @@ public class ArrayQueue<E> implements QueueADT<E>
      @throws FullQueueException
    */
    public void enqueue(E element){
-    if (f == r)
+    if (size() == N-1)
       throw new FullQueueException("Queue is full");
-
+    Q[r] = element;
+    r = (r+1)&N;
    }
 
    /**
@@ -44,7 +45,9 @@ public class ArrayQueue<E> implements QueueADT<E>
    public E dequeue(){
      if (isEmpty())
       throw new EmptyQueueException("Nothing in queue");
-     return Q[f];
+    E element = Q[f];
+    f = (f+1)%N;
+    return element;
    }
 
    /**
@@ -57,10 +60,10 @@ public class ArrayQueue<E> implements QueueADT<E>
    }
 
    public int size(){
-     return 0;
+     return (N - f + r)%N;
    }
 
    public boolean isEmpty(){
-     return false;
+     return (f==r);
    }
 }
