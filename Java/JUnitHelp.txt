@@ -1,2 +1,4 @@
+//to compile JUnit tests
+javac -cp "C:\Program Files\JUnit\junit-4.13.2.jar;." ArrayQueueTests.java
 //to run JUnit tests
-javac -cp "C:\Program Files\JUnit\junit-4.13.1.jar" org.junit.runner.JUnitCore FILENAME.java
+java -cp "C:\Program Files\JUnit\junit-4.13.2.jar;C:\Program Files\JUnit\hamcrest-2.2.jar;." org.junit.runner.JUnitCore FILENAME
