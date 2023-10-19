@@ -36,7 +36,7 @@ public class ArrayQueue<E> implements QueueADT<E>
     if (size() == N-1)
       throw new FullQueueException("Queue is full");
     Q[r] = element;
-    r = (r+1)&N;
+    r = (r+1)%N;
    }
 
    /**
