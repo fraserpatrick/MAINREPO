@@ -26,23 +26,25 @@ public class ExtendableArrayQueue<E> implements QueueADT<E>
    // appropriate. Many of the method bodies can be the same as in Q3i
 
    public void enqueue(E element){
-      if (size() == N-1){
+    // System.out.println("ENQUEUE FRONT: "+f+"    ENQUEUE REAR"+r);
+      if (size() == N-2){
+      //  System.out.println("PASSS");
+        N=N+5;
         extendArray();
+      //  System.out.println("FRONT: "+f+"    REAR: "+r);
       }
       Q[r] = element;
       r = (r+1)%N;
+    //  System.out.println("ENQUEUE FRONT: "+f+"    ENQUEUE REAR"+r);
     }
 
     private void extendArray(){
-      N= N+10;
-      int counter = 0;
-      E[] temp = (E[]) new Object[N];
-      for (int counter1 = f; counter1 < r; counter1++){
-        temp[counter] = Q[counter1];
-        counter++;
-      Q = temp;
-      f = 0;
-      r=counter+1;
+      E[] temp = (E[]) new Object[N-5];
+      temp = Q;
+      E[] Q = (E[]) new Object[N];
+      for (int counter = 0; counter < size()-1; counter++){
+      //  System.out.println("COUNTER " + counter + ": "+temp[counter]+Q[counter]);
+        //System.out.println("COUNTER " + counter + ": "+temp[counter]+Q[counter]);
       }
     }
 
@@ -50,10 +52,12 @@ public class ExtendableArrayQueue<E> implements QueueADT<E>
       @throws EmptyQueueException
     */
     public E dequeue(){
+    //  System.out.println("DEQUEUE FRONT: "+f+"    DEQUEUE REAR"+r);
       if (isEmpty())
        throw new EmptyQueueException("Nothing in queue");
      E element = Q[f];
      f = (f+1)%N;
+    // System.out.println("DEQUEUE FRONT: "+f+"    DEQUEUE REAR"+r);
      return element;
     }
 
