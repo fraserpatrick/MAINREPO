@@ -26,28 +26,37 @@ public class ExtendableArrayQueue<E> implements QueueADT<E>
    // appropriate. Many of the method bodies can be the same as in Q3i
 
    public void enqueue(E element){
-    // System.out.println("ENQUEUE FRONT: "+f+"    ENQUEUE REAR"+r);
       if (size() == N-2){
-      //  System.out.println("PASSS");
-        N=N+5;
+        N=N+10;
         extendArray();
-      //  System.out.println("FRONT: "+f+"    REAR: "+r);
       }
       Q[r] = element;
       r = (r+1)%N;
-    //  System.out.println("ENQUEUE FRONT: "+f+"    ENQUEUE REAR"+r);
     }
 
     private void extendArray(){
-      E[] temp = (E[]) new Object[N-5];
-      temp = Q;
-      E[] Q = (E[]) new Object[N];
-      for (int counter = 0; counter < size()-1; counter++){
-      //  System.out.println("COUNTER " + counter + ": "+temp[counter]+Q[counter]);
-        //System.out.println("COUNTER " + counter + ": "+temp[counter]+Q[counter]);
+      E[] temp = (E[]) new Object[N];
+      int counter = 0;
+      if (f <= r) {
+        for (int i = f; i < r; i++) {
+            temp[counter] = Q[i];
+            counter++;
+        }
       }
+      else {
+        for (int i = f; i < N; i++) {
+            temp[counter] = Q[i];
+            counter++;
+        }
+        for (int i = 0; i < r; i++) {
+            temp[counter] = Q[i];
+            counter++;
+        }
+      }
+      f = 0;
+      r = counter;
+      Q = temp;
     }
-
     /**
       @throws EmptyQueueException
     */
