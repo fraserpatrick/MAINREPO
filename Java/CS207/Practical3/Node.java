@@ -4,7 +4,7 @@ public class Node<E> {
   private E element;
   private Node<E> next;
 
-  /** Creates a node with null references 
+  /** Creates a node with null references
    * to its element and next node. */
   public Node() {
       this(null, null);
@@ -18,20 +18,19 @@ public class Node<E> {
 
   // Accessor methods
   public E getElement() {
-      return element; 
-  }      
+      return element;
+  }
 
-  public Node<E> getNext() { 
+  public Node<E> getNext() {
       return next;
   }
 
   // Mutator methods
-  public void setElement(E newElem) { 
-      element = newElem; 
+  public void setElement(E newElem) {
+      element = newElem;
   }
 
-  public void setNext(Node<E>
-                        newNext){
-      next = newNext; 
-    }   
+  public void setNext(Node<E>newNext){
+      next = newNext;
+    }
 }
