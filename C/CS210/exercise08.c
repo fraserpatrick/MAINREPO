@@ -27,4 +27,5 @@ int main(){
 	str_cpy(str, str2);
 
 	printf("Copied from:\t%s\nCopied to:\t%s", str, str2);
+	return 0;
 }
