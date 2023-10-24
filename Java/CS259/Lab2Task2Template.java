@@ -33,8 +33,12 @@ public class Tests {
 				else
 					sick_positive ++;
 			}
-			else { // healthy
-
+			else {
+				healthy_total++;
+				if (random.nextInt(1,101) == 1)
+					healthy_negative++;
+				else
+					healthy_positive++;
 				// Put some code here:
 			}
 		}
