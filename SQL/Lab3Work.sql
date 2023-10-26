@@ -17,7 +17,7 @@ FROM country
 GROUP BY continent
 ORDER BY ROUND(Avg(gnp)) DESC;
 
-SELECT country.name,
+SELECT country.name
 FROM country, countrylanguage
 WHERE country.code = countrylanguage.countrycode
 GROUP BY country.name
