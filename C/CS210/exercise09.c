@@ -48,48 +48,30 @@ int str_cmp(char *str1, char *str2){
 }
 
 char *str_trim(char *str) {
-    int start = 0;
-    int end = 0;
-		int counter2 = 0;
-		char temp[100] = "";
-
-    while (str[start] == ' ' || str[start] == '\t' || str[start] == '\n') {
-        start++;
-    }
-
-		end = start;
-		while (str[end] != '\0'){
-			end++;
-			printf("%d\n", end);
-		}
+	int length = 0;
+  while (*str == ' ' || *str == '\n' || *str == '\t'){
+		str++;
+	}
+	length = str_len(str);
+	char *end = str + length -1;
+	while (*end == ' ' || *end == '\n' || *end == '\t'){
+		*end = '\0';
 		end--;
-    while (str[end] == ' ' || str[end] == '\t' || str[end] == '\n') {
-        end--;
-				printf("%d\n", end);
-    }
-		for (int counter = start; counter != end; counter++){
-			printf("%d    %d\n", counter, counter2);
-			*(temp+counter2) = *(str+counter);
-
-			counter2++;
-
-		}
-		str = temp;
-    return str;
+	}
+  return str;
 }
 
 int main(){
-  char* task1Str1 = "Hello";
-  char task1Str2[25] = "XXXXXXXXXXXX";
-	char* task2Str = "Hello";
-	char* task3Str1 = "ABC";
-	char* task3Str2 = "ABC";
-	char* task4Str = "     \t\t\nHello, World!\n\n\tGoodbye, World!   \t\n  ";
+  char task1Str1[] = "Hello";
+  char task1Str2[] = "XXXXXXXXXXXX";
+	char task2Str[] = "Hello";
+	char task3Str1[] = "ABC";
+	char task3Str2[] = "ABC";
+	char task4Str[] = "     \t\t\nHello, World!\n\n\tGoodbye, World!   \t\n  ";
 
   printf("TASK1:  %s\n",str_rev_and_copy(task1Str1, task1Str2));
 	printf("TASK2:  %s\n",str_rev(task2Str));
 	printf("TASK3:  %d\n",str_cmp(task3Str1, task3Str2));
-	printf("%s\n",str_trim(task4Str));
-	printf("Hello, World!\n\n\tGoodbye, World!\n");
+	printf("TASK4:  %s\n",str_trim(task4Str));
   return 0;
 }
