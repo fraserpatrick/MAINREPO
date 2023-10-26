@@ -31,7 +31,13 @@ char *str_rev(char *str){
     counter1--;
     counter2++;
   }
-	str = temp;
+	*(temp+counter2) = '\0';
+	counter1 = 0;
+	while (*(temp+counter1) != '\0'){
+		*(str+counter1) = *(temp+counter1);
+		counter1++;
+	}
+	*(str+counter1) = '\0';
 	return str;
 }
 
