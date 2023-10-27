@@ -68,3 +68,57 @@ allsat(dependencies_and_conflicts & requirements)
   { for(packageName : package)
       packageName : installed(packageName)
   }
+
+
+
+
+
+  domain machine { M1, M2, M3 }
+domain task { T1, T2, T3, T4, T5 }
+
+// If assign(t,m) is true, then task 't'
+// is assigned to machine 'm'.
+atom assign(t : task, m : machine)
+
+define all_tasks_some_machine {
+  forall(t : task) some(m : machine) assign(t,m)
+}
+
+define all_tasks_one_machine {
+  forall(t : task)
+    forall(m1: machine)
+      forall(m2 : machine)
+        m1 = m2 | ~assign(t,m1) | ~assign(t,m2)
+}
+
+define separate_machines(task1 : task, task2 : task) {
+  forall(m : machine) ~assign(task1, m) | ~assign(task2, m)
+}
+
+define conflicts {
+  (forall(m : machine) ~assign(T1, m) | ~assign(T2,m))&
+(forall(m : machine) ~assign(T2, m) | ~assign(T3,m))&
+(forall(m : machine) ~assign(T2, m) | ~assign(T5,m))&
+(forall(m : machine) ~assign(T3, m) | ~assign(T4,m))&
+(forall(m : machine) ~assign(T3, m) | ~assign(T5,m))
+}
+
+define special_cases {
+  ~assign(T1, M1) &
+~assign(T1, M3) &
+~assign(T2, M1) &
+~assign(T3, M3)
+}
+
+define main {
+  all_tasks_some_machine &
+  all_tasks_one_machine &
+  conflicts &
+  special_cases
+}
+
+allsat(main)
+  { for (t : task)
+      t:[for (m : machine)
+           if (assign(t, m)) m]
+  }
