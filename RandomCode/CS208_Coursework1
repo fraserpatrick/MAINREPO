@@ -122,3 +122,20 @@ allsat(main)
       t:[for (m : machine)
            if (assign(t, m)) m]
   }
+
+
+
+
+
+  domain node { Input1, Input2, Output }
+
+  atom active(n : node)
+
+  define xor(x : node, y : node, z : node) {
+    (~active(y)|~active(z))&(active(y)|active(z))
+  }
+
+  allsat (xor(Output, Input1, Input2))
+   { "Input1": active(Input1),
+     "Input2": active(Input2),
+     "Output": active(Output) }
