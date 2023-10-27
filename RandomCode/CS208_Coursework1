@@ -1,0 +1,40 @@
+
+
+
+
+
+domain package {
+  ChatServer, MailServer1, MailServer2,
+  Database1, Database2, GitServer
+}
+
+atom installed(p : package)
+
+define depends(p : package, dependency : package) {
+  ~installed(p) | installed(dependency)
+}
+
+define conflict(p1 : package, p2 : package) {
+  ~installed(p1) | ~installed(p2)
+}
+
+define depends_or(p : package, dependency1 : package, dependency2 : package) {
+  ~installed(p) | (installed(dependency1)|installed(dependency2))
+}
+
+define dependencies_and_conflicts {
+  depends_or(ChatServer, MailServer1, MailServer2) &
+depends_or(ChatServer, Database1, Database2) &
+conflict(MailServer1, MailServer2) &
+conflict(Database1, Database2) &
+depends(GitServer, Database2)
+}
+
+define requirements {
+  installed(ChatServer) & installed(GitServer)
+}
+
+allsat(dependencies_and_conflicts & requirements)
+  { for(packageName : package)
+      packageName : installed(packageName)
+  }
