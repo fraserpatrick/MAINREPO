@@ -1,3 +1,33 @@
+atom a
+atom b
+atom c
+atom d
+
+allsat (a|b|c|d)
+  { "a": a, "b": b, "c": c, "d": d }
+
+
+
+
+
+atom a
+atom b
+atom c
+atom d
+
+allsat ((~a|~b)&(~a|~c)&(~a|~d)&(~b|~c)&(~b|~d)&(~c|~d)&(a|b|c|d))
+  { "a": a, "b": b, "c": c, "d": d }
+
+
+
+
+
+atom a
+atom b
+atom c
+
+allsat ((a|b)&(a|c)&(b|c)&(~a|~b|~c))
+  { "a": a, "b": b, "c": c }
 
 
 
