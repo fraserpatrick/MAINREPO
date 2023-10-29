@@ -165,3 +165,49 @@ allsat(dependencies_and_conflicts & requirements)
 
      allsat (half-adder (I1, I2, S, Cout))
        { for(n : node) n : active(n) }
+
+
+
+
+
+       // You will have to add extra nodes for your circuit
+domain node { Input1, Input2, Input3, Sum1, Sum2, Carry1, Carry2, CarryOut}
+
+atom active(n : node)
+
+// You'll have to make some definitions here
+// You can use the gate definitions from the Circuits, Gates, and Formulas page
+
+define xor(x : node, y : node, z : node) {
+  (~active(x)|~active(y)|~active(z))&(~active(x)|active(y)|active(z))&(active(x)|~active(y)|active(z))&(active(x)|active(y)|~active(z))
+}
+
+define and(x : node, y : node, z : node) {
+  (~active(x) | active(y)) &
+  (~active(x) | active(z)) &
+  ( active(x) | ~active(y) | ~active(z))
+}
+
+define half-adder(input1 : node, input2 : node, sum : node, carry : node) {
+  (xor(input1, input2, sum))&(and(carry, input1, input2))
+}
+define or(output : node, i1 : node, i2 : node){
+  (~active(output) | active(i1) | active(i2))&
+(active(output) | ~active(i1))&
+(active(output) | ~active(i2))
+}
+define main {
+  half-adder(Input1,Input2,Sum1,Carry1) &
+half-adder(Input3,Sum1,Sum2,Carry2) &
+or(CarryOut,Carry1,Carry2)
+}
+
+allsat (main)
+  { "Input1": active(Input1),
+    "Input2": active(Input2),
+    "Input3": active(Input3),
+"Sum1": active(Sum1),
+"Sum2": active(Sum2),
+"Carry1": active(Carry1),
+"Carry2": active(Carry2),
+"CarryOut": active(CarryOut)}
