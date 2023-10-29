@@ -132,7 +132,7 @@ allsat(main)
   atom active(n : node)
 
   define xor(x : node, y : node, z : node) {
-    (~active(y)|~active(z))&(active(y)|active(z))
+    (~active(x)|~active(y)|~active(z))&(~active(x)|active(y)|active(z))&(active(x)|~active(y)|active(z))&(active(x)|active(y)|~active(z))
   }
 
   allsat (xor(Output, Input1, Input2))
