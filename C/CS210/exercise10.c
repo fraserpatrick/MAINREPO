@@ -1,5 +1,11 @@
 #include <stdio.h>
-#include "Employee.h"
+#include "employee.h"
+
+typedef struct employee Employee;
+
+new_employee_array(n_employees){
+	
+}
 
 int main(void) {
 	Employee *employees;
