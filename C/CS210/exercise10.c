@@ -1,12 +1,6 @@
 #include <stdio.h>
 #include "employee.h"
 
-typedef struct employee Employee;
-
-new_employee_array(n_employees){
-	
-}
-
 int main(void) {
 	Employee *employees;
 	int n_employees;
