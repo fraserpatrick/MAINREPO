@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include "employee.h"
 
-void print_details(stuct employee e){
-  printf("----------------------------------\n Employee Record \n ----------------------------------", );
+
+
+void new_employee_array(int num){
+  struct employee employee_array[num];
+}
+void print_details(struct employee emp){
+  printf("%d", emp.employee_number);
 }
