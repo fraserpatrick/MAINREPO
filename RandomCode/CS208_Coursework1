@@ -74,54 +74,55 @@ allsat(dependencies_and_conflicts & requirements)
 
 
   domain machine { M1, M2, M3 }
-  domain task { T1, T2, T3, T4, T5 }
+    domain task { T1, T2, T3, T4, T5 }
 
-  // If assign(t,m) is true, then task 't'
-  // is assigned to machine 'm'.
-  atom assign(t : task, m : machine)
+    // If assign(t,m) is true, then task 't'
+    // is assigned to machine 'm'.
+    atom assign(t : task, m : machine)
 
-  define all_tasks_some_machine {
-    forall(t : task) some(m : machine) assign(t,m)
-  }
-
-  define all_tasks_one_machine {
-    forall(t : task)
-      forall(m1: machine)
-        forall(m2 : machine)
-          m1 = m2 | ~assign(t,m1) | ~assign(t,m2)
-  }
-
-  define separate_machines(task1 : task, task2 : task) {
-    forall(m : machine) ~assign(task1, m) | ~assign(task2, m)
-  }
-
-  define conflicts {
-    separate_machines(T1, T2)&
-  separate_machines(T2, T3)&
-  separate_machines(T2, T5)&
-  separate_machines(T3, T4)&
-  separate_machines(T3, T5)
-  }
-
-  define special_cases {
-    ~assign(T1, M1) &
-  ~assign(T1, M3) &
-  ~assign(T2, M1) &
-  ~assign(T3, M3)
-  }
-
-  define main {
-    all_tasks_some_machine &
-    all_tasks_one_machine &
-    conflicts &
-    special_cases
-  }
-
-  allsat(main)
-    { for (t : task)
-        t:[for (m : machine)
-             if (assign(t, m)) m]
+    define all_tasks_some_machine {
+      forall(t : task) some(m : machine) assign(t,m)
     }
+
+    define all_tasks_one_machine {
+      forall(t : task)
+        forall(m1: machine)
+          forall(m2 : machine)
+            m1 = m2 | ~assign(t,m1) | ~assign(t,m2)
+    }
+
+    define separate_machines(task1 : task, task2 : task) {
+      forall(m : machine) ~assign(task1, m) | ~assign(task2, m)
+    }
+
+    define conflicts {
+      separate_machines(T1, T2)&
+    separate_machines(T2, T3)&
+    separate_machines(T2, T5)&
+    separate_machines(T3, T4)&
+    separate_machines(T3, T5)
+    }
+
+    define special_cases {
+      ~assign(T1, M1) &
+    ~assign(T1, M3) &
+    ~assign(T2, M1) &
+    ~assign(T3, M3) &
+  (forall(m : machine) (~assign(T2, m) | assign(T4,m)))
+    }
+
+    define main {
+      all_tasks_some_machine &
+      all_tasks_one_machine &
+      conflicts &
+      special_cases
+    }
+
+    allsat(main)
+      { for (t : task)
+          t:[for (m : machine)
+               if (assign(t, m)) m]
+      }
 
 
 
@@ -144,27 +145,27 @@ allsat(dependencies_and_conflicts & requirements)
 
 
 
-     domain node { I1, I2, S, Cout }
+domain node { I1, I2, S, Cout }
 
-     atom active(n : node)
+atom active(n : node)
 
-     define xor(x : node, y : node, z : node) {
-       (~active(x)|~active(y)|~active(z))&(~active(x)|active(y)|active(z))&(active(x)|~active(y)|active(z))&(active(x)|active(y)|~active(z))
-     }
+define xor(x : node, y : node, z : node) {
+ (~active(x)|~active(y)|~active(z))&(~active(x)|active(y)|active(z))&(active(x)|~active(y)|active(z))&(active(x)|active(y)|~active(z))
+}
 
-     // Use this
-     define and(x : node, y : node, z : node) {
-       (~active(x) | active(y)) &
-       (~active(x) | active(z)) &
-       ( active(x) | ~active(y) | ~active(z))
-     }
+// Use this
+define and(x : node, y : node, z : node) {
+ (~active(x) | active(y)) &
+ (~active(x) | active(z)) &
+ ( active(x) | ~active(y) | ~active(z))
+}
 
-     define half-adder(input1 : node, input2 : node, sum : node, carry : node) {
-       (xor(input1, input2, sum))&(and(carry, input1, input2))
-     }
+define half-adder(input1 : node, input2 : node, sum : node, carry : node) {
+ (xor(input1, input2, sum))&(and(carry, input1, input2))
+}
 
-     allsat (half-adder (I1, I2, S, Cout))
-       { for(n : node) n : active(n) }
+allsat (half-adder (I1, I2, S, Cout))
+ { for(n : node) n : active(n) }
 
 
 
