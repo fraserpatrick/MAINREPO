@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "employee.h"
 
+typedef struct employee Employee;
+
 int main(void) {
 	Employee *employees;
 	int n_employees;
