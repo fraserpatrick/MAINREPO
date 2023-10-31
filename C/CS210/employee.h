@@ -5,8 +5,11 @@ struct employee{
   char job_title[20];
   float salary;
 };
-struct employee* new_employee_array(int num);
-void enter_details(struct employee* ptr);
-void get_highest_paid();
-void delete_employee_array();
-void print_details(struct employee* employee);
+
+typedef struct employee Employee;
+
+Employee* new_employee_array(int num);
+void enter_details(Employee* ptr);
+Employee* get_highest_paid(Employee* arrayPtr, int num);
+void delete_employee_array(Employee** arrayPtr);
+void print_details(Employee* highestEmp);
