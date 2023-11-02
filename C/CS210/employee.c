@@ -39,5 +39,5 @@ void delete_employee_array(Employee** arrayPtr){
 }
 
 void print_details(Employee* highestEmp){
-  printf("----------------------------------\nEmployee Record\n----------------------------------\nEmployee number: %d\nName:\t\t%s, %s\nJob Title:\t%s\nSalary:\t\t%f\n----------------------------------\n",highestEmp->employee_number, highestEmp->last_name, highestEmp->first_name, highestEmp->job_title, highestEmp->salary);
+  printf("----------------------------------\nEmployee Record\n----------------------------------\nEmployee number: %d\nName:            %s, %s\nJob Title:       %s\nSalary:          %.2f\n----------------------------------\n",highestEmp->employee_number, highestEmp->last_name, highestEmp->first_name, highestEmp->job_title, highestEmp->salary);
 }
