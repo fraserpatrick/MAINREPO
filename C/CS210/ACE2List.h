@@ -4,3 +4,5 @@ struct nodeType {
 };
 
 typedef struct nodeType Node;
+
+Node* new_node(char data[]);
