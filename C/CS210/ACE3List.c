@@ -5,5 +5,11 @@
 Node* new_node(char data[]){
   Node* nodeloc = malloc(sizeof(Node));
   strcpy(nodeloc->value, data);
+  nodeloc->next = NULL;
   return nodeloc;
 }
+
+void delete_node(Node* nodePtr){
+  free(nodePtr);
+  nodePtr = NULL;
+  }
