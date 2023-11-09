@@ -6,4 +6,4 @@ struct nodeType {
 typedef struct nodeType Node;
 
 Node* new_node(char data[]);
-void delete_node(Node* nodePtr);
+Node* delete_node(void* nodePtr);

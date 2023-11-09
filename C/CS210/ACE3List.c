@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "ACE3List.h"
 
 Node* new_node(char data[]){
@@ -9,7 +10,7 @@ Node* new_node(char data[]){
   return nodeloc;
 }
 
-void delete_node(Node* nodePtr){
+Node* delete_node(void* nodePtr){
   free(nodePtr);
-  nodePtr = NULL;
+  return nodePtr;
   }
