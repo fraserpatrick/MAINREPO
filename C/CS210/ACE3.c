@@ -23,9 +23,5 @@ int is_freed(void *p) {
     q = malloc (1);
     sprintf(q_addr, "%p", q);
     free(q);
-
-    printf("PPPPPPPPP   %s\n", p_addr);
-    printf("QQQQQQQQQ   %s\n", q_addr);
-
     return !strcmp(q_addr, p_addr);
 }

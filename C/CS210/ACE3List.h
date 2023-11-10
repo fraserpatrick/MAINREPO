@@ -1,9 +1,9 @@
 struct nodeType {
-  char value[20];
+  char* value;
   struct nodeType* next;
 };
 
 typedef struct nodeType Node;
 
 Node* new_node(char data[]);
-Node* delete_node(void* nodePtr);
+void delete_node(Node* nodePtr);
