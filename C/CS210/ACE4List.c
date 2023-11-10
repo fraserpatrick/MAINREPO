@@ -13,3 +13,10 @@ void delete_node(Node* nodePtr){
   free(nodePtr);
   nodePtr = NULL;
   }
+
+
+void push(Node* nodePtr){
+  while (nodePtr-> != NULL) {
+    printf("%s", current->value);
+    current = current->next;
+}
