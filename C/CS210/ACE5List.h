@@ -5,5 +5,5 @@ struct nodeType {
 
 typedef struct nodeType Node;
 
-void push(Node* nodePtr, char data[]);
-Node** new_list();
+void push(Node** nodePtr, char data[]);
+int new_list();

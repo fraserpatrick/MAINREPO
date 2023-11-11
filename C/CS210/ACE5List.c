@@ -22,7 +22,7 @@ void push(Node** listPtr, char data[]){
   *listPtr->next = new_node(data);
 }
 
-Node** new_list(){
+int new_list(){
   Node** list = malloc(sizeof(Node));
   *list = NULL;
   return list;
