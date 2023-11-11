@@ -15,8 +15,9 @@ void delete_node(Node* nodePtr){
   }
 
 
-void push(Node* nodePtr){
-  while (nodePtr-> != NULL) {
-    printf("%s", current->value);
-    current = current->next;
+void push(Node* nodePtr, char data[]){
+  while (nodePtr->next != NULL) {
+    nodePtr = nodePtr->next;
+  }
+  nodePtr->next = new_node(data);
 }
