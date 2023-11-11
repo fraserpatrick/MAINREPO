@@ -5,6 +5,5 @@ struct nodeType {
 
 typedef struct nodeType Node;
 
-Node* new_node(char data[]);
-void delete_node(Node* nodePtr);
 void push(Node* nodePtr, char data[]);
+Node** new_list();

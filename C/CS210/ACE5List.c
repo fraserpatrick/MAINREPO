@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-#include "list.h"
+#include "ACE5List.h"
 
 Node* new_node(char data[]){
   Node* nodeloc = malloc(sizeof(Node));
@@ -15,9 +15,15 @@ void delete_node(Node* nodePtr){
   }
 
 
-void push(Node* nodePtr, char data[]){
-  while (nodePtr->next != NULL) {
-    nodePtr = nodePtr->next;
+void push(Node** listPtr, char data[]){
+  while (*listPtr->next != NULL) {
+    *listPtr = *listPtr->next;
   }
-  nodePtr->next = new_node(data);
+  *listPtr->next = new_node(data);
+}
+
+Node** new_list(){
+  Node** list = malloc(sizeof(Node));
+  *list = NULL;
+  return list;
 }
