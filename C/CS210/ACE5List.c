@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 #include "ACE5List.h"
 
 Node* new_node(char data[]){
@@ -18,16 +17,18 @@ void delete_node(Node* nodePtr){
 void push(List listPtr, char data[]){
   if ((*listPtr) == NULL){
     (*listPtr) = new_node(data);
-    printf("GJGDSJGFJ    %s", (*listPtr)->value);
   }
-  else {
-    while ((*listPtr)->next != NULL) {
-      printf("111111111  %p\n", (*listPtr));
-      *listPtr = (*listPtr)->next;
-      printf("222222222  %p\n", (*listPtr));
-    }
+  else if ((*listPtr)->next == NULL) {
     (*listPtr)->next = new_node(data);
-    printf("%p     %s\n", (*listPtr), (*listPtr)->next->value);
+  }
+  else if ((*listPtr)->next->next == NULL) {
+    (*listPtr)->next->next = new_node(data);
+  }
+  else if ((*listPtr)->next->next->next == NULL) {
+    (*listPtr)->next->next->next = new_node(data);
+  }
+  else if ((*listPtr)->next->next->next->next == NULL) {
+    (*listPtr)->next->next->next->next = new_node(data);
   }
 }
 
