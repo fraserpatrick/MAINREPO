@@ -4,6 +4,7 @@ struct nodeType {
 };
 
 typedef struct nodeType Node;
+typedef Node** List;
 
 void push(Node** nodePtr, char data[]);
-int new_list();
+List new_list();
