@@ -15,18 +15,25 @@ void delete_node(Node* nodePtr){
   nodePtr = NULL;
   }
 
-
-void push(Node** listPtr, char data[]){
-  printf("%p\n", (*listPtr)->value);
-  while ((*listPtr)->next != NULL) {
-    printf("AAAAAAAAAAAAAAAAAAa\n");
-    *listPtr = (*listPtr)->next;
+void push(List listPtr, char data[]){
+  if ((*listPtr) == NULL){
+    (*listPtr) = new_node(data);
+    printf("GJGDSJGFJ    %s", (*listPtr)->value);
   }
-  (*listPtr)->next = new_node(data);
+  else {
+    while ((*listPtr)->next != NULL) {
+      printf("111111111  %p\n", (*listPtr));
+      *listPtr = (*listPtr)->next;
+      printf("222222222  %p\n", (*listPtr));
+    }
+    (*listPtr)->next = new_node(data);
+    printf("%p     %s\n", (*listPtr), (*listPtr)->next->value);
+  }
 }
 
+
 List new_list(){
-  Node** list = malloc(sizeof(Node));
+  List list = malloc(sizeof(Node));
   *list = NULL;
   return list;
 }
