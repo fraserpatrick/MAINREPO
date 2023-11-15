@@ -35,5 +35,20 @@ public class playerApp {
       System.out.println(x.getScore());
     }
 
+    for (int i = 0; i < playersList.size()-1; i++) {
+        for (int j = 0; j < playersList.size()-i-1; j++) {
+            if (playersList.get(j).getScore() < playersList.get(j+1).getScore()) {
+                Player temp = playersList.get(j);
+                playersList.set(j, playersList.get(j+1));
+                playersList.set(j+1,temp);
+                }
+            }
+        }
+    System.out.println("----------Sorted By Highest Score----------");
+    for (Player x : playersList){
+      System.out.print(x.getName()+" ");
+      System.out.print(x.getTeam()+" ");
+      System.out.println(x.getScore());
+    }
   }
 }
