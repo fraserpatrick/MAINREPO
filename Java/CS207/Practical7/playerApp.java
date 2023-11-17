@@ -1,8 +1,5 @@
-import java.util.Scanner;
 import java.io.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class playerApp {
 
@@ -28,23 +25,17 @@ public class playerApp {
     catch (NoSuchElementException e){
       System.out.println("MISSING ITEM");
     }
-
+    
+    System.out.println("--------------Taken from file--------------");
     for (Player x : playersList){
       System.out.print(x.getName()+" ");
       System.out.print(x.getTeam()+" ");
       System.out.println(x.getScore());
     }
 
-    for (int i = 0; i < playersList.size()-1; i++) {
-        for (int j = 0; j < playersList.size()-i-1; j++) {
-            if (playersList.get(j).getScore() < playersList.get(j+1).getScore()) {
-                Player temp = playersList.get(j);
-                playersList.set(j, playersList.get(j+1));
-                playersList.set(j+1,temp);
-                }
-            }
-        }
-    System.out.println("----------Sorted By Highest Score----------");
+    Collections.sort(playersList);
+
+    System.out.println("\n----------Sorted By Highest Score----------");
     for (Player x : playersList){
       System.out.print(x.getName()+" ");
       System.out.print(x.getTeam()+" ");
