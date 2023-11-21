@@ -9,27 +9,17 @@ Node* new_node(char data[]){
   return nodeloc;
 }
 
-void delete_node(Node* nodePtr){
-  free(nodePtr);
-  nodePtr = NULL;
-  }
+void push(List listPtr, char data[]) {
+    while (*listPtr != NULL && (*listPtr)->next != NULL) {
+        listPtr = &((*listPtr)->next);
+    }
 
-void push(List listPtr, char data[]){
-  if ((*listPtr) == NULL){
-    (*listPtr) = new_node(data);
-  }
-  else if ((*listPtr)->next == NULL) {
-    (*listPtr)->next = new_node(data);
-  }
-  else if ((*listPtr)->next->next == NULL) {
-    (*listPtr)->next->next = new_node(data);
-  }
-  else if ((*listPtr)->next->next->next == NULL) {
-    (*listPtr)->next->next->next = new_node(data);
-  }
-  else if ((*listPtr)->next->next->next->next == NULL) {
-    (*listPtr)->next->next->next->next = new_node(data);
-  }
+    if (*listPtr == NULL) {
+        *listPtr = new_node(data);
+    }
+    else {
+        (*listPtr)->next = new_node(data);
+    }
 }
 
 
