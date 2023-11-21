@@ -11,3 +11,5 @@ List new_list();
 char* pop(List listPtr);
 void print_list(List listPtr);
 char* peek(List listPtr);
+void add(List listPtr, char data[]);
+char* rem(List listPtr);

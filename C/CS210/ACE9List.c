@@ -45,14 +45,12 @@ char* pop(List listPtr){
   }
   else if ((*listPtr)->next == NULL) {
     char* item = (*listPtr)->value;
-    free(*listPtr);
-    *listPtr = NULL;
+    delete_node(*listPtr);
     return item;
   }
   else {
     char* item = (*listPtr)->next->value;
-    free((*listPtr)->next);
-    (*listPtr)->next = NULL;
+    delete_node((*listPtr)->next);
     return item;
   }
 }
@@ -82,4 +80,28 @@ char* peek(List listPtr){
     return NULL;
   }
   return (*listPtr)->value;
+}
+
+void add(List listPtr, char data[]){
+  if (*listPtr == NULL) {
+    *listPtr = new_node(data);
+  }
+  else{
+    void* temp = *listPtr;
+    *listPtr = new_node(data);
+    (*listPtr)->next = temp;
+  }
+}
+
+char* rem(List listPtr){
+  if (*listPtr == NULL) {
+    return NULL;
+  }
+  else{
+    void* temp = (*listPtr)->next;
+    char* item = (*listPtr)->value;
+    delete_node(*listPtr);
+    *listPtr = temp;
+    return item;
+  }
 }
