@@ -155,3 +155,32 @@ int index_of(List listPtr, char item[]){
 int contains(List listPtr, char item[]){
   return (index_of(listPtr, item) != -1);
 }
+
+char* get_at(List listPtr, int index){
+  if (index+1 > size(listPtr)){
+    return NULL;
+  }
+  else {
+    int counter = 0;
+    while (counter != index){
+      listPtr = &((*listPtr)->next);
+      counter++;
+    }
+    return (*listPtr)->value;
+  }
+}
+
+int replace_at(List listPtr, int index, char data[]){
+  if (index+1 > size(listPtr)){
+    return 0;
+  }
+  else {
+    int counter = 0;
+    while (counter != index){
+      listPtr = &((*listPtr)->next);
+      counter++;
+    }
+    (*listPtr)->value = data;
+    return 1;
+  }
+}

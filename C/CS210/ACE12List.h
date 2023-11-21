@@ -18,3 +18,5 @@ int size(List listPtr);
 void clear(List listPtr);
 int index_of(List listPtr, char item[]);
 int contains(List listPtr, char item[]);
+char* get_at(List listPtr, int index);
+int replace_at(List listPtr, int index, char data[]);
