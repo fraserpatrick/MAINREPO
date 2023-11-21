@@ -16,3 +16,5 @@ char* rem(List listPtr);
 int is_empty(List listPtr);
 int size(List listPtr);
 void clear(List listPtr);
+int index_of(List listPtr, char item[]);
+int contains(List listPtr, char item[]);

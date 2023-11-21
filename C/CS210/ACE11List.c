@@ -127,3 +127,31 @@ void clear(List listPtr){
     rem(listPtr);
   }
 }
+
+int index_of(List listPtr, char item[]){
+  int counter = 0;
+  if (is_empty(listPtr)){
+    return -1;
+  }
+  if ((*listPtr)->value == item){
+    return 0;
+  }
+
+  if ((*listPtr)->next->value == item){
+    return 1;
+  }
+
+  while ((*listPtr)->next != NULL) {
+    counter++;
+    if ((*listPtr)->next->value == item){
+      return counter;
+    }
+    listPtr = &((*listPtr)->next);
+
+  }
+  return -1;
+}
+
+int contains(List listPtr, char item[]){
+  return (index_of(listPtr, item) != -1);
+}
