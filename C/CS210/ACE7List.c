@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "ACE7List.h"
 
 Node* new_node(char data[]){
@@ -53,5 +54,22 @@ char* pop(List listPtr){
     free((*listPtr)->next);
     (*listPtr)->next = NULL;
     return item;
+  }
+}
+
+void print_list(List listPtr){
+  if (*listPtr == NULL) {
+    printf("[]\n");
+  }
+  else if ((*listPtr)->next == NULL){
+    printf("[\"%s\"]\n",(*listPtr)->value);
+  }
+  else{
+    printf("[\"%s\"",(*listPtr)->value);
+    while (*listPtr != NULL && (*listPtr)->next != NULL && (*listPtr)->next->next != NULL) {
+        listPtr = &((*listPtr)->next);
+        printf(", \"%s\"",(*listPtr)->value);
+    }
+    printf(", \"%s\"]\n",(*listPtr)->next->value);
   }
 }
