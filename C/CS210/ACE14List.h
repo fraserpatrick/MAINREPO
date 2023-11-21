@@ -22,3 +22,5 @@ char* get_at(List listPtr, int index);
 int replace_at(List listPtr, int index, char data[]);
 int insert_at(List listPtr, int index, char data[]);
 char* remove_at(List listPtr, int index);
+List copy_list(List oldListPtr);
+List sublist(List oldListPtr, int startPtr, int endPtr);

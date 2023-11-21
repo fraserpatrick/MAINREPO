@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "ACE9List.h"
+#include "ACE14List.h"
 
 Node* new_node(char data[]){
   Node* nodeloc = malloc(sizeof(Node));
@@ -239,5 +239,26 @@ char* remove_at(List listPtr, int index){
     (*listPtr)->next = (*listPtr)->next->next;
     delete_node(temp);
     return item;
+  }
+}
+
+List copy_list(List oldListPtr){
+  List newList = new_list();
+  for (int counter = 0; counter < size(oldListPtr); counter++){
+    push(newList, get_at(oldListPtr, counter));
+  }
+  return newList;
+}
+
+List sublist(List oldListPtr, int startPtr, int endPtr){
+  if (startPtr < 0 || startPtr > size(oldListPtr)-1 || startPtr > endPtr || endPtr > size(oldListPtr)){
+    return NULL;
+  }
+  else{
+    List newList = new_list();
+    for (int counter = startPtr; counter < endPtr; counter++){
+      push(newList, get_at(oldListPtr, counter));
+    }
+    return newList;
   }
 }
