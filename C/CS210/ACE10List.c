@@ -105,3 +105,25 @@ char* rem(List listPtr){
     return item;
   }
 }
+
+int is_empty(List listPtr){
+  return (*listPtr == NULL);
+}
+
+int size(List listPtr){
+  int counter = 1;
+  if (is_empty(listPtr)){
+    return 0;
+  }
+  while (*listPtr != NULL && (*listPtr)->next != NULL) {
+      listPtr = &((*listPtr)->next);
+      counter++;
+  }
+  return counter;
+}
+
+void clear(List listPtr){
+  while (*listPtr != NULL) {
+    rem(listPtr);
+  }
+}
