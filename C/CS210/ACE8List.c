@@ -45,14 +45,12 @@ char* pop(List listPtr){
   }
   else if ((*listPtr)->next == NULL) {
     char* item = (*listPtr)->value;
-    free(*listPtr);
-    *listPtr = NULL;
+    delete_node(*listPtr);
     return item;
   }
   else {
     char* item = (*listPtr)->next->value;
-    free((*listPtr)->next);
-    (*listPtr)->next = NULL;
+    delete_node((*listPtr)->next);
     return item;
   }
 }
