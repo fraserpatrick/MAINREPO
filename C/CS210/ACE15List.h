@@ -24,3 +24,5 @@ int insert_at(List listPtr, int index, char data[]);
 char* remove_at(List listPtr, int index);
 List copy_list(List oldListPtr);
 List sublist(List oldListPtr, int startPtr, int endPtr);
+int save_list(List listPtr, char fileName[]);
+List load_list(char fileName[]);

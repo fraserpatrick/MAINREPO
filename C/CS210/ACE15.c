@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "list.h"
+#include "ACE15List.h"
 
 
 int main( void ) {
@@ -17,9 +17,9 @@ int main( void ) {
 
   print_list(list);
 
-  save_list(list, "temp.lst");
+  save_list(list, "ACE15ListFile.lst");
 
-  List list2 = load_list("temp.lst");
+  List list2 = load_list("ACE15ListFile.lst");
 
   print_list(list2);
 

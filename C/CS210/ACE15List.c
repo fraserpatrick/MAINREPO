@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "ACE14List.h"
+#include "ACE15List.h"
 
 Node* new_node(char data[]){
   Node* nodeloc = malloc(sizeof(Node));
@@ -261,4 +261,30 @@ List sublist(List oldListPtr, int startPtr, int endPtr){
     }
     return newList;
   }
+}
+
+int save_list(List listPtr, char fileName[]){
+  FILE* fileWrite;
+  fileWrite = fopen(fileName, "w");
+  for (int counter = 0; counter < size(listPtr); counter++){
+    fprintf(fileWrite, "%s\n", get_at(listPtr, counter));
+  }
+  fclose(fileWrite);
+  return -1;
+}
+
+List load_list(char fileName[]){
+  List newList = new_list();
+  FILE* fileRead;
+  fileRead = fopen(fileName, "r");
+  char newData[50];
+  for (int counter = 0; counter < 9; counter++){
+    fgets(newData, 50, fileRead);
+    printf("%s\n", newData);
+    push(newList, newData);
+  }
+
+  fclose(fileRead);
+
+  return newList;
 }
