@@ -73,3 +73,13 @@ void print_list(List listPtr){
     printf(", \"%s\"]\n",(*listPtr)->next->value);
   }
 }
+
+char* peek(List listPtr){
+  while (*listPtr != NULL && (*listPtr)->next != NULL) {
+      listPtr = &((*listPtr)->next);
+  }
+  if (*listPtr == NULL) {
+    return NULL;
+  }
+  return (*listPtr)->value;
+}
