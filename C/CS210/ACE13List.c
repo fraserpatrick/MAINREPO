@@ -184,3 +184,60 @@ int replace_at(List listPtr, int index, char data[]){
     return 1;
   }
 }
+
+int insert_at(List listPtr, int index, char data[]){
+  if (index > size(listPtr) || index < 0){
+    return 0;
+  }
+  else if (index == 0){
+    add(listPtr, data);
+    return 1;
+  }
+  else if (index == size(listPtr)){
+    push(listPtr, data);
+    return 1;
+  }
+  else {
+    int counter = 0;
+    while (counter != index-1){
+      listPtr = &((*listPtr)->next);
+      counter++;
+    }
+    void* temp = (*listPtr)->next;
+    (*listPtr)->next = new_node(data);
+    (*listPtr)->next->next = temp;
+    return 1;
+  }
+}
+
+char* remove_at(List listPtr, int index){
+  if (index+1 > size(listPtr) || index < 0){
+    return NULL;
+  }
+  else if (index == 0){
+    return rem(listPtr);
+  }
+  else if (index+1 == size(listPtr)){
+    int counter = 0;
+    while (counter != index-1){
+      listPtr = &((*listPtr)->next);
+      counter++;
+    }
+    char* item = (*listPtr)->next->value;
+    delete_node((*listPtr)->next);
+    (*listPtr)->next = NULL;
+    return item;
+  }
+  else {
+    int counter = 0;
+    while (counter != index-1){
+      listPtr = &((*listPtr)->next);
+      counter++;
+    }
+    void* temp = (*listPtr)->next;
+    char* item = (*listPtr)->next->value;
+    (*listPtr)->next = (*listPtr)->next->next;
+    delete_node(temp);
+    return item;
+  }
+}
