@@ -264,8 +264,7 @@ List sublist(List oldListPtr, int startPtr, int endPtr){
 }
 
 int save_list(List listPtr, char fileName[]){
-  FILE* fileWrite;
-  fileWrite = fopen(fileName, "w");
+  FILE* fileWrite = fopen(fileName, "w");
   for (int counter = 0; counter < size(listPtr); counter++){
     fprintf(fileWrite, "%s\n", get_at(listPtr, counter));
   }
@@ -275,16 +274,21 @@ int save_list(List listPtr, char fileName[]){
 
 List load_list(char fileName[]){
   List newList = new_list();
-  FILE* fileRead;
-  fileRead = fopen(fileName, "r");
-  char newData[50];
-  for (int counter = 0; counter < 9; counter++){
-    fgets(newData, 50, fileRead);
-    printf("%s\n", newData);
-    push(newList, newData);
+  FILE* fileRead = fopen(fileName, "r");
+  if (fileRead == NULL){
+    return NULL;
   }
+  char newData[50];
+  while (fgets(newData, sizeof(newData), fileRead) != NULL) {
+        size_t len = strlen(newData);
+        if (len > 0 && newData[len - 1] == '\n') {
+            newData[len - 1] = '\0';
+        }
+        char* newString = malloc(len);
+        strcpy(newString, newData);
+        push(newList, newString);
+    }
 
   fclose(fileRead);
-
   return newList;
 }
