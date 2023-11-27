@@ -108,3 +108,29 @@ use h1,
 refuted by:
 use h3,
 done.
+
+
+
+
+
+{ assuming ‘∀x. ∀y. path(x, y) ∨ path(y, x)’ with name ‘either-path’ }
+{ assuming ‘∀x. ∀y. path(x, y) → path(y, x)’ with name ‘symmetry’ }
+introduce x;
+{ let ‘x’ be an entity }
+introduce y;
+{ let ‘y’ be an entity }
+use either-path,
+instantiate with “x”,
+instantiate with “y”,
+cases (1) h1 or (2) h2:
+{ assuming ‘path(x, y)’ with name ‘h1’ }
+use h1,
+done.
+{ assuming ‘path(y, x)’ with name ‘h2’ }
+use symmetry,
+instantiate with “y”,
+instantiate with “x”,
+apply with:
+use h2,
+done.
+done.
