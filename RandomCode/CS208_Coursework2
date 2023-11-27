@@ -134,3 +134,26 @@ apply with:
 use h2,
 done.
 done.
+
+
+
+
+
+{ assuming ‘∀i. invoice(i) → (∃c. customer(c) ∧ custInvoice(c, i))’ with name ‘every-invoice-has-a-customer’ }
+{ assuming ‘∃i. invoice(i)’ with name ‘exists-an-invoice’ }
+use exists-an-invoice,
+unpack as h1 and h2:
+{ let ‘h1’ be an entity }
+{ assuming ‘invoice(h1)’ with name ‘h2’ }
+use every-invoice-has-a-customer,
+instantiate with “h1”,
+apply with:
+use h2,
+done.
+unpack as h3 and h4:
+{ let ‘h3’ be an entity }
+{ assuming ‘customer(h3) ∧ custInvoice(h3, h1)’ with name ‘h4’ }
+exists “h3”;
+use h4,
+first,
+done.
