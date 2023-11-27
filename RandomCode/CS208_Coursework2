@@ -16,6 +16,7 @@ done.
 
 
 
+
 { assuming ‘∀x. ∀y. path(x, y) → path(y, x)’ with name ‘symmetry’ }
 introduce h;
 { assuming ‘∀x. ∃y. path(x, y)’ with name ‘h’ }
@@ -32,5 +33,26 @@ instantiate with “x”,
 instantiate with “p1”,
 apply with:
 use p2,
+done.
+done.
+
+
+
+
+
+{ assuming ‘∀x. ∀y. ∀z. path(x, y) → path(y, z) → path(x, z)’ with name ‘transitivity’ }
+introduce h1;
+{ assuming ‘path(a(), b())’ with name ‘h1’ }
+introduce h2;
+{ assuming ‘path(b(), c())’ with name ‘h2’ }
+use transitivity,
+instantiate with “a()”,
+instantiate with “b()”,
+instantiate with “c()”,
+apply with:
+use h1,
+done.
+apply with:
+use h2,
 done.
 done.
