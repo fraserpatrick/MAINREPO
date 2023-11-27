@@ -88,3 +88,23 @@ use p2,
 done.
 done.
 done.
+
+
+
+
+
+{ assuming ‘∀x. ∀y. path(x, y) ∨ path(y, x)’ with name ‘either-path’ }
+introduce h1;
+{ assuming ‘¬path(a(), b())’ with name ‘h1’ }
+use either-path,
+instantiate with “b()”,
+instantiate with “a()”,
+cases (1) h2 or (2) h3:
+{ assuming ‘path(b(), a())’ with name ‘h2’ }
+use h2,
+done.
+{ assuming ‘path(a(), b())’ with name ‘h3’ }
+use h1,
+refuted by:
+use h3,
+done.
