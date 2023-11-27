@@ -56,3 +56,35 @@ apply with:
 use h2,
 done.
 done.
+
+
+
+
+
+{ assuming ‘∀x. ∀y. ∀z. path(x, y) → path(y, z) → path(x, z)’ with name ‘transitivity’ }
+{ assuming ‘∀x. ∀y. path(x, y) → path(y, x)’ with name ‘symmetry’ }
+introduce h1;
+{ assuming ‘∀x. ∃y. path(x, y)’ with name ‘h1’ }
+introduce z;
+{ let ‘z’ be an entity }
+use h1,
+instantiate with “z”,
+unpack as p1 and p2:
+{ let ‘p1’ be an entity }
+{ assuming ‘path(z, p1)’ with name ‘p2’ }
+use transitivity,
+instantiate with “z”,
+instantiate with “p1”,
+instantiate with “z”,
+apply with:
+use p2,
+done.
+apply with:
+use symmetry,
+instantiate with “z”,
+instantiate with “p1”,
+apply with:
+use p2,
+done.
+done.
+done.
