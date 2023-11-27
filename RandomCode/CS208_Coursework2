@@ -157,3 +157,37 @@ exists “h3”;
 use h4,
 first,
 done.
+
+
+
+
+
+hkdfhgkhdklfg
+d;fgjlkjhfdkldg
+gkldhfkghkld
+ldhjfgkhjdk
+kdhfgkhkdfg
+sdlfjhklsdj
+
+
+
+
+
+resetintroduce x;
+{ let ‘x’ be an entity }
+resetintroduce y;
+{ let ‘y’ be an entity }
+resetintroduce z;
+{ let ‘z’ be an entity }
+resetintroduce xequalsy;
+{ assuming ‘x = y’ with name ‘xequalsy’ }
+resetintroduce yequalsz;
+{ assuming ‘y = z’ with name ‘yequalsz’ }
+resetuse xequalsy,
+resetrewrite→;
+resetuse yequalsz,
+resetrewrite→;
+resetintroduce h;
+{ assuming ‘P(z)’ with name ‘h’ }
+resetuse h,
+resetdone.
