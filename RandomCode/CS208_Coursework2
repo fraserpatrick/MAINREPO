@@ -12,3 +12,25 @@ apply with:
 use h2,
 done.
 done.
+
+
+
+
+{ assuming ‘∀x. ∀y. path(x, y) → path(y, x)’ with name ‘symmetry’ }
+introduce h;
+{ assuming ‘∀x. ∃y. path(x, y)’ with name ‘h’ }
+introduce x;
+{ let ‘x’ be an entity }
+use h,
+instantiate with “x”,
+unpack as p1 and p2:
+{ let ‘p1’ be an entity }
+{ assuming ‘path(x, p1)’ with name ‘p2’ }
+exists “p1”;
+use symmetry,
+instantiate with “x”,
+instantiate with “p1”,
+apply with:
+use p2,
+done.
+done.
