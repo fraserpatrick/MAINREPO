@@ -1,3 +1,4 @@
+1a
 { assuming ‘∀x. ∀y. path(x, y) → path(y, x)’ with name ‘symmetry’ }
 introduce h1;
 { assuming ‘¬path(a(), b())’ with name ‘h1’ }
@@ -17,6 +18,7 @@ done.
 
 
 
+1b
 { assuming ‘∀x. ∀y. path(x, y) → path(y, x)’ with name ‘symmetry’ }
 introduce h;
 { assuming ‘∀x. ∃y. path(x, y)’ with name ‘h’ }
@@ -40,6 +42,7 @@ done.
 
 
 
+1c
 { assuming ‘∀x. ∀y. ∀z. path(x, y) → path(y, z) → path(x, z)’ with name ‘transitivity’ }
 introduce h1;
 { assuming ‘path(a(), b())’ with name ‘h1’ }
@@ -61,6 +64,7 @@ done.
 
 
 
+1d
 { assuming ‘∀x. ∀y. ∀z. path(x, y) → path(y, z) → path(x, z)’ with name ‘transitivity’ }
 { assuming ‘∀x. ∀y. path(x, y) → path(y, x)’ with name ‘symmetry’ }
 introduce h1;
@@ -93,6 +97,7 @@ done.
 
 
 
+1e
 { assuming ‘∀x. ∀y. path(x, y) ∨ path(y, x)’ with name ‘either-path’ }
 introduce h1;
 { assuming ‘¬path(a(), b())’ with name ‘h1’ }
@@ -113,6 +118,7 @@ done.
 
 
 
+1f
 { assuming ‘∀x. ∀y. path(x, y) ∨ path(y, x)’ with name ‘either-path’ }
 { assuming ‘∀x. ∀y. path(x, y) → path(y, x)’ with name ‘symmetry’ }
 introduce x;
@@ -139,6 +145,7 @@ done.
 
 
 
+2a
 { assuming ‘∀i. invoice(i) → (∃c. customer(c) ∧ custInvoice(c, i))’ with name ‘every-invoice-has-a-customer’ }
 { assuming ‘∃i. invoice(i)’ with name ‘exists-an-invoice’ }
 use exists-an-invoice,
@@ -162,6 +169,7 @@ done.
 
 
 
+2b
 hkdfhgkhdklfg
 d;fgjlkjhfdkldg
 gkldhfkghkld
@@ -173,6 +181,7 @@ sdlfjhklsdj
 
 
 
+3a
 resetintroduce x;
 { let ‘x’ be an entity }
 resetintroduce y;
