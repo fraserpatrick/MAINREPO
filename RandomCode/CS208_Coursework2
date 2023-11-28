@@ -234,3 +234,40 @@ rewrite←;
 use add-zero,
 instantiate with “x”,
 done.
+
+
+
+
+
+5a
+sldjhgsog
+ksjdfhgke
+ksdhfkg
+slfjdhg
+
+
+
+
+
+5b
+{ assuming ‘∀x. add(0, x) = x’ with name ‘add-zero’ }
+{ assuming ‘∀x. ∀y. add(S(x), y) = S(add(x, y))’ with name ‘add-succ’ }
+{ assuming ‘∀x. mul(0, x) = 0’ with name ‘mul-zero’ }
+{ assuming ‘∀x. ∀y. mul(S(x), y) = add(y, mul(x, y))’ with name ‘mul-succ’ }
+introduce x;
+{ let ‘x’ be an entity }
+induction x:
+use mul-zero,
+instantiate with “0”,
+done.
+{ let ‘x1’ be an entity }
+{ assuming ‘mul(x1, 0) = 0’ with name ‘induction-hypothesis’ }
+use mul-succ,
+instantiate with “x1”,
+instantiate with “0”,
+rewrite→;
+use induction-hypothesis,
+rewrite→;
+use add-zero,
+instantiate with “0”,
+done.
