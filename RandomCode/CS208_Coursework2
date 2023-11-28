@@ -182,21 +182,21 @@ sdlfjhklsdj
 
 
 3a
-resetintroduce x;
+introduce x;
 { let ‘x’ be an entity }
-resetintroduce y;
+introduce y;
 { let ‘y’ be an entity }
-resetintroduce z;
+introduce z;
 { let ‘z’ be an entity }
-resetintroduce xequalsy;
+introduce xequalsy;
 { assuming ‘x = y’ with name ‘xequalsy’ }
-resetintroduce yequalsz;
+introduce yequalsz;
 { assuming ‘y = z’ with name ‘yequalsz’ }
-resetuse xequalsy,
-resetrewrite→;
-resetuse yequalsz,
-resetrewrite→;
-resetintroduce h;
+use xequalsy,
+rewrite→;
+use yequalsz,
+rewrite→;
+introduce h;
 { assuming ‘P(z)’ with name ‘h’ }
-resetuse h,
-resetdone.
+use h,
+done.
