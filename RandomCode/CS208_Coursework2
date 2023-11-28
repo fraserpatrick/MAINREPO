@@ -200,3 +200,37 @@ introduce h;
 { assuming ‘P(z)’ with name ‘h’ }
 use h,
 done.
+
+
+
+
+
+4a
+{ assuming ‘∀x. add(x, 0) = x’ with name ‘add-zero’ }
+{ assuming ‘∀x. ∀y. add(x, y) = add(y, x)’ with name ‘add-comm’ }
+{ assuming ‘∀x. ∀y. ∀z. add(x, add(y, z)) = add(add(x, y), z)’ with name ‘add-assoc’ }
+introduce x;
+{ let ‘x’ be an entity }
+exists “0”;
+use add-zero,
+instantiate with “x”,
+done.
+
+
+
+
+
+4b
+{ assuming ‘∀x. add(x, 0) = x’ with name ‘add-zero’ }
+{ assuming ‘∀x. ∀y. add(x, y) = add(y, x)’ with name ‘add-comm’ }
+{ assuming ‘∀x. ∀y. ∀z. add(x, add(y, z)) = add(add(x, y), z)’ with name ‘add-assoc’ }
+introduce x;
+{ let ‘x’ be an entity }
+exists “x”;
+use add-comm,
+instantiate with “x”,
+instantiate with “0”,
+rewrite←;
+use add-zero,
+instantiate with “x”,
+done.
