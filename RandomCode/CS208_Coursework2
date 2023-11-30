@@ -281,6 +281,43 @@ done.
 
 
 
+4c
+{ assuming ‘∀x. add(x, 0) = x’ with name ‘add-zero’ }
+{ assuming ‘∀x. ∀y. add(x, y) = add(y, x)’ with name ‘add-comm’ }
+{ assuming ‘∀x. ∀y. ∀z. add(x, add(y, z)) = add(add(x, y), z)’ with name ‘add-assoc’ }
+introduce x;
+{ let ‘x’ be an entity }
+introduce y;
+{ let ‘y’ be an entity }
+introduce z;
+{ let ‘z’ be an entity }
+introduce h1;
+{ assuming ‘∃k. add(x, k) = y’ with name ‘h1’ }
+introduce h2;
+{ assuming ‘∃k. add(y, k) = z’ with name ‘h2’ }
+use h1,
+unpack as p1 and p2:
+{ let ‘p1’ be an entity }
+{ assuming ‘add(x, p1) = y’ with name ‘p2’ }
+use h2,
+unpack as p3 and p4:
+{ let ‘p3’ be an entity }
+{ assuming ‘add(y, p3) = z’ with name ‘p4’ }
+exists “add(p1, p3)”;
+use add-assoc,
+instantiate with “x”,
+instantiate with “p1”,
+instantiate with “p3”,
+rewrite→;
+use p2,
+rewrite→;
+use p4,
+done.
+
+
+
+
+
 5a
 sldjhgsog
 ksjdfhgke
