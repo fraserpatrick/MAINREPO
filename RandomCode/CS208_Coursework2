@@ -366,10 +366,49 @@ slfjdhg
 
 
 5d
-sldjhgsog
-ksjdfhgke
-ksdhfkg
-slfjdhg
+{ assuming ‘∀x. ¬0 = S(x)’ with name ‘zero-ne-succ’ }
+{ assuming ‘∀x. add(0, x) = x’ with name ‘add-zero’ }
+{ assuming ‘∀x. ∀y. add(S(x), y) = S(add(x, y))’ with name ‘add-succ’ }
+introduce x;
+{ let ‘x’ be an entity }
+introduce y;
+{ let ‘y’ be an entity }
+induction x:
+introduce h1;
+{ assuming ‘add(0, y) = 0’ with name ‘h1’ }
+use h1,
+rewrite←;
+use add-zero,
+instantiate with “y”,
+rewrite→;
+reflexivity.
+{ let ‘x1’ be an entity }
+{ assuming ‘add(x1, y) = 0 → y = 0’ with name ‘induction-hypothesis’ }
+use add-succ,
+instantiate with “x1”,
+instantiate with “y”,
+rewrite→;
+introduce h1;
+{ assuming ‘S(add(x1, y)) = 0’ with name ‘h1’ }
+use h1,
+rewrite←;
+use induction-hypothesis,
+apply with:
+use h1,
+rewrite←;
+use zero-ne-succ,
+instantiate with “add(x1, y)”,
+refuted by:
+use h1,
+rewrite→;
+reflexivity.
+rewrite→;
+use zero-ne-succ,
+instantiate with “add(x1, y)”,
+refuted by:
+use h1,
+rewrite→;
+reflexivity.
 
 
 
