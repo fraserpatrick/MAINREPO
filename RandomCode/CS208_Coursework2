@@ -415,7 +415,37 @@ reflexivity.
 
 
 5e
-sldjhgsog
-ksjdfhgke
-ksdhfkg
-slfjdhg
+{ assuming ‘∀x. ∀y. S(x) = S(y) → x = y’ with name ‘succ-injective’ }
+{ assuming ‘∀x. add(0, x) = x’ with name ‘add-zero’ }
+{ assuming ‘∀x. ∀y. add(S(x), y) = S(add(x, y))’ with name ‘add-succ’ }
+introduce x;
+{ let ‘x’ be an entity }
+introduce y;
+{ let ‘y’ be an entity }
+induction x:
+introduce h1;
+{ assuming ‘add(0, y) = 0’ with name ‘h1’ }
+use h1,
+rewrite←;
+use add-zero,
+instantiate with “y”,
+rewrite→;
+reflexivity.
+{ let ‘x1’ be an entity }
+{ assuming ‘add(x1, y) = x1 → y = 0’ with name ‘induction-hypothesis’ }
+introduce h1;
+{ assuming ‘add(S(x1), y) = S(x1)’ with name ‘h1’ }
+use induction-hypothesis,
+apply with:
+use succ-injective,
+instantiate with “add(x1, y)”,
+instantiate with “x1”,
+apply with:
+use add-succ,
+instantiate with “x1”,
+instantiate with “y”,
+rewrite←;
+use h1,
+done.
+done.
+done.
