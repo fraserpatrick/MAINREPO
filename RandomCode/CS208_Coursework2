@@ -170,12 +170,33 @@ done.
 
 
 2b
-hkdfhgkhdklfg
-d;fgjlkjhfdkldg
-gkldhfkghkld
-ldhjfgkhjdk
-kdhfgkhkdfg
-sdlfjhklsdj
+{ assuming ‘∀c. customer(c) → (∃i. invoice(i) ∧ custInvoice(c, i))’ with name ‘every-customer-has-an-invoice’ }
+{ assuming ‘∃c. customer(c) ∧ (∀i. invoice(i) → ¬custInvoice(c, i))’ with name ‘exists-customer-without-invoice’ }
+use exists-customer-without-invoice,
+unpack as p1 and p2:
+{ let ‘p1’ be an entity }
+{ assuming ‘customer(p1) ∧ (∀i. invoice(i) → ¬custInvoice(p1, i))’ with name ‘p2’ }
+exists “p1”;
+use every-customer-has-an-invoice,
+instantiate with “p1”,
+apply with:
+use p2,
+first,
+done.
+unpack as p3 and p4:
+{ let ‘p3’ be an entity }
+{ assuming ‘invoice(p3) ∧ custInvoice(p1, p3)’ with name ‘p4’ }
+use p2,
+second,
+instantiate with “p3”,
+apply with:
+use p4,
+first,
+done.
+refuted by:
+use p4,
+second,
+done.
 
 
 
