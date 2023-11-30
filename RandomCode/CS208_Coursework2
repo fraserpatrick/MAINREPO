@@ -226,6 +226,27 @@ done.
 
 
 
+3b
+{ assuming ‘mirror(leaf()) = leaf()’ with name ‘mirror-leaf’ }
+{ assuming ‘∀x. ∀y. mirror(node(x, y)) = node(mirror(y), mirror(x))’ with name ‘mirror-node’ }
+use mirror-node,
+instantiate with “leaf()”,
+instantiate with “node(leaf(), leaf())”,
+rewrite→;
+use mirror-leaf,
+rewrite→;
+use mirror-node,
+instantiate with “leaf()”,
+instantiate with “leaf()”,
+rewrite→;
+use mirror-leaf,
+rewrite→;
+reflexivity.
+
+
+
+
+
 4a
 { assuming ‘∀x. add(x, 0) = x’ with name ‘add-zero’ }
 { assuming ‘∀x. ∀y. add(x, y) = add(y, x)’ with name ‘add-comm’ }
