@@ -318,15 +318,6 @@ done.
 
 
 
-5a
-sldjhgsog
-ksjdfhgke
-ksdhfkg
-slfjdhg
-
-
-
-
 
 5b
 { assuming ‘∀x. add(0, x) = x’ with name ‘add-zero’ }
@@ -351,15 +342,6 @@ use add-zero,
 instantiate with “0”,
 done.
 
-
-
-
-
-5c
-sldjhgsog
-ksjdfhgke
-ksdhfkg
-slfjdhg
 
 
 
