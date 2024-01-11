@@ -21,10 +21,6 @@ public class DiMaGraph implements DiGraphADT {
     }
 
     public boolean addEdge(int node1, int node2) {
-        if (node1 < 0 || node1 >= numNodes || node2 < 0 || node2 >= numNodes) {
-            throw new IllegalArgumentException("Invalid node indices");
-        }
-
         if (adjacencyMatrix[node1][node2] == false) {
             adjacencyMatrix[node1][node2] = true;
             numEdges++;
@@ -35,18 +31,10 @@ public class DiMaGraph implements DiGraphADT {
     }
 
     public boolean isEdge(int node1, int node2) {
-        if (node1 < 0 || node1 >= numNodes || node2 < 0 || node2 >= numNodes) {
-            throw new IllegalArgumentException("Invalid node indices");
-        }
-
         return adjacencyMatrix[node1][node2] == true;
     }
 
     public ArrayList<Integer> successors(int node) {
-        if (node < 0 || node >= numNodes) {
-            throw new IllegalArgumentException("Invalid node index");
-        }
-
         ArrayList<Integer> successorsList = new ArrayList<>();
         for (int i = 0; i < numNodes; i++) {
             if (adjacencyMatrix[node][i] == true) {
@@ -58,10 +46,6 @@ public class DiMaGraph implements DiGraphADT {
     }
 
     public ArrayList<Integer> predecessors(int node) {
-        if (node < 0 || node >= numNodes) {
-            throw new IllegalArgumentException("Invalid node index");
-        }
-
         ArrayList<Integer> predecessorsList = new ArrayList<>();
         for (int i = 0; i < numNodes; i++) {
             if (adjacencyMatrix[i][node] == true) {
@@ -73,10 +57,6 @@ public class DiMaGraph implements DiGraphADT {
     }
 
     public int outDegree(int node) {
-        if (node < 0 || node >= numNodes) {
-            throw new IllegalArgumentException("Invalid node index");
-        }
-
         int outDegree = 0;
         for (int i = 0; i < numNodes; i++) {
             if (adjacencyMatrix[node][i] == true) {
@@ -88,10 +68,6 @@ public class DiMaGraph implements DiGraphADT {
     }
 
     public int inDegree(int node) {
-        if (node < 0 || node >= numNodes) {
-            throw new IllegalArgumentException("Invalid node index");
-        }
-
         int inDegree = 0;
         for (int i = 0; i < numNodes; i++) {
             if (adjacencyMatrix[i][node] == true) {
