@@ -18,17 +18,6 @@ public class App{
 			System.out.println("NO FILE FOUND");
 		}
 		
-		System.out.println("0: "+graph.neighbours(0));
-		System.out.println("1: "+graph.neighbours(1));
-		System.out.println("2: "+graph.neighbours(2));
-		System.out.println("3: "+graph.neighbours(3));
-		System.out.println("4: "+graph.neighbours(4));
-		System.out.println("5: "+graph.neighbours(5));
-		System.out.println("6: "+graph.neighbours(6));
-		System.out.println("7: "+graph.neighbours(7));
-		System.out.println("8: "+graph.neighbours(8));
-		System.out.println("9: "+graph.neighbours(9));
-		
 		Scanner myScan = new Scanner(System.in);
 		String input = "";
 		do{
@@ -37,12 +26,12 @@ public class App{
 
 			switch (input){
 				case "Breadth":
-					breadth();
+					breadth(graph);
 					break;
 
 
 				case "Depth":
-					depth();
+					depth(graph);
 					break;
 
 
@@ -60,11 +49,56 @@ public class App{
 		while (input != "Quit");
 	}
 	
-	public static void depth(){
-		System.out.println("DEPTH");
-	}
+	public static void depth(GraphADT graph){
+		System.out.println("-----Depth-first transversal-----");
+		
+		Stack<Integer> nodeStack = new Stack<>();
+        boolean[] visited = new boolean[graph.nNodes()];
+		int avgDegree = 0;
+
+        nodeStack.push(0);
+
+        while (nodeStack.isEmpty() == false) {
+            int currentNode = nodeStack.pop();
+
+            if (visited[currentNode] == false) {
+                System.out.println("Node: " + currentNode + ", Degree: " + graph.degree(currentNode));
+				avgDegree = avgDegree + graph.degree(currentNode);
+				
+                visited[currentNode] = true;
+
+                for (int neighbor : graph.neighbours(currentNode)) {
+                    if (visited[neighbor] == false) {
+                        nodeStack.push(neighbor);
+					}
+				}
+			}
+		}
+		System.out.println("Average degree: "+avgDegree/graph.nNodes());
+    }
 	
-	public static void breadth(){
-		System.out.println("BREADTH");
+	public static void breadth(GraphADT graph){
+		System.out.println("-----Breadth-first transversal-----");
+		
+		Queue<Integer> nodeQueue = new LinkedList<>();
+        boolean[] visited = new boolean[graph.nNodes()];
+		int avgDegree = 0;
+
+        nodeQueue.add(0);
+        visited[0] = true;
+
+        while (nodeQueue.isEmpty() == false) {
+            int currentNode = nodeQueue.poll();
+            System.out.println("Node: "+ currentNode + "     Degree: "+ graph.degree(currentNode));
+			avgDegree = avgDegree + graph.degree(currentNode);
+
+            for (int neighbor : graph.neighbours(currentNode)) {
+                if (visited[neighbor] == false) {
+                    nodeQueue.add(neighbor);
+                    visited[neighbor] = true;
+                }
+            }
+        }
+        System.out.println("Average degree: "+avgDegree/graph.nNodes());
 	}
 }
