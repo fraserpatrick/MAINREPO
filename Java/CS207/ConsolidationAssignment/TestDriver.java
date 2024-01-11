@@ -18,7 +18,7 @@ public class TestDriver
         n = 5;
 //the line below is the one to edit to create an instance
 //of the appropriate implementation of the DiGraphADT
-        g = new DiGraphEdgeList(n);
+        g = new DiLiGraph(n);
     }
 
    public void tests() {
