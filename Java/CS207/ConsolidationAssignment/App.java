@@ -4,9 +4,9 @@ import java.util.*;
 public class App{
 	public static void main(String[] args){
 		int node1, node2 = 0;
-		GraphADT graph = new Graph(10);
+		GraphADT graph = new Graph(9);
 		
-		try (Scanner reader = new Scanner(new File("Edges.txt"))){
+		try (Scanner reader = new Scanner(new File("EdgesPart4.txt"))){
 			while (reader.hasNext()){
 				node1 = reader.nextInt();
 				node2 = reader.nextInt();
