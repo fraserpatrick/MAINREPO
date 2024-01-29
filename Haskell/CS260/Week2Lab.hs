@@ -4,17 +4,20 @@
 --(a) a checkSum function that takes input a, b and c evaluating to true when a + b = c
   
 checkSum :: Int -> Int -> Int -> Bool
-checkSum = undefined
+checkSum a b c = a + b == c 
 
 --(b) Define a function notdivisible::Int -> Int -> Bool that evaluates to True on input a and b if and only if a is not divisible by b.
  
 notDivisible :: Int -> Int -> Bool
-notDivisible = undefined
+notDivisible a b = a `mod` b /= 0
 
 --2) Define evenFactorial which, for a value n, multiplies all of the even numbers less than or equal to n. For example evenFactorial 6 should return 6*4*2.
 
 evenFactorial :: Int -> Int
-evenFactorial n = undefined
+evenFactorial n | n == 1         = 0
+                | n == 2         = 2
+                | n `mod` 2 == 1 = evenFactorial (n-1)
+                | otherwise      = n * evenFactorial (n-2)
 
 
 {-3)
@@ -24,12 +27,14 @@ f(x) = { x/2,    if x is even
 Define this function in Haskell (you may want to use div instead of /). -}
 
 collatz :: Int -> Int 
-collatz n = undefined
+collatz n | n `mod` 2 == 0 = n `div` 2
+          | otherwise      = 3*n +1
 
 --b) The collatz conjecture states that for any integer n repeated application of the collatz function will eventually reduce n to 1. Write a function which will count the number of applications needed to return a value of 1. The first argument should count the number of applications while the second holds the current value of n
 
 collatzApp :: Int -> Int -> Int
-collatzApp c n = undefined
+collatzApp c n | n == 1    = 0
+               | otherwise = 1 + collatzApp c (collatz n)
 
 --Note. The collatz conjecture has yet to be proven, despite its simple appearance. Here is some code that will return the number of needed applications for every number from 1 to 1000. 
 
@@ -38,17 +43,20 @@ testCollatz = map (collatzApp 0) [1..1000]
 --4) Define fibonnaci, which calculates the nth number of the fibonacci sequence. Challenge: try to avoid using the standard recursive definition. 
 
 fibonacci :: Int -> Int 
-fibonacci = undefined 
+fibonacci x | x == 0    = 0
+            | x == 1    = 1 
+            | otherwise = fibonacci (x-1) + fibonacci (x-2)
 
 --5) Defined the combinatorial function for numbers n and m given by n!/(m!*(n-m)!), this should return an error if n < m
 
 comb :: Int -> Int -> Int 
-comb = undefined 
+comb n m = undefined
 
---6) Define leapYear which returns a String telling the user whhether a supplied year is a leap yer.
+--6) Define leapYear which returns a String telling the user whether a supplied year is a leap yer.
 
 leapYear :: Int -> String
-leapYear = undefined
+leapYear x | x `mod` 4 == 0 = "Is a leap year"
+           | otherwise      = "Not a leap year"
 
 --7) Define the function prime which returns True if a given number n is prime. Remember that a number is prime if it is not divisible by any number other than 1 and itself. It may help to define a helper function
 
