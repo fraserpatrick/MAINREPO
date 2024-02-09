@@ -86,7 +86,7 @@ intersperse = undefined
 --12) Define the function everySecond which will remove every other element of a list, starting with keeping the first element and removing the second.
 
 everySecond :: [Int] -> [Int]
-everySecond = undefined
+everySecond [] = []
 
 --13) Define the function dotProduct which, given two lists, will return their vector dot product, ie. (the product of the first elements) + (the product of the second elements) + ... If the lists don't have the same length, truncate the longer one (or treat the shorter one as padded out with zeroes, which is mathematically equivalent)
 
