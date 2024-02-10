@@ -8,28 +8,36 @@ Submit you answers using the myplace link as  <Your name>.hs file. For all quest
 -}
 
 buildSquare :: Int -> [Int]
-buildSquare = undefined
+buildSquare s = [x | x <- [1..s], x*x < s]
 
 {-
 2) Define longerList which takes 2 lists and returns True if the first is longer than the second and False otherwise. (2 marks)
 -}
 
 longerList :: [a] -> [a] -> Bool
-longerList = undefined
+longerList x y | getListLength x > getListLength y = True
+               | otherwise                           = False
+
+getListLength:: [a] -> Int 
+getListLength [] = 0
+getListLength (x:xs) = 1 + getListLength xs
 
 {-
 3a) Define allTrue which returns True only when every element in a list of Booleans is True. (2 marks)
 -}
 
 allTrue :: [Bool] -> Bool
-allTrue = undefined
+allTrue []     = True
+allTrue (x:xs) | x == True = allTrue xs
+               | otherwise = False
+
 
 {-
 3b) Define smallerNumbers which takes an integer and a list of integers. smallerNumbers should then remove all elements of the list which are larger than the given integer. (2 marks)
 -}
 
 smallerNumbers :: Int -> [Int] -> [Int]
-smallerNumbers = undefined 
+smallerNumbers x xs = undefined
 
 
 {-
@@ -70,7 +78,8 @@ myNOt O = I
 -}
 
 myAnd :: Bit ->  Bit -> Bit
-myAnd = undefined
+myAnd x y | x == I && y == I = I
+          | otherwise        = O
 
 {-
 6b) We can use lists of bits to represent binary numbers. Using myAnd define bitwiseAnd which takes two lists of Bits and applies myAnd to the corresponding elements of each list. Your bitewiseAnd should manage lists of different lengths by discarding excess values.  (2 marks) 
