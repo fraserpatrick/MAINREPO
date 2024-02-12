@@ -37,8 +37,9 @@ allTrue (x:xs) | x == True = allTrue xs
 -}
 
 smallerNumbers :: Int -> [Int] -> [Int]
-smallerNumbers x xs = undefined
-
+smallerNumbers _ [] = []
+smallerNumbers n (x:xs) | n >= x    = x : smallerNumbers n xs
+                        | otherwise = smallerNumbers n xs
 
 {-
 4a) Write a function insert that takes as its first argument a function f, as second argument an element x of a, and as third argument a list xs of type a, and inserts x just before the first element y of xs such that f y > f x (if such a y does not exist, x should be inserted at the end of the list). (2 marks)
@@ -97,7 +98,7 @@ bitwiseAnd = undefined
 -}
 
 bit2Int :: [Bit] -> Int 
-bit2Int = undefined
+bit2Int [] = 0
 
 
 {-
