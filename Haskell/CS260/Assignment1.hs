@@ -19,7 +19,7 @@ longerList x y | getListLength x > getListLength y = True
                | otherwise                           = False
 
 getListLength:: [a] -> Int 
-getListLength [] = 0
+getListLength []     = 0
 getListLength (x:xs) = 1 + getListLength xs
 
 {-
@@ -27,7 +27,7 @@ getListLength (x:xs) = 1 + getListLength xs
 -}
 
 allTrue :: [Bool] -> Bool
-allTrue []     = True
+allTrue []                 = True
 allTrue (x:xs) | x == True = allTrue xs
                | otherwise = False
 
@@ -37,7 +37,7 @@ allTrue (x:xs) | x == True = allTrue xs
 -}
 
 smallerNumbers :: Int -> [Int] -> [Int]
-smallerNumbers _ [] = []
+smallerNumbers _ []                 = []
 smallerNumbers n (x:xs) | n >= x    = x : smallerNumbers n xs
                         | otherwise = smallerNumbers n xs
 
@@ -72,7 +72,7 @@ Here the Bit type has been declared as either an I value or a O value. We will u
 
 myNot :: Bit -> Bit
 myNot I = O 
-myNOt O = I 
+myNot O = I 
 
 {-
 6a) Define myAnd which applies logical and to two given Bit values. e.g myAnd I I = I, myAnd O I = O. (1 mark)
