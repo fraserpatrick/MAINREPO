@@ -16,7 +16,7 @@ buildSquare s = [x | x <- [1..s], x*x < s]
 
 longerList :: [a] -> [a] -> Bool
 longerList x y | getListLength x > getListLength y = True
-               | otherwise                           = False
+               | otherwise                         = False
 
 getListLength:: [a] -> Int 
 getListLength []     = 0
