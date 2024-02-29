@@ -46,21 +46,26 @@ smallerNumbers n (x:xs) | n >= x    = x : smallerNumbers n xs
 -}
 
 insert :: Ord b => (a -> b) -> a -> [a] -> [a]
-insert = undefined
+insert _ x []                 = [x]
+insert f x (y:ys) | f x < f y = x:y:ys
+                  | otherwise = y:insert f x ys
 
 {-
 4b) Use insert to define a function inssort that sorts a given list such that the sorted list satisfies the following condition: x occurs before y implies f x <= f y (3 marks)
 -} 
 
 inssort :: Ord b => (a -> b) -> [a] -> [a]
-inssort = undefined
+inssort _ []     = []
+inssort f (x:xs) = insert f x (inssort f xs)
 
 {-
 5) Define runningSum which returns the sum of a list at every postion. For example runningSum [1,2,3,4,5] == [1, 3, 6, 10, 15]. (3 marks)
 -}
 
 runningSum :: [Int] -> [Int]
-runningSum = undefined
+runningSum []       = []
+runningSum [x]      = [x]
+runningSum (x:y:xs) = x:runningSum(x+y:xs)
 
 ----------------------------------
 data Bit = O | I
@@ -87,7 +92,9 @@ myAnd x y | x == I && y == I = I
 -}
 
 bitwiseAnd :: [Bit] -> [Bit] -> [Bit]
-bitwiseAnd = undefined
+bitwiseAnd _ []          = []
+bitwiseAnd [] _          = []
+bitwiseAnd (x:xs) (y:ys) = myAnd x y:bitwiseAnd xs ys 
 
 {-
 6c) Define bin2Int which converts a binary number, represented as a list of bits, to an integer. You must consider the place value of each Bit with the first element being the most significant and the last being the least significant. (3 marks)
@@ -98,7 +105,10 @@ bitwiseAnd = undefined
 -}
 
 bit2Int :: [Bit] -> Int 
-bit2Int [] = 0
+bit2Int []                 = 0
+bit2Int [x]    | x == I    = 1
+bit2Int (x:xs) | x == I    = 2^getListLength xs + bit2Int xs
+               | otherwise = bit2Int xs
 
 
 {-
@@ -106,7 +116,8 @@ bit2Int [] = 0
 -}
 
 substrings :: String -> [String]
-substrings = undefined 
+substrings [] = []
+substrings x = [x]
 
 {-
 8) Consider the following algorithm for reversing the digits of an integer.
