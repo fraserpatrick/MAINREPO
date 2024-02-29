@@ -116,8 +116,8 @@ bit2Int (x:xs) | x == I    = 2^getListLength xs + bit2Int xs
 -}
 
 substrings :: String -> [String]
-substrings [] = []
-substrings x = [x]
+substrings []     = [""]
+substrings (x:xs) = [x:y | y <- substrings xs] ++ substrings xs
 
 {-
 8) Consider the following algorithm for reversing the digits of an integer.
@@ -133,9 +133,13 @@ substrings x = [x]
  }
  Implement a recursive version of this algorithm. Note that ending zeros will be dropped (1230 -> 321), this is fine. (3 marks)
  -}
-
+ 
 revDig :: Int -> Int
-revDig = undefined 
+revDig x = revhelp 0 x
+
+revhelp :: Int -> Int -> Int
+revhelp y 0 = y
+revhelp x y = revhelp (x*10 + y `mod` 10) (y `div` 10)
 
 testDivHel x = revDig x == (read.reverse.show) x -- this will test all positive values of your solution.
 
@@ -154,7 +158,8 @@ largestValue (Node (Leaf 19) (Leaf 5) (Leaf 6)) == 19
 -}
 
 largestValue :: (Ord a) => TTree a -> a
-largestValue = undefined
+largestValue (Leaf x) = x
+largestValue (Node left mid right) = max (max (largestValue left) (largestValue mid)) (largestValue right)
 
 
 {-
@@ -167,11 +172,16 @@ newtype Dictionary k v = Dictionary [(k, v)]
 10a) A dictionary is valid if it does not contain the same key twice. Write a function that checks whether a dictionary is valid (3 marks) 
 
 dictionaryValid (Dictionary [(1,True),(2,False),(3,False)]) == True
-dictionaryValid (Dictionary [(1,True),(2,False),(3,False),(1,False)] == False
+dictionaryValid (Dictionary [(1,True),(2,False),(3,False),(1,False)]) == False
 -}
 
 dictionaryValid :: (Eq k) => Dictionary k v -> Bool
-dictionaryValid = undefined
+dictionaryValid (Dictionary dict) = checkdup [key | (key, _) <- dict]
+
+checkdup :: (Eq a) => [a] -> Bool
+checkdup [] = True
+checkdup (x:xs) | x `elem` xs = False
+                | otherwise   = checkdup xs
 
 {-
 10b) Write a function to insert a key-value pair into a dictionary, which fails if the given key is already used in the dictionary (2 marks) 
@@ -180,7 +190,7 @@ dictionaryValid (Dictionary [(1,True),(2,False),(3,False)]) 4 False == Just (Dic
 -}
 
 dictionaryInsert :: (Eq k) => Dictionary k v -> k -> v -> Maybe (Dictionary k v)
-dictionaryInsert = undefined
+dictionaryInsert (Dictionary dict) = undefined
 
 
 {-
