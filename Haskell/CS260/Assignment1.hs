@@ -167,6 +167,7 @@ Here is a data structure for key-value dictionaries with integer keys:
 -}
 
 newtype Dictionary k v = Dictionary [(k, v)]
+  deriving (Show)
 
 {-
 10a) A dictionary is valid if it does not contain the same key twice. Write a function that checks whether a dictionary is valid (3 marks) 
@@ -185,12 +186,13 @@ checkdup (x:xs) | x `elem` xs = False
 
 {-
 10b) Write a function to insert a key-value pair into a dictionary, which fails if the given key is already used in the dictionary (2 marks) 
-dictionaryValid (Dictionary [(1,True),(2,False),(3,False)]) 1 True == Nothing
-dictionaryValid (Dictionary [(1,True),(2,False),(3,False)]) 4 False == Just (Dictionary [(1,True),(2,False),(3,False),(4,False)])
+dictionaryInsert (Dictionary [(1,True),(2,False),(3,False)]) 1 True == Nothing
+dictionaryInsert (Dictionary [(1,True),(2,False),(3,False)]) 4 False == Just (Dictionary [(1,True),(2,False),(3,False),(4,False)])
 -}
 
 dictionaryInsert :: (Eq k) => Dictionary k v -> k -> v -> Maybe (Dictionary k v)
-dictionaryInsert (Dictionary dict) = undefined
+dictionaryInsert (Dictionary dict) x y | x `elem` map fst dict = Nothing
+                                       | otherwise             = Just (Dictionary ((x, y) : dict))
 
 
 {-
