@@ -61,7 +61,7 @@ leapYear x | x `mod` 4 == 0 = "Is a leap year"
 --7) Define the function prime which returns True if a given number n is prime. Remember that a number is prime if it is not divisible by any number other than 1 and itself. It may help to define a helper function
 
 prime :: Int -> Bool 
-prime = undefined 
+prime = undefined
 
 --8) Define the function primeFactors which counts the number of prime factors of its input, ie. prime numbers which the input is divisible by (so for example, if the input is prime then primeFactors should return 1)
 
@@ -71,22 +71,28 @@ primeFactors = undefined
 --9) Define the function solveLinear which, given the parameters m and c, will return the solution of the linear equation mx + c = 0
 
 solveLinear :: Double -> Double -> Double
-solveLinear = undefined
+solveLinear m c = m/c 
 
 --10) Define the function keepOnly which will keep only the first n elements in a list and throw away everything after that. If there are less than n elements in the list then the function should return all of them.
 
 keepOnly :: Int -> [Int] -> [Int]
-keepOnly = undefined
+keepOnly _ []     = []
+keepOnly 0 xs     = []
+keepOnly n (x:xs) = x:(keepOnly (n-1) xs)  
 
 --11) Define the function intersperse which will merge two lists by alternating elements between them. If one of the lists runs out of elements first then just end with all of the elements of the other one.
 
 intersperse :: [Int] -> [Int] -> [Int]
-intersperse = undefined
+intersperse _ []      = []
+intersperse [] _      = []
+intersperse (x:xs) (y:ys) = x : y : intersperse xs ys
 
 --12) Define the function everySecond which will remove every other element of a list, starting with keeping the first element and removing the second.
 
 everySecond :: [Int] -> [Int]
 everySecond [] = []
+everySecond (x:[]) = x:[]
+everySecond (x:y:xs) = x: everySecond xs
 
 --13) Define the function dotProduct which, given two lists, will return their vector dot product, ie. (the product of the first elements) + (the product of the second elements) + ... If the lists don't have the same length, truncate the longer one (or treat the shorter one as padded out with zeroes, which is mathematically equivalent)
 
