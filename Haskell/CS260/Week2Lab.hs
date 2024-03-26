@@ -83,8 +83,9 @@ keepOnly n (x:xs) = x:(keepOnly (n-1) xs)
 --11) Define the function intersperse which will merge two lists by alternating elements between them. If one of the lists runs out of elements first then just end with all of the elements of the other one.
 
 intersperse :: [Int] -> [Int] -> [Int]
-intersperse _ []      = []
-intersperse [] _      = []
+intersperse [] []          = []
+intersperse (x:xs) []      = x : intersperse xs [] 
+intersperse [] (y:ys)      = y : intersperse [] ys 
 intersperse (x:xs) (y:ys) = x : y : intersperse xs ys
 
 --12) Define the function everySecond which will remove every other element of a list, starting with keeping the first element and removing the second.
