@@ -1,7 +1,8 @@
 --1) Defined the function addOne which adds 1 to each element in a list of integers.
 
 addOne::[Int] -> [Int]
-addOne = undefined
+addOne [] = []
+addOne (x:xs) = x+1 : addOne xs
 --How many times will addOne be called on the list [1,2,3,4,5]?
 
 
@@ -16,7 +17,7 @@ cycleInc = undefined
 --3) Write a function pythTriples which, for an integer n, returns all triples such that a^2 + b^2 = c^2 and  a,b,c <= n
 
 pythTriples:: Int -> [(Int,Int,Int)]
-pythTriples = undefined
+pythTriples n = [(a,b,c) | a <- [1..n], b <- [1..n], c <- [1..n], a^2 + b^2 == c^2]
 
 
 --4) Define a function threeStrikes which returns "You're Out!" if it finds three occurences of a given value in a list returning "all good" otherwise. Hint. you may want to define a helper function, also consider whether or not your function would work with infinite lists.
