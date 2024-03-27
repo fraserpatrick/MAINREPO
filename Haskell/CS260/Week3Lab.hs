@@ -1,7 +1,7 @@
 --1) Defined the function addOne which adds 1 to each element in a list of integers.
 
 addOne::[Int] -> [Int]
-addOne [] = []
+addOne []     = []
 addOne (x:xs) = x+1 : addOne xs
 --How many times will addOne be called on the list [1,2,3,4,5]?
 
@@ -11,7 +11,8 @@ addOne (x:xs) = x+1 : addOne xs
 -- Example:    cycleinc [1,2,3] = [1,2,3,2,3,4,3,4,5..]
 
 cycleInc::[Int] -> [Int]
-cycleInc = undefined
+cycleInc [] = []
+cycleInc x = x ++ cycleInc (addOne x)
 
 
 --3) Write a function pythTriples which, for an integer n, returns all triples such that a^2 + b^2 = c^2 and  a,b,c <= n
@@ -28,7 +29,9 @@ threeStrikes = undefined
 --5) Define the function sumEven which sums the even values of a list
 
 sumEven::[Int] -> Int
-sumEven = undefined
+sumEven [] = 0
+sumEven (x:xs) | x `mod` 2 == 0 = x + sumEven xs
+               | otherwise      = sumEven xs
 
 --6) Define a function occursTwice wich returns True if a character occurs twice in a row in a given string and False otherwise.
 
@@ -48,12 +51,15 @@ otListList = undefined
 --7) Without using the maximum function define maxList which finds the maximum value in a list of integers.
 
 maxList::[Int] -> Int 
-maxList = undefined
+maxList []     = 0
 
 --Use this function to define sortList which sorts a list from smallest to largest.
 
 sortList::[Int] -> [Int]
-sortList = undefined
+sortList [] = []
+sortList (x:[]) = [x] 
+sortList (x:y:xs) | x > y     = y:x : sortList (x:xs)
+                  | otherwise = x: sortList (y:xs)
 
 --8) Define findPos which returns the character at a given position in a string
 

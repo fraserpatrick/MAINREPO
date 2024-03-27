@@ -27,7 +27,7 @@ higherCheckSum = undefined
 --5) Using filter define a function returnList which returns the same list as it was given.
 
 returnList::[a] -> [a]
-returnList = undefined
+returnList x = filter (\_ -> True) x
 
 --6) Define numRange which takes a function as well as two numbers. The function should then apply the function to the range of values generated from the two values supplied. You may assume that the first integer is smaller than the second. 
 
