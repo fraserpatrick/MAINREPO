@@ -39,7 +39,8 @@ data Row = Row Int String Int Bool
 -- Q1: Write a function that will check whether the given database (a list of Rows) is valid, ie. does not contain the same key twice, and only contains scores within the valid range. [2 marks]
 
 databaseValid :: [Row] -> Bool
-databaseValid = undefined
+databaseValid rows = all (\(Row _ _ score _) -> score >= 0 && score <= 100) rows
+                  && length (map (\(Row uid _ _ _) -> uid) rows) == length (nub (map (\(Row uid _ _ _) -> uid) rows))
 
 -- Here is a datatype representing all of the exceptions that might be encountered anywhere in the test. Several questions below have output types of the form Either Exception <something>, and for each one you should choose the appropriate exception to return in case of a failure.
 
@@ -52,13 +53,16 @@ data Exception = UIDAlreadyPresentException
 
 -- Q2: Write a function that will insert a row into the database, throwing an exception if the UID is already present. You may insert the new row anywhere in the current database if it is valid. [2 marks]
 
-insert :: Row -> [Row] -> Either Exception [Row]
-insert = undefined
+myinsert :: Row -> [Row] -> Either Exception [Row]
+myinsert newRow rows | any (\(Row uid _ _ _) -> uid == getKey newRow) rows = Left UIDAlreadyPresentException
+                     | otherwise = Right (newRow : rows)
+  where
+    getKey (Row uid _ _ _) = uid
 
 -- Q3: Write a function that will delete a row with the given UID from the database, throwing an exception if the UID is not present. [2 marks]
 
-delete :: Int -> [Row] -> Either Exception [Row]
-delete = undefined
+mydelete :: Int -> [Row] -> Either Exception [Row]
+mydelete = undefined
 
 -- Q4: Write a function that will compute the pair of the average score of all the films that contain ninjas, and the average score of all the films that don't contain ninjas. If either of the averages is not mathematically well-defined, you should throw an exception. [4 marks]
 
@@ -81,12 +85,15 @@ data Condition = NameEquals String
 -- Q6: Write a function that, given a condition and a row, checks whether the row satisfies the condition. [4 marks]
 
 checkCondition :: Condition -> Row -> Bool
-checkCondition = undefined
+checkCondition (NameEquals name) (Row _ filmName _ _)  = name == filmName
+checkCondition (ScoreGreaterThan n) (Row _ _ rating _) = n < rating
+checkCondition (ScoreLessThan n) (Row _ _ rating _)    = n > rating
+checkCondition HasNinjas (Row _ _ _ ninjas)            = ninjas
 
 -- Q7: Write a function that, given a condition and a database, selects the rows of the database that satisfy the condition. [4 marks]
 
 select :: Condition -> [Row] -> [Row]
-select = undefined
+select condition = filter (checkCondition condition)
 
 -- Here is a datatype representing a simple command language of user inputs
 
@@ -99,7 +106,17 @@ data Command = Select Condition
 --Q8: Write a function that takes a list of commands and sequences them one after the other, carrying along the state of the database. If a Quit command is reached then the function should terminate and return the current state of the database. If one of the commands throws an exception then that exception should be returned. [5 marks]
 
 interpretCommands :: [Command] -> [Row] -> Either Exception [Row]
-interpretCommands = undefined
+interpretCommands [] rows = Right rows
+interpretCommands (Quit:_) rows = Right rows
+interpretCommands (comm:comms) rows =
+  case handleCommand comm rows of
+                                  Left exception -> Left exception
+                                  Right newRows -> interpretCommands comms newRows
+  where
+    handleCommand (Select condition) = Right . select condition
+    handleCommand (Insert newRow) = myinsert newRow
+    handleCommand (Delete uid) = mydelete uid
+    handleCommand Quit = Right
 
 {- Q9: Write a function that will parse a raw string of user input into a command, or throw an exception if the user input is not correctly formed. The syntax of the user input is given by the following grammar:
   Command ::= Select [NameEquals s | ScoreGreaterThan n | ScoreLessThan n | ContainsNinjas] 
@@ -110,7 +127,19 @@ where n means any integer (you may assume it is positive, ie. does not contain a
 [4 marks] -}
 
 parseCommand :: String -> Either Exception Command
-parseCommand = undefined
+parseCommand input =
+  case words input of
+                      ["Select", "NameEquals", name] -> Right (Select (NameEquals name))
+                      ["Select", "ScoreGreaterThan", n] -> Right (Select (ScoreGreaterThan (read n)))
+                      ["Select", "ScoreLessThan", n] -> Right (Select (ScoreLessThan (read n)))
+                      ["Select", "ContainsNinjas"] -> Right (Select HasNinjas)
+                      ["Insert", uid, name, score, ninjas] ->
+                        if ninjas `elem` ["Yes", "No"]
+                        then Right (Insert (Row (read uid) name (read score) (ninjas == "Yes")))
+                        else Left CommandParseException
+                      ["Delete", uid] -> Right (Delete (read uid))
+                      ["Quit"] -> Right Quit
+                      _ -> Left CommandParseException
 
 -- Q10: Write a function that is an exception handler that will "wrap" any given function from values to IO actions. If the input is an ordinary value then it should pass it to the function and perform the IO action, whereas if the input is an exception then it should print the string representation of the exception (the one that the show function generates) to the terminal. [4 marks]
 
