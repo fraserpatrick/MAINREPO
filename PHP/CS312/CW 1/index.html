@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Frame Price Estimator</title>
+    </head>
+    <body>
+        <h1>Frame Price Estimator</h1>
+        <p>
+            Please enter your photo sizes to get a framing cost estimate.<br>
+            Width and height must be between 0.2m and 2m.
+        </p>
+        <form action="frame.php" method="post">
+            <p>
+                Photo width: <input name="width" type="text">
+                <select name="unit">
+                    <option value="mm"> mm </option>
+                    <option value="cm"> cm </option>
+                    <option value="in"> In </option>
+                </select>
+            </p>
+            <p> Photo height: <input name="height" type="text"></p>
+            <p> Postage:
+                <input name="postage" type="radio" value="economy" checked> Economy
+                <input name="postage" type="radio" value="rapid"> Rapid
+                <input name="postage" type="radio" value="next day"> Next Day
+            </p>
+            <p> Include VAT in price: <input name="VAT" type="checkbox" checked></p>
+            <p> I want to receive mail and future information about my framing calculation: <input name="OptIn" type="checkbox"></p>
+            <p> Enter your email: <input name="email" type="text"> </p>
+            <input type="submit" value="Get estimate">
+        </form>
+    </body>
+</html>
