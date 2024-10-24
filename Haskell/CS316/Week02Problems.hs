@@ -14,7 +14,10 @@ import Week02
       element in list: -}
 
 popCount :: Eq a => a -> [a] -> Int
-popCount = undefined
+popCount x []     = 0
+popCount x (y:ys) 
+  | x == y    = 1 + popCount x ys
+  | otherwise = popCount x ys
 
 {-    (popCount is short for "population count"). Examples:
 
@@ -32,7 +35,11 @@ popCount = undefined
 -}
 
 insertNoDup :: Ord a => a -> [a] -> [a]
-insertNoDup = undefined
+insertNoDup x [] = [x]
+insertNoDup x (y:ys)
+  | x == y    = y : ys
+  | x < y     = x : y : ys
+  | otherwise = y : insertNoDup x ys
 
 
 {- 3. Write a version of 'remove' that removes all copies of an element
@@ -43,17 +50,31 @@ insertNoDup = undefined
 -}
 
 removeAll :: Ord a => a -> [a] -> [a]
-removeAll = undefined
+removeAll x [] = []
+removeAll x (y:ys)
+  | x == y    = removeAll x ys
+  | x > y     = y:removeAll x ys
+  | otherwise = y:ys
 
 
 {- 4. Rewrite 'treeFind' and 'treeInsert' to use 'compare' and 'case'
       expressions. -}
 
 treeFind2 :: Ord k => k -> KV k v -> Maybe v
-treeFind2 = undefined
+treeFind2 x Leaf = Nothing
+treeFind2 x (Node lTree (k,v) rTree) = 
+  case compare x k of
+    EQ -> Just v
+    LT -> treeFind2 x lTree
+    GT -> treeFind2 x rTree
 
 treeInsert2 :: Ord k => k -> v -> KV k v -> KV k v
-treeInsert2 = undefined
+treeInsert2 newK newV Leaf = Node Leaf (newK,newV) Leaf
+treeInsert2 newK newV (Node lTree (k,v) rTree) =
+  case compare newK k of
+    EQ -> Node lTree (newK,newV) rTree
+    LT -> Node (treeInsert2 newK newV lTree) (k,v) rTree
+    GT -> Node lTree (k,v) (treeInsert2 newK newV rTree)
 
 
 {- 5. MergeSort is another sorting algorithm that works in the following
@@ -83,7 +104,10 @@ treeInsert2 = undefined
       syntax in a 'where' clause. -}
 
 split :: [a] -> ([a], [a])
-split = undefined
+split []         = ([],[])
+split [x]        = ([x],[])
+split (x1:x2:xs) = (x1:odds,x2:evens)
+   where (odds, evens) = split xs
 
 {-    'merge' merges two sorted lists into one sorted list. Examples:
 
@@ -92,20 +116,33 @@ split = undefined
 -}
 
 merge :: Ord a => [a] -> [a] -> [a]
-merge = undefined
+merge [] [] = []
+merge [] y  = y
+merge x []  = x
+merge (x:xs) (y:ys) 
+  | x <= y    = x : merge xs (y:ys)
+  | otherwise = y : merge (x:xs) ys
+
 
 {-    'mergeSort' uses 'split' and 'merge' to implement the merge sort
       algorithm described above. -}
 
 mergeSort :: Ord a => [a] -> [a]
-mergeSort = undefined
+mergeSort []     = []
+mergeSort [x]    = [x]
+mergeSort xs  = merge (mergeSort xs1) (mergeSort xs2)
+  where (xs1,xs2) = split xs
 
 
 {- 6. Write another version of 'makeChange' that returns all the
       possible ways of making change as a list: -}
 
 makeChangeAll :: [Coin] -> [Coin] -> Int -> [[Coin]]
-makeChangeAll = undefined
+makeChangeAll coins        used 0 = [used]
+makeChangeAll []           used _ = []
+makeChangeAll (coin:coins) used amount
+  | amount >= coin = makeChangeAll coins (coin:used) (amount - coin) ++ makeChangeAll coins used amount
+  | otherwise      = makeChangeAll coins used amount
 
 {- HINT: you don't need a case expression, just a way of appending two
    lists of possibilities. -}
@@ -138,8 +175,10 @@ type Record = [(String,String)]
 -- > lookupField "c" [("a","1"),("b","3")]
 -- returns @Nothing@.
 lookupField :: String -> Record -> Maybe String
-lookupField fieldname record =
-  error "lookupField: not implemented"
+lookupField fieldname []  = Nothing
+lookupField fieldname ((key,item) :records)
+  | fieldname == key = Just item
+  | otherwise        = lookupField fieldname records
 
 -- | Given a header listing field names, like:
 --
@@ -156,15 +195,26 @@ lookupField fieldname record =
 -- If the number of field names in the header does not match the
 -- number of fields in the row, an @Nothing@ should be returned.
 rowToRecord :: [String] -> Row -> Maybe Record
-rowToRecord header row =
-  error "rowToRecord: not implemented"
+rowToRecord [] [] = Just []
+rowToRecord (header:headers) (item:items) =
+  case rowToRecord headers items of
+    Just record -> Just ((header,item) : record)
+    Nothing -> Nothing
+rowToRecord _ _ = Nothing
 
 -- | Given a header listing field names, and a list of rows, converts
 -- each row into a record. See 'rowToRecord' for how individual rows
 -- are converted to records.
 rowsToRecords :: [String] -> [Row] -> Maybe [Record]
-rowsToRecords header rows =
-  error "rowsToRecord: not implemented"
+rowsToRecords headers [] = Just []
+rowsToRecords headers (item:items) =
+  case rowsToRecords headers items of
+    Nothing -> Nothing
+    Just records -> 
+      case rowToRecord headers item of
+        Nothing -> Nothing
+        Just record -> Just (record:records)
+    
 
 -- | Given a header listing field names, like:
 --
@@ -188,12 +238,25 @@ rowsToRecords header rows =
 -- This function returns an @Nothing@ if any of the field names listed in
 -- the header are not in the record.
 recordToRow :: [String] -> Record -> Maybe Row
-recordToRow header record =
-  error "recordToRow: not implemented"
+recordToRow [] record = Just []
+recordToRow (header:headers) record =
+  case lookupField header record of
+    Nothing -> Nothing
+    Just item ->
+      case recordToRow headers record of
+        Nothing -> Nothing
+        Just items -> Just (item:items)
 
 -- | Given a header listing field names, and a list of records,
 -- converts each record into a row. See 'recordToRow' for how
 -- individual records are converted to rows.
 recordsToRows :: [String] -> [Record] -> Maybe [Row]
-recordsToRows header records =
-  error "recordsToRows: not implemented"
+recordsToRows headers [] = Just []
+recordsToRows headers (record:records) =
+  case recordToRow headers record of
+    Nothing -> Nothing
+    Just item ->
+      case recordsToRows headers records of
+        Nothing -> Nothing
+        Just items ->
+          Just (item:items)
