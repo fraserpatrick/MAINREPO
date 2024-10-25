@@ -13,14 +13,16 @@ import Data.Char
    <something>', and so on. -}
 
 mulBy2 :: Int -> Int
-mulBy2 x = 2*x
+mulBy2 = \x -> x*2
 
 mul :: Int -> Int -> Int
-mul x y = x * y
+mul = \x y -> x*y
 
 invert :: Bool -> Bool
-invert True  = False
-invert False = True
+invert = \x -> 
+  case x of
+    False -> True
+    True -> False
   {- HINT: use a 'case', or an 'if'. -}
 
 
@@ -40,7 +42,7 @@ invert False = True
    function as short as possible? -}
 
 double_v2 :: Int -> Int
-double_v2 = undefined -- fill this in
+double_v2 = mul 2
 
 {- 4. Using 'map'.
 
@@ -63,7 +65,7 @@ double_v2 = undefined -- fill this in
 -}
 
 shout :: String -> String    -- remember that String = [Char]
-shout = undefined
+shout = map toUpper
 
 
 {- 5. Using 'map' with another function.
@@ -87,7 +89,7 @@ shout = undefined
    into two element lists. -}
 
 dupAll :: [a] -> [a]
-dupAll = undefined
+dupAll xs = concat (map (\x -> [x,x]) xs)
 
 
 {- 6. Using 'filter'
@@ -101,13 +103,13 @@ dupAll = undefined
        's' and counts the number of 'c's in 's'. -}
 
 onlyEs :: String -> String
-onlyEs = undefined
+onlyEs = filter (\x -> x == 'E')
 
 numberOfEs :: String -> Int
-numberOfEs = undefined
+numberOfEs xs = length (onlyEs xs)
 
 numberOf :: Char -> String -> Int
-numberOf = undefined
+numberOf c = length . filter (\x -> x == c)
 
 
 {- 7. Rewriting 'filter'
@@ -120,10 +122,12 @@ numberOf = undefined
 -}
 
 filter_v2 :: (a -> Bool) -> [a] -> [a]
-filter_v2 = undefined
+filter_v2 p = concat . map (\x -> if p x then [x] else [])
 
 filterMap :: (a -> Maybe b) -> [a] -> [b]
-filterMap = undefined
+filterMap p = concat . map (\x -> case p x of
+                                    Nothing -> []
+                                    Just y  -> [y])
 
 
 {- 8. Composition
@@ -136,9 +140,11 @@ filterMap = undefined
    this week. -}
 
 (>>>) :: (a -> b) -> (b -> c) -> a -> c
-(>>>) = undefined
+(>>>) f a b = a (f b)
 
 {- Try rewriting the 'numberOfEs' function from above using this one. -}
+
+numberOfEs_v2 = filter (\x -> x == 'E') >>> length
 
 {- 9. Backwards application
 
@@ -147,7 +153,7 @@ filterMap = undefined
    its arguments in reverse order to normal function application! -}
 
 (|>) :: a -> (a -> b) -> b
-(|>) x f = undefined
+(|>) x f = f x
 
 
 {- This function can be used between its arguments like so:
@@ -167,7 +173,7 @@ filterMap = undefined
    arguments in reverse order: -}
 
 flip :: (a -> b -> c) -> b -> a -> c
-flip  = undefined
+flip a b c = a c b
 
 {- 11. Evaluating Formulas
 
@@ -192,7 +198,10 @@ data Formula
 -}
 
 eval_v1 :: Formula -> Bool
-eval_v1 = undefined
+eval_v1 (Atom a)  = True
+eval_v1 (And x y) = eval_v1 x && eval_v1 y
+eval_v1 (Or x y)  = eval_v1 x || eval_v1 y
+eval_v1 (Not x)   = not (eval_v1 x)
 
 
 
@@ -202,7 +211,10 @@ eval_v1 = undefined
        for each atomic proposition: -}
 
 eval :: (String -> Bool) -> Formula -> Bool
-eval = undefined
+eval f (Atom a)  = f a
+eval f (And x y) = eval f x && eval f y
+eval f (Or x y)  = eval f x || eval f y
+eval f (Not x)   = not (eval f x)
 
 {- For example:
 
@@ -217,20 +229,12 @@ eval = undefined
    formulas in a Formula with whatever 'f' tells it to: -}
 
 subst :: (String -> Formula) -> Formula -> Formula
-subst = undefined
+subst f (Atom a)  = f a
+subst f (And x y) = subst f x `And` subst f y
+subst f (Or x y)  = subst f x `Or` subst f y
+subst f (Not x)   = Not (subst f x)
 
 {- For example:
 
      subst (\s -> if s == "A" then Not (Atom "A") else Atom s) (And (Atom "A") (Atom "B")) == And (Not (Atom "A")) (Atom "B")
 -}
-
-{- 13. Evaluating with failure
-
-   The 'eval' function in 8(b) assumed that every atom could be
-   assigned a value. But what if it can't? Write a function of the
-   following type that takes as input a function that may or may not
-   give a 'Bool' for each atom, and correspondingly, may or may not
-   give a 'Bool' for the whole formula. -}
-
-evalMaybe :: (String -> Maybe Bool) -> Formula -> Maybe Bool
-evalMaybe = undefined
