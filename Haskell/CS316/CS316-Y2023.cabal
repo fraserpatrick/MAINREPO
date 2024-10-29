@@ -21,7 +21,9 @@ library
                        Week03,
                        Week03Problems,
                        Week04,
-                       Week04Problems
+                       Week04Problems,
+                       Week05,
+                       Week05Problems
 --  ghc-options:         -fwarn-incomplete-patterns
   default-language:    Haskell2010
   build-depends:       base >= 4.7 && < 5,
