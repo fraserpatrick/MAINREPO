@@ -572,10 +572,10 @@ on validator func = (\x -> validate validator (func x))
 -}
 
 andValidator :: Validator a -> Validator a -> Validator a
-andValidator = undefined
+andValidator val1 val2 x = andResult (validate val1 x) (validate val2 x)
 
 orValidator :: Validator a -> Validator a -> Validator a
-orValidator = undefined
+orValidator val1 val2 x = orResult (validate val1 x) (validate val2 x)
 
 {------------------------------------------------------------------------}
 {- QUESTION 7 : Pictures                                                -}
@@ -625,7 +625,7 @@ square50 (x,y) = withinX && withinY
        that 'everywhere x' should return 'x' for every point. -}
 
 everywhere :: a -> Picture a
-everywhere = undefined
+everywhere value _ = value
 
 {- (b) Write a function 'circle' that takes a radius 'r' and returns a
        picture that is 'True' for points within distance 'r' of (0,0)
@@ -635,7 +635,7 @@ everywhere = undefined
        origin using the formula 'sqrt (x*x + y*y)'. -}
 
 circle :: Double -> Picture Bool
-circle = undefined
+circle r (x, y) = sqrt (x*x + y*y) <= r
 
 {- (c) Write a function that takes a function from 'a's to 'b's and a
        picture of 'a's and returns a picture of 'b's. If the function
@@ -644,7 +644,7 @@ circle = undefined
        'p' had the value 'v' at (x,y). -}
 
 mapPicture :: (a -> b) -> Picture a -> Picture b
-mapPicture = undefined
+mapPicture f p (x, y) = f (p (x, y))
 
 {- (d) Write a function that merges two pictures according to another
        picture of booleans, using the following recipe:
@@ -657,7 +657,10 @@ mapPicture = undefined
 -}
 
 merge :: Picture Bool -> Picture a -> Picture a -> Picture a
-merge = undefined
+merge bool firstP secondP (x,y) =
+  case bool (x,y) of
+    True  -> firstP (x, y)
+    False -> secondP (x, y)
 
 {------------------------------------------------------------------------}
 {- QUESTION 8 : Folding Documents                                       -}
@@ -686,7 +689,11 @@ foldDocument :: (a -> result)                    -- what to do for Node
              -> (result -> result)               -- what to do for Bold
              -> (result -> result -> result)     -- what to do for Concat
              -> Document a -> result
-foldDocument = undefined
+foldDocument node bold concat doc =
+    case doc of
+        Node a -> node a
+        Bold doc -> bold (foldDocument node bold concat doc)
+        Concat first second -> concat (foldDocument node bold concat first) (foldDocument node bold concat second)
 
 {- (b) Implemented 'flattenDocument' using 'foldDocument', which returns
        a list of all the values at the 'Node's in a document, in left
@@ -700,7 +707,7 @@ foldDocument = undefined
        REMEMBER TO USE 'foldDocument'. -}
 
 flattenDocument :: Document a -> [a]
-flattenDocument = undefined
+flattenDocument = foldDocument (\x -> [x]) (\xs -> xs) (++)
 
 {------------------------------------------------------------------------}
 {- QUESTION 9 : Eq and Show                                             -}
@@ -735,7 +742,7 @@ canonicalise xs = sort (nub xs)
 -}
 
 instance Eq DoubleSet where
-  MkSet x == MkSet y = undefined
+  MkSet x == MkSet y = canonicalise x == canonicalise y
 
 {- (b) Use 'canonicalise' to implement a Show instance for 'DoubleSet'
        that prints an 'DoubleSet' in canonical form.
@@ -747,7 +754,7 @@ instance Eq DoubleSet where
 -}
 
 instance Show DoubleSet where
-  show (MkSet x) = undefined
+  show (MkSet x) = show (canonicalise x)
 
 {- HINT: use 'map show' to show all the elements in the canonicalised
    version, and then 'intercalate "," to put commas between them. -}
