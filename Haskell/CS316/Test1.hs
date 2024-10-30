@@ -243,7 +243,7 @@ forwards (MkTimeline front item (x:back)) = (MkTimeline (item:front) x back)
 -}
 
 update :: (a -> a) -> Timeline a -> Timeline a
-update = undefined
+update f (MkTimeline front item back) = (MkTimeline (item:front) (f(item)) [])
 
 {------------------------------------------------------------------------}
 {- QUESTION 4 : Choice Trees and Case expressions                       -}
@@ -313,7 +313,9 @@ example3 = Choose (\d -> case d of
 -}
 
 leftChoice :: Choice a -> Maybe a
-leftChoice = undefined
+leftChoice Failure = Nothing
+leftChoice (Success x) = Just x
+leftChoice (Choose x) = leftChoice (x L)
 
 {- (b) Define a function 'rightChoice' that returns the *right most*
        choice in a choice tree. This is the outcome that results from
@@ -333,7 +335,9 @@ leftChoice = undefined
 -}
 
 rightChoice :: Choice a -> Maybe a
-rightChoice = undefined
+rightChoice Failure = Nothing
+rightChoice (Success x) = Just x
+rightChoice (Choose x) = rightChoice (x R)
 
 {- (c) Define a function that swaps 'L' and 'R' in every choice in a
        choice tree. At each 'Choose', the choice of 'L' should do what
@@ -364,7 +368,12 @@ rightChoice = undefined
 -}
 
 mirror :: Choice a -> Choice a
-mirror = undefined
+mirror Failure = Failure
+mirror (Success x) = (Success x)
+mirror (Choose x) = Choose (\y -> 
+  case y of
+    L -> mirror (x R)
+    R -> mirror (x L))
 
 {- (d) Define a function that returns the first successful choice in a
        left-to-right direction. Specifically, at a 'Choose', if the
@@ -384,7 +393,12 @@ mirror = undefined
 -}
 
 firstChoice :: Choice a -> Maybe a
-firstChoice = undefined
+firstChoice Failure = Nothing
+firstChoice (Success x) = Just x
+firstChoice (Choose x)  = 
+  case firstChoice (x L) of
+    Just x  -> Just x
+    Nothing -> firstChoice (x R)
 
 {------------------------------------------------------------------------}
 {- QUESTION 5 : Using 'map' and 'filter'                                -}
@@ -425,7 +439,7 @@ database = [ ("Glennamong", "I", 628),
 -}
 
 hillsIn :: String -> [(String,String,Int)] -> [(String,Int)]
-hillsIn = undefined
+hillsIn search xs = map (\(name, _, height) -> (name, height)) (filter (\(_, code, _) -> code == search) xs)
 
 {- (b) Write a function that returns the number of hills over 800 metres
        in a given database.
@@ -439,7 +453,7 @@ hillsIn = undefined
 -}
 
 numHillsOver800m :: [(String,String,Int)] -> Int
-numHillsOver800m = undefined
+numHillsOver800m xs = length ((filter (\(_, _, height) -> height >= 800) xs))
 
 {------------------------------------------------------------------------}
 {- QUESTION 6 : Validators                                              -}
@@ -471,7 +485,9 @@ andResult (Error e1) (Error e2) = Error (e1 ++ ", " ++ e2)
        returns 'OK' if at least one of the inputs is 'OK': -}
 
 orResult :: Result -> Result -> Result
-orResult = undefined
+orResult _ OK = OK
+orResult OK _ = OK
+orResult (Error e1) (Error e2) = Error (e1 ++ ", " ++ e2)
 
 {- A 'Validator' of things of type 'a' is a function that accepts values
    of type 'a' and returns 'Results'. It returns 'OK' if the input is
@@ -530,7 +546,7 @@ lessThan x y =
 -}
 
 on :: Validator b -> (a -> b) -> Validator a
-on = undefined
+on validator func = (\x -> validate validator (func x))
 
 {- (c) Implement `andValidator` and `orValidator` which take two
        validators and return a validator which runs both of the
