@@ -68,7 +68,9 @@ data Vegetable
        it is a 'Parsnip' and 'False' otherwise. -}
 
 isParsnip :: Vegetable -> Bool
-isParsnip = undefined
+isParsnip = \veg -> case veg of
+    Parsnip -> True
+    _ -> False
 
 {- (b) Write an equality test for 'DogBreed's. This takes two dog
        breeds and returns 'True' if they are the same, and 'False'
@@ -78,7 +80,11 @@ isParsnip = undefined
        'deriving Eq'. -}
 
 equalVegetable :: Vegetable -> Vegetable -> Bool
-equalVegetable = undefined
+equalVegetable Potato Potato = True
+equalVegetable Carrot Carrot = True
+equalVegetable Parsnip Parsnip = True
+equalVegetable Beetroot Beetroot = True
+equalVegetable _ _ = False
 
 {- (c) A 'Meal' consists of one 'Vegetable' and the number of kilos of
        that vegetable: -}
@@ -90,7 +96,7 @@ data Meal = MkMeal Vegetable Double
        meal: -}
 
 getQuantity :: Meal -> Double
-getQuantity = undefined
+getQuantity (MkMeal veg doub) = doub
 
 {- (d) Government advice says that you should eat twice as many
        vegetables as you are already eating. Write a function that
@@ -98,7 +104,7 @@ getQuantity = undefined
        the vegetable the same. -}
 
 doubleQuantity :: Meal -> Meal
-doubleQuantity = undefined
+doubleQuantity (MkMeal veg doub) = (MkMeal veg (doub*2))
 
 {------------------------------------------------------------------------}
 {- QUESTION 2 : Defining a data type                                    -}
@@ -116,11 +122,11 @@ doubleQuantity = undefined
 -}
 
 {- UNCOMMENT THIS DECLARATION -}
-{-
-data Hill =
-  -- FILL IN THE DEFINITION HERE
+
+data Hill 
+  = Hill String Double Bool
   deriving Show
--}
+
 
 {-  (b) Define three functions that return the name, height, and whether
         or not it has been climbed for a given 'Hill'.
@@ -128,21 +134,21 @@ data Hill =
         These are commented out to start with, waiting for you to
         complete the definition of the 'Hill' data type. -}
 
--- getName :: Hill -> String
--- getName = undefined
+getName :: Hill -> String
+getName (Hill name _ _) = name
 
--- getHeight :: Hill -> Int
--- getHeight = undefined
+getHeight :: Hill -> Double
+getHeight (Hill _ height _) = height
 
--- hasBeenClimbed :: Hill -> Bool
--- hasBeenClimbed = undefined
+hasBeenClimbed :: Hill -> Bool
+hasBeenClimbed (Hill _ _ climbed) = climbed
 
 {-  (c) The Strathclyde University Student Project for Enjoying Climbing
         Things (SUSPECT) requires a function that sets the 'climbed'
         field of a 'Hill' to 'True'. Implemented this: -}
 
--- setHasBeenClimbed :: Hill -> Hill
--- setHasBeenClimbed = undefined
+setHasBeenClimbed :: Hill -> Hill
+setHasBeenClimbed (Hill name height _) = (Hill name height True)
 
 {------------------------------------------------------------------------}
 {- QUESTION 3 : Timelines                                               -}
@@ -205,7 +211,8 @@ showTimeline (MkTimeline before now after) =
 -}
 
 backwards :: Timeline a -> Timeline a
-backwards = undefined
+backwards (MkTimeline [] item back) = (MkTimeline [] item back)
+backwards (MkTimeline (x:front) item back) = (MkTimeline front x (item:back))
 
 {- (b) Implement 'forwards', which is similar 'backwards' but moves one
        item to the right. If it is already at the end, return the
@@ -220,9 +227,10 @@ backwards = undefined
 -}
 
 forwards :: Timeline a -> Timeline a
-forwards = undefined
+forwards (MkTimeline front item []) = (MkTimeline front item [])
+forwards (MkTimeline front item (x:back)) = (MkTimeline (item:front) x back)
 
-{- (b) Implement a function that updates the 'now' part using the
+{- (c) Implement a function that updates the 'now' part using the
        provided function, moving the old 'now' to the 'before' part,
        and replacing the 'after' with the empty list.
 
