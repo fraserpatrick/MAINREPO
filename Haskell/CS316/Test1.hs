@@ -370,10 +370,9 @@ rightChoice (Choose x) = rightChoice (x R)
 mirror :: Choice a -> Choice a
 mirror Failure = Failure
 mirror (Success x) = (Success x)
-mirror (Choose x) = Choose (\y -> 
-  case y of
-    L -> mirror (x R)
-    R -> mirror (x L))
+mirror (Choose x) = Choose (\y -> case y of
+  L -> mirror (x R)
+  R -> mirror (x L))
 
 {- (d) Define a function that returns the first successful choice in a
        left-to-right direction. Specifically, at a 'Choose', if the
@@ -795,7 +794,10 @@ data MinResult a
    (a) Implement this: -}
 
 instance Ord a => Semigroup (MinResult a) where
-  _ <> _ = undefined
+  Finite x <> Finite y = Finite (min x y)
+  Finite x <> PosInfinity = Finite x
+  PosInfinity <> Finite y = Finite y
+  PosInfinity <> PosInfinity = PosInfinity
 
 {-     For example,
 
@@ -815,13 +817,14 @@ instance Ord a => Semigroup (MinResult a) where
        identity element: -}
 
 instance Ord a => Monoid (MinResult a) where
-  mempty = undefined
+  mempty = PosInfinity
+  mappend = (<>)
 
 {- (c) Implement a generic 'findMinimum' function using 'fmap', 'fold'
        and the 'MinResult' type. -}
 
 findMinimum :: (Foldable c, Functor c, Ord a) => c a -> MinResult a
-findMinimum = undefined
+findMinimum xs = fold (fmap Finite xs)
 
 
 {-     For example,
