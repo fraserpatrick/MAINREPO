@@ -1,0 +1,56 @@
+:root,
+[data-bs-theme=light] {
+    --bs-primary: #af369d;
+    --bs-secondary: #dfb9b9;
+    --bs-dark: #212529;
+}
+
+.btn-primary {
+    --bs-btn-color:#fff;
+    --bs-btn-bg: var(--bs-primary);
+    --bs-btn-border-color: var(--bs-dark);
+    --bs-btn-hover-bg: var(--bs-dark);
+    --bs-btn-hover-border-color: var(--bs-dark);
+    --bs-btn-active-bg: var(--bs-dark);
+}
+
+.background{
+    background-image: url("background.jpg");
+    background-size: 100% 100%;
+    background-attachment: fixed;
+}
+
+.header{
+    background-color: var(--bs-secondary);
+    border:2px solid;
+}
+
+.artBox{
+    background-color: var(--bs-secondary);
+    border:2px solid;
+}
+
+.textBox{
+    background-color: #cacaca;
+    border:2px solid;
+}
+
+.headerIcons{
+    font-size:30px;
+}
+
+.buttonIcons{
+    font-size:20px;
+}
+
+.customNav{
+    background-color: var(--bs-secondary);
+}
+
+.nav-tabs .nav-link{
+    color: black;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: var(--bs-primary);
+}
