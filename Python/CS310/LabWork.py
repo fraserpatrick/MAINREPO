@@ -50,11 +50,37 @@ def make_bunch(high, low, green, budget):
             return [highs, lows, greens]
     return []
 
+def next_states(string):
+    output = []
+    if len(string) == 0:
+        return []
+    
+    if string[len(string)-1] == "I":
+        output.append(string + "U")
 
-diag("hello world")
-print(collatz(12))
-seqN, seqL = biggest_seq(35000)
-print("Value of N = " + str(seqN))
-print("Length = " + str(seqL))
-print(has_aaa("TesaAAAst"))
-print(make_bunch(4, 1, 6, 21))
+    if string[0] == "M":
+        output.append(string + string[1:])
+
+    for i in range(len(string)-2):
+        if string[i] == "I" and string[i+1] == "I" and string[i+2] == "I":
+            output.append(string[:i] + "U" + string[i+3:])
+
+    if "UU" in string:
+        output.append(string.replace("UU",""))
+
+    return output
+
+
+
+def test():
+    diag("hello world")
+    print(collatz(12))
+    seqN, seqL = biggest_seq(35000)
+    print("Value of N = " + str(seqN))
+    print("Length = " + str(seqL))
+    print(has_aaa("TesaAAAst"))
+    print(make_bunch(4, 1, 6, 21))
+    print(next_states("MI"))
+
+test()
+
