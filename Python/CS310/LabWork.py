@@ -84,12 +84,20 @@ def extend_path(path):
 
 
 def breadth_first_search(goal):
-    currentPath = ["MI"]
-    extendCount = 0
-    agendaMaxLen = 0
-    
-
-    return currentPath, extendCount, agendaMaxLen
+    currentPath = []
+    agenda = [["MI"]]
+    extendCount, agendaMaxLen = 0,0
+    expansionLimit = 5000
+    while expansionLimit > extendCount:
+        agendaMaxLen = len(agenda)
+        currentPath = agenda.pop(0)
+        if currentPath[len(currentPath)-1] == goal:
+            return currentPath, extendCount, agendaMaxLen
+        newPaths = extend_path(currentPath)
+        agenda += newPaths
+        extendCount += 1
+        
+    return ["MI"], extendCount, agendaMaxLen
 
 
 
@@ -103,10 +111,9 @@ def test():
     print(make_bunch(4, 1, 6, 21))
     print(next_states("MI"))
     print(extend_path(["MI", "MII"]))
+    breadthPath,breadthExpansions,breadthMax = breadth_first_search("MUIU")
+    print("PATH: " + str(breadthPath))
+    print("EXPANSIONS: " + str(breadthExpansions))
+    print("MAX AGENDA: " + str(breadthMax))
 
 test()
-
-a,b,c = breadth_first_search("MUIU")
-print("PATH: " + str(a))
-print("EXPANSIONS: " + str(b))
-print("MAX AGENDA: " + str(c))
