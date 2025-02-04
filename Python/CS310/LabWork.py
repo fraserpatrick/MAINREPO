@@ -2,6 +2,7 @@ def diag(string):
     for i in range(len(string)):
         print(" " * i + string[i])
 
+
 def collatz(n):
     output = [n]
     while n != 1:
@@ -11,6 +12,7 @@ def collatz(n):
             n = 3 * n + 1
         output.append(n)
     return len(output)
+
 
 def biggest_seq(end):
     longestSeq = 0
@@ -22,12 +24,14 @@ def biggest_seq(end):
             longestIndex = n
     return longestIndex, longestSeq
 
+
 def has_aaa(string):
     string = string.lower()
     if "aaa" in string:
         return True
     else: 
         return False
+
 
 def make_bunch(high, low, green, budget):
     highs = 0
@@ -50,6 +54,7 @@ def make_bunch(high, low, green, budget):
             return [highs, lows, greens]
     return []
 
+
 def next_states(string):
     output = []
     if len(string) == 0:
@@ -71,6 +76,22 @@ def next_states(string):
     return output
 
 
+def extend_path(path):
+    output = []
+    for state in next_states(path[len(path)-1]):
+        output.append(path + [state])
+    return output
+
+
+def breadth_first_search(goal):
+    currentPath = ["MI"]
+    extendCount = 0
+    agendaMaxLen = 0
+    
+
+    return currentPath, extendCount, agendaMaxLen
+
+
 
 def test():
     diag("hello world")
@@ -81,6 +102,11 @@ def test():
     print(has_aaa("TesaAAAst"))
     print(make_bunch(4, 1, 6, 21))
     print(next_states("MI"))
+    print(extend_path(["MI", "MII"]))
 
 test()
 
+a,b,c = breadth_first_search("MUIU")
+print("PATH: " + str(a))
+print("EXPANSIONS: " + str(b))
+print("MAX AGENDA: " + str(c))
