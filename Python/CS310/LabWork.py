@@ -100,6 +100,24 @@ def breadth_first_search(goal):
     return ["MI"], extendCount, agendaMaxLen
 
 
+def depthlimited_dfs(goal, limit):
+    currentPath = []
+    agenda = [["MI"]]
+    extendCount, agendaMaxLen = 0,0
+    while agenda != []:
+        currentPath = agenda.pop(0)
+        extendCount += 1
+        if currentPath[len(currentPath)-1] == goal:
+            return currentPath, extendCount, agendaMaxLen
+        
+        if len(currentPath) != limit:
+            newPaths = extend_path(currentPath)
+            agenda = newPaths + agenda
+            agendaMaxLen = len(agenda)
+        
+    return ["MI"], extendCount, agendaMaxLen
+
+
 
 def test():
     diag("hello world")
@@ -117,3 +135,9 @@ def test():
     print("MAX AGENDA: " + str(breadthMax))
 
 test()
+
+
+depthPath,depthExpansions,depthMax = depthlimited_dfs("MIUIUIIIUIU",4)
+print("PATH: " + str(depthPath))
+print("EXPANSIONS: " + str(depthExpansions))
+print("MAX AGENDA: " + str(depthMax))
