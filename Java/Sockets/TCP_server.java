@@ -14,7 +14,7 @@ public class TCP_server {
 
             String inputLine;
             while((inputLine = in.readLine()) != null ){
-                System.out.println("Received" + inputLine);
+                System.out.println("Received: " + inputLine);
                 out.println(inputLine);
             }
         }
