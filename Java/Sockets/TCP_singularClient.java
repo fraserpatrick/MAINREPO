@@ -4,6 +4,10 @@ import java.util.Scanner;
 
 public class TCP_singularClient {
     public static void main(String[] args) {
+        attemptConnection();
+    }
+
+    public static void attemptConnection() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter port: ");
         int port = Integer.parseInt(scanner.nextLine());
@@ -23,10 +27,17 @@ public class TCP_singularClient {
             }
 
             handleCommunication(socket);
+        } catch(ConnectException ce){
+            System.out.println("Connection failed");
+            attemptConnection();
+        } catch (BindException be) {
+            System.out.println("Port already hosted");
+            attemptConnection();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     private static void handleCommunication(Socket socket) {
         try {
