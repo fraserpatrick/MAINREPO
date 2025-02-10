@@ -101,31 +101,54 @@ def breadth_first_search(goal):
 
 
 def depthlimited_dfs(goal, limit):
-    extendCount = 0
     currentPath = []
     agenda = [["MI"]]
-    agendaMaxLen = 0
-    while agenda != []:
-        agendaMaxLen = max(agendaMaxLen, len(agenda))
+    extensions = 0
+    maxAgenda = 1
+    while len(agenda) != 0:
         currentPath = agenda.pop(0)
-        extendCount += 1
         if currentPath[len(currentPath)-1] == goal:
-            return currentPath, extendCount, agendaMaxLen
-        if len(currentPath) != limit:
+            extensions += 1
+            return currentPath, extensions, maxAgenda
+        if len(currentPath) <= limit:
             newPaths = extend_path(currentPath)
             agenda = newPaths + agenda
-    return ["MI"], extendCount, agendaMaxLen
+            extensions += 1
+            maxAgenda = max(maxAgenda, len(agenda))
+            
+    return ["MI"], extensions, maxAgenda
+
+
+def depthlimited_dfs2(goal, limit):
+    currentPath = []
+    agenda = [["MI"]]
+    extensions = 0
+    maxAgenda = 1
+    while len(agenda) != 0:
+        currentPath = agenda.pop(0)
+        extensions += 1
+        if currentPath[len(currentPath)-1] == goal:
+            return currentPath, extensions, maxAgenda
+        if len(currentPath) <= limit:
+            newPaths = extend_path(currentPath)
+            agenda = newPaths + agenda
+            maxAgenda = max(maxAgenda, len(agenda))
+            
+    return ["MI"], extensions, maxAgenda
 
 
 def dfs_iter(goal):
     depth = 2
-    extensions = 0
+    expands = 0
+    maxAgenda=0
     while True:
-        path,extends,maxAgenda = depthlimited_dfs(goal, depth)
-        extensions += extends
-        if path != ["MI"]:
-            return path,extensions,maxAgenda
+        path, expansions, agenda = depthlimited_dfs2(goal, depth)
+        expands += expansions
+        maxAgenda = max(maxAgenda, agenda)
+        if path[len(path)-1] == goal:
+            return path, expands, maxAgenda
         depth += 1
+
 
 
 def test():
@@ -144,25 +167,12 @@ def test():
     print("EXPANSIONS: " + str(breadthExpansions))
     print("MAX AGENDA: " + str(breadthMax))
     depthPath,depthExpansions,depthMax = depthlimited_dfs("MIIIUIU",4)
-    print("--------------------------")
+    print("PATH: " + str(depthPath))
+    print("EXPANSIONS: " + str(depthExpansions))
+    print("MAX AGENDA: " + str(depthMax))
+    depthPath,depthExpansions,depthMax = dfs_iter("MIIIUII")
     print("PATH: " + str(depthPath))
     print("EXPANSIONS: " + str(depthExpansions))
     print("MAX AGENDA: " + str(depthMax))
 
-#test()
-depthIterPath,depthIterExpansions,depthIterMax = dfs_iter("MUIU") 
-print("PATH: " + str(depthIterPath))
-print("EXPANSIONS: " + str(depthIterExpansions))
-print("MAX AGENDA: " + str(depthIterMax))
-print("--------------------------")
-
-#depthIterPath,depthIterExpansions,depthIterMax = dfs_iter("MUIIU") 
-#print("PATH: " + str(depthIterPath))
-#print("EXPANSIONS: " + str(depthIterExpansions))
-#print("MAX AGENDA: " + str(depthIterMax))
-#print("--------------------------")
-#
-#depthIterPath,depthIterExpansions,depthIterMax = dfs_iter("MIIIUII") 
-#print("PATH: " + str(depthIterPath))
-#print("EXPANSIONS: " + str(depthIterExpansions))
-#print("MAX AGENDA: " + str(depthIterMax))
+test()
