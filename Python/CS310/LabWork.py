@@ -150,6 +150,32 @@ def dfs_iter(goal):
         depth += 1
 
 
+def breadth_first_dictionarysearch(goal):
+    currentNode = []
+    agenda = ["MI"]
+    expansionLimit = 12000
+    extendCount, agendaMaxLen = 0,0
+    visited = []
+
+    
+    while extendCount < expansionLimit:
+        agendaMaxLen = max(agendaMaxLen, len(agenda))
+        currentNode = agenda.pop(0)
+        #print("currentNode: " + currentNode)
+        #print("agenda: " + str(agenda))
+        if currentNode == goal:
+            break
+        if currentNode not in visited:
+            newNodes = next_states(currentNode)
+            for node in newNodes:
+                agenda.append(node)
+            extendCount += 1
+            visited.append(currentNode)
+        #print("agenda: " + str(agenda))
+        #print("visited: " + str(visited))
+
+    return currentNode, extendCount, agendaMaxLen
+
 
 def test():
     diag("hello world")
@@ -175,4 +201,9 @@ def test():
     print("EXPANSIONS: " + str(depthExpansions))
     print("MAX AGENDA: " + str(depthMax))
 
-test()
+#test()
+breadthPath,breadthExpansions,breadthMax = breadth_first_dictionarysearch("MIUUIUUII")
+print("--------------------------")
+print("PATH: " + str(breadthPath))
+print("EXPANSIONS: " + str(breadthExpansions))
+print("MAX AGENDA: " + str(breadthMax))
