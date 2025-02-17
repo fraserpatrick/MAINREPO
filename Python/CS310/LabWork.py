@@ -70,8 +70,16 @@ def next_states(string):
         if string[i] == "I" and string[i+1] == "I" and string[i+2] == "I":
             output.append(string[:i] + "U" + string[i+3:])
 
-    if "UU" in string:
-        output.append(string.replace("UU",""))
+    index = 0
+    while "UU" in string[index:]:
+        index = string.index("UU",index)
+        output.append(string[:index] + string[index+2:])
+        index += 1
+
+    results = []
+    for out in output:
+        if out not in results:
+            results.append(out)
 
     return output
 
@@ -151,30 +159,33 @@ def dfs_iter(goal):
 
 
 def breadth_first_dictionarysearch(goal):
-    currentNode = []
     agenda = ["MI"]
-    expansionLimit = 12000
     extendCount, agendaMaxLen = 0,0
-    visited = []
+    visited = set()
+    ancestors = {"MI":None}
+    path = []
 
-    
-    while extendCount < expansionLimit:
+    while agenda:
         agendaMaxLen = max(agendaMaxLen, len(agenda))
         currentNode = agenda.pop(0)
-        #print("currentNode: " + currentNode)
-        #print("agenda: " + str(agenda))
-        if currentNode == goal:
-            break
-        if currentNode not in visited:
-            newNodes = next_states(currentNode)
-            for node in newNodes:
-                agenda.append(node)
-            extendCount += 1
-            visited.append(currentNode)
-        #print("agenda: " + str(agenda))
-        #print("visited: " + str(visited))
 
-    return currentNode, extendCount, agendaMaxLen
+        if currentNode == goal:
+            while currentNode != "MI":
+                path.append(currentNode)
+                currentNode = ancestors[currentNode]
+            path.append("MI")
+            path.reverse()
+            return path, extendCount, agendaMaxLen
+        
+        extendCount += 1
+        newNodes = next_states(currentNode)
+        for node in newNodes:
+            if node not in visited:
+                visited.add(node)
+                agenda.append(node)
+                ancestors[node] = currentNode
+
+    return ["MI"], extendCount, agendaMaxLen
 
 
 def test():
@@ -200,10 +211,10 @@ def test():
     print("PATH: " + str(depthPath))
     print("EXPANSIONS: " + str(depthExpansions))
     print("MAX AGENDA: " + str(depthMax))
+    breadthPath,breadthExpansions,breadthMax = breadth_first_dictionarysearch("MIUUIUUII")
+    print("--------------------------")
+    print("PATH: " + str(breadthPath))
+    print("EXPANSIONS: " + str(breadthExpansions))
+    print("MAX AGENDA: " + str(breadthMax))
 
-#test()
-breadthPath,breadthExpansions,breadthMax = breadth_first_dictionarysearch("MIUUIUUII")
-print("--------------------------")
-print("PATH: " + str(breadthPath))
-print("EXPANSIONS: " + str(breadthExpansions))
-print("MAX AGENDA: " + str(breadthMax))
+test()
