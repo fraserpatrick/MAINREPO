@@ -188,6 +188,13 @@ def breadth_first_dictionarysearch(goal):
     return ["MI"], extendCount, agendaMaxLen
 
 
+def estimate_steps(current, goal):
+    if current == goal:
+        return 0
+    else:
+        return 1
+
+
 def test():
     diag("hello world")
     print(collatz(12))
