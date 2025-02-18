@@ -191,8 +191,41 @@ def breadth_first_dictionarysearch(goal):
 def estimate_steps(current, goal):
     if current == goal:
         return 0
-    else:
-        return 1
+    return 1
+
+
+def aStarSearch(goal):
+    agenda = [(0, "MI")]
+    extendCount, agendaMaxLen = 0, 0
+    visited = set()
+    ancestors = {"MI": None}
+    path = []
+
+    while agenda:
+        agendaMaxLen = max(agendaMaxLen, len(agenda))
+        agenda.sort(key=lambda x: x[0])
+        cost, currentNode = agenda.pop(0)
+
+        if currentNode == goal:
+            while currentNode != "MI":
+                path.append(currentNode)
+                currentNode = ancestors[currentNode]
+            path.append("MI")
+            path.reverse()
+            return path, extendCount, agendaMaxLen
+
+        extendCount += 1
+        newNodes = next_states(currentNode)
+        for node in newNodes:
+            if node not in visited:
+                visited.add(node)
+                ancestors[node] = currentNode
+                heuristicCost = estimate_steps(node, goal)
+                totalCost = cost + heuristicCost
+                agenda.append((totalCost, node))
+
+    return ["MI"], extendCount, agendaMaxLen
+
 
 
 def test():
@@ -223,5 +256,11 @@ def test():
     print("PATH: " + str(breadthPath))
     print("EXPANSIONS: " + str(breadthExpansions))
     print("MAX AGENDA: " + str(breadthMax))
+    aStarPath,aStarExpansions,aStarMax = aStarSearch("MIUUIUUII")
+    print("--------------------------")
+    print("PATH: " + str(aStarPath))
+    print("EXPANSIONS: " + str(aStarExpansions))
+    print("MAX AGENDA: " + str(aStarMax))
+
 
 test()
