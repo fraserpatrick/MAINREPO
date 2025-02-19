@@ -164,8 +164,9 @@ def breadth_first_dictionarysearch(goal):
     visited = set()
     ancestors = {"MI":None}
     path = []
+    limit = 10000
 
-    while agenda:
+    while extendCount < limit:
         agendaMaxLen = max(agendaMaxLen, len(agenda))
         currentNode = agenda.pop(0)
 
@@ -189,6 +190,28 @@ def breadth_first_dictionarysearch(goal):
 
 
 def estimate_steps(current, goal):
+    currentCount, goalCount = 0,0
+    for x in current:
+        if x == "I":
+            currentCount += 1
+        if x == "U":
+            currentCount += 3
+
+    for x in goal:
+        if x == "I":
+            goalCount += 1
+        if x == "U":
+            goalCount += 3
+
+
+    if current == goal:
+        return 0
+    if goalCount>currentCount:
+        return 1
+    return 2
+
+
+def estimate_stepsORIGINAL(current, goal):
     if current == goal:
         return 0
     return 1
@@ -256,7 +279,13 @@ def test():
     print("PATH: " + str(breadthPath))
     print("EXPANSIONS: " + str(breadthExpansions))
     print("MAX AGENDA: " + str(breadthMax))
-    aStarPath,aStarExpansions,aStarMax = aStarSearch("MIUUIUUII")
+    breadthPath,breadthExpansions,breadthMax = breadth_first_dictionarysearch("MIUUIUUII")
+    print("--------------------------")
+    print("PATH: " + str(breadthPath))
+    print("EXPANSIONS: " + str(breadthExpansions))
+    print("MAX AGENDA: " + str(breadthMax))
+
+    aStarPath,aStarExpansions,aStarMax = aStarSearch("MUUUIIIII")
     print("--------------------------")
     print("PATH: " + str(aStarPath))
     print("EXPANSIONS: " + str(aStarExpansions))
