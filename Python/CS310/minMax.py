@@ -1,24 +1,23 @@
 def minimax_value(state):
-    temp = next_moves(state[0])
-    print(temp)
-
-
-    if all(p == 0 for p in state[0]):
-        return -1 if state[1] == 1 else 1
+    piles, turn = state
     
-
-
-    if state[1] == 1:
-        maxMove(state)
-    elif state[1] == 2:
-        minMove(state)
-    return 0
-
-def maxMove(state):
-    pass
-
-def minMove(state):
-    pass
+    if all(p == 0 for p in piles):
+        return 1 if turn == 1 else -1
+    
+    newMoves = next_moves(piles)
+    
+    if turn == 1:
+        best_value = -float('inf')
+        for new_piles in newMoves:
+            value = minimax_value((new_piles, 2))
+            best_value = max(best_value, value)
+    else:
+        best_value = float('inf')
+        for new_piles in newMoves:
+            value = minimax_value((new_piles, 1))
+            best_value = min(best_value, value)
+    
+    return best_value
 
 def next_moves(piles):
     moves = []
@@ -32,6 +31,6 @@ def next_moves(piles):
     return moves
 
 def test():
-    print("MINIMAX: " + str(minimax_value(([4],1))))
+    print("MINIMAX: " + str(minimax_value(([1,2],2))))
 
 test()
