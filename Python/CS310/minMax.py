@@ -1,3 +1,5 @@
+import time
+
 def minimax_value(state):
     piles, turn = state
     
@@ -26,11 +28,25 @@ def next_moves(piles):
             new_piles = list(piles)
             if (new_piles[i] - takeOff) >= 0:
                 new_piles[i] = new_piles[i]-takeOff
-                moves.append(new_piles)
-        
+                new_piles.sort()
+                if new_piles not in moves: moves.append(new_piles)
     return moves
+
+def test_timing(state):
+    start = time.time()
+    value = minimax_value(state)
+    end = time.time()
+    duration = end-start
+    return duration, value
 
 def test():
     print("MINIMAX: " + str(minimax_value(([1,2],2))))
+    output = (test_timing(([5,5,5],1)))
+    print("Time taken", output[0])
+    print("Value returned", output[1])
 
-test()
+#test()
+
+output = (test_timing(([5,5,5],1)))
+print("Time taken", output[0])
+print("Value returned", output[1])
