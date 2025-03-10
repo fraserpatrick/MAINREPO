@@ -1,37 +1,5 @@
 import time
 
-def minimax_value(state):
-    piles, turn = state
-    
-    if all(p == 0 for p in piles):
-        return 1 if turn == 1 else -1
-    
-    newMoves = next_moves(piles)
-    
-    if turn == 1:
-        best_value = -float('inf')
-        for new_piles in newMoves:
-            value = minimax_value((new_piles, 2))
-            best_value = max(best_value, value)
-    else:
-        best_value = float('inf')
-        for new_piles in newMoves:
-            value = minimax_value((new_piles, 1))
-            best_value = min(best_value, value)
-    
-    return best_value
-
-def next_moves(piles):
-    moves = []
-    for i, pile in enumerate(piles):
-        for takeOff in range(3,0,-1):
-            new_piles = list(piles)
-            if (new_piles[i] - takeOff) >= 0:
-                new_piles[i] = new_piles[i]-takeOff
-                new_piles.sort()
-                if new_piles not in moves: moves.append(new_piles)
-    return moves
-
 def test_timing(state):
     start = time.time()
     value = minimax_prune(state)
@@ -40,141 +8,127 @@ def test_timing(state):
     return duration, value
 
 
-visited = {}
 def minimax_prune(state):
-    visited.clear()
     piles, turn = state
-    value = maxPrune(state, -float('inf'), float('inf')) if turn == 1 else minPrune(state, -float('inf'), float('inf'))
+    if turn == 1:
+        value = maxPrune(state, {}, float("-inf"), float("inf"))
+    else:
+        value = minPrune(state, {}, float("-inf"), float("inf"))
     return value
 
-def maxPrune(state, alpha, beta):
+
+def nextMoves(state):
+    new_piles = []
     piles, turn = state
-    if all (p==0 for p in piles):
+    left = []
+    right = list(piles)
+
+    right.sort()
+
+    while len(right) != 0:
+        current = right.pop(0)
+        for j in range(1, 4):
+            if (current - j) <= 0:
+                temp = tuple(left + right)
+                if temp not in new_piles:
+                    new_piles.append(tuple(left + right))
+                break
+
+            l = left + [current - j]
+            l.sort()
+            temp = tuple(l + right)
+            if temp not in new_piles:
+                new_piles.append(temp)
+
+        left.append(current)
+
+    return list(map(lambda p: (list(p), 1 if turn == 2 else 2), new_piles))
+
+
+def maxPrune(state, visited, alpha, beta):
+    piles, turn = state
+    if len(piles) == 0:
         return 1
 
-    bestValue = -float('inf')
-    nextMoves = next_moves(piles)
-    for move in nextMoves:
-        value = minPrune((move,2),alpha,beta)
-        bestValue = max(bestValue, value)
-        if bestValue >= beta:
-            return bestValue
-        alpha = max(bestValue,alpha)
-    return bestValue
+    value = float("-inf")
+
+    newStates = nextMoves(state)
+    for newState in newStates:
+        newPiles, newTurn = newState
+        newKey = (tuple(newPiles), newTurn)
+        already_calcuated = newKey in visited
+        m = (
+            minPrune(newState, visited, alpha, beta)
+            if not already_calcuated
+            else visited[newKey]
+        )
+
+        value = max(value, m)
+        if m >= beta:
+            return value
+        alpha = max(alpha, m)
+
+    stateKey = (tuple(piles), turn)
+    if stateKey not in visited:
+        visited[stateKey] = value
+    return value
 
 
-
-def minPrune(state, alpha, beta):
+def minPrune(state, visited, alpha, beta):
     piles, turn = state
-    if all (p==0 for p in piles):
+    if len(piles) == 0:
         return -1
 
-    bestValue = float('inf')
-    nextMoves = next_moves(piles)
-    for move in nextMoves:
-        value = maxPrune((move,1),alpha,beta)
-        bestValue = min(bestValue, value)
-        if bestValue >= alpha:
-            return bestValue
-        beta = min(bestValue,alpha)
-    return bestValue
+    value = float("inf")
 
-#print("Testing minimax_value: 8,8 2")
-#output = (test_timing(([8,8],2)))
-#print("Time taken", output[0])
-#print("Value returned", output[1])
+    newStates = nextMoves(state)
+    for newState in newStates:
+        newPiles, newTurn = newState
+        newKey = (tuple(newPiles), newTurn)
+        already_calcuated = newKey in visited
+        m = (
+            maxPrune(newState, visited, alpha, beta)
+            if not already_calcuated
+            else visited[newKey]
+        )
+
+        value = min(value, m)
+        if m <= alpha:
+            return value
+        beta = min(beta, m)
+
+    stateKey = (tuple(piles), turn)
+    if stateKey not in visited:
+        visited[stateKey] = value
+    return value
 
 
 def test():
-    print("Testing minimax_value: 8,8 2")
+    print("Testing minimax_value: 8,8 2 =-1")
     output = (test_timing(([8,8],2)))
     print("Time taken", output[0])
     print("Value returned", output[1])
     print("--------------------")
-    print("Testing minimax_value: 6,4,2,3 1")
+    print("Testing minimax_value: 6,4,2,3 1=1")
     output = (test_timing(([6,4,2,3],1)))
     print("Time taken", output[0])
     print("Value returned", output[1])
     print("--------------------")
-    print("Testing minimax_value: 20,20 1")
+    print("Testing minimax_value: 20,20 1=1")
     output = (test_timing(([20,20],1)))
     print("Time taken", output[0])
     print("Value returned", output[1])
     print("--------------------")
-    print("Testing minimax_value: 10,10,10 2")
+    print("Testing minimax_value: 10,10,10 2=-1")
     output = (test_timing(([10,10,10],2)))
     print("Time taken", output[0])
     print("Value returned", output[1])
     print("--------------------")
-    print("Testing minimax_value: 5,5,5 1")
-    output = (test_timing(([5,5,5],1)))
-    print("Time taken", output[0])
-    print("Value returned", output[1])
-    print("--------------------")
-    print("Testing minimax_value: 2,2 2")
+    print("Testing minimax_value: 2,2 2=1")
     output = (test_timing(([2,2],2)))
     print("Time taken", output[0])
     print("Value returned", output[1])
     print("--------------------")
 
 
-#test()
-#print("Testing minimax_value: 5,5 1")
-#output = test_timing(([5, 5], 1))
-#print("Time taken", output[0])
-#print("Value returned", output[1])
-#
-#print("\nTesting minimax_value: 5,5 1")
-#output = test_timing(([5, 5, 5], 2))
-#print("Time taken", output[0])
-#print("Value returned", output[1])
-#
-#print("\nTesting minimax_value: 9,20,20,20,20 1")
-#output = test_timing(([9, 20, 20, 20, 20], 1))
-#print("Time taken", output[0])
-#print("Value returned", output[1])
-#
-#print("\nTesting minimax_value: 8,8 2")
-#output = test_timing(([8, 8], 2))
-#print("Time taken", output[0])
-#print("Value returned", output[1])
-##
-#print("\nTesting minimax_value: 4 1")
-#output = test_timing(([4], 1))
-#print("Time taken", output[0])
-#print("Value returned", output[1])
-#
-#print("\nTesting minimax_value: 6,4,2,3 1")
-#output = test_timing(([6, 4, 2, 3], 1))
-#print("Time taken", output[0])
-#print("Value returned", output[1])
-## #
-#print("\nTesting minimax_value: 20,20 1")
-#output = test_timing(([20, 20], 1))
-#print("Time taken", output[0])
-#print("Value returned", output[1])
-##
-#print("\nTesting minimax_value: 10,10,10 2")
-#output = test_timing(([10, 10, 10], 2))
-#print("Time taken", output[0])
-#print("Value returned", output[1])
-##
-#print("\nTesting minimax_value: 8,3,2 1")
-#output = test_timing(([8, 3, 2], 1))
-#print("Time taken", output[0])
-#print("Value returned", output[1])
-#
-#print("\nTesting minimax_value: 8,8,8 1")
-#output = test_timing(([8, 8, 8], 1))
-#print("Time taken", output[0])
-#print("Value returned", output[1])
-#
-#print("\nTesting minimax_value: 2,2 1")
-#output = test_timing(([2, 2], 1))
-#print("Time taken", output[0])
-#print("Value returned", output[1])
-#
-#print("\nTesting minimax_value: 5,5,5 1")
-#output = test_timing(([5, 5, 5], 1))
-#print("Time taken", output[0])
-#print("Value returned", output[1])
+test()
