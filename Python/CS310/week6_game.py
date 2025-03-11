@@ -53,7 +53,7 @@ def userturn(state):
     # if only an empty state left, pick the stick and return to save time
 
     # Print list of moves and use "input" to get keyboard input
-    print("----Your move----")
+    print("------Your move------")
     for i in range(len(newMoves)):
         print("Option " + str(i+1) + ": ", newMoves[i][0])
     selected = input("Which option would you like to play: ")
@@ -61,17 +61,15 @@ def userturn(state):
         print("Invalid option")
         selected = input("Which option would you like to play: ")
     state = newMoves[int(selected)-1]
-    print("You moved to: ", state[0])
+    print("You moved to:", state[0])
 
     # Set new state and return
     return state
 
 def AI_player_basic(state):
-    succ = nextMoves(state)
-    print("AI moved to: ", succ[int(0)][0])
-    
-    print(minimax_prune(state))
-    state = succ[int(0)]
+    print("------AI move------")
+    state = minimax_prune(state)[1]
+    print("AI moved to:", state[0])
     return state
 
 

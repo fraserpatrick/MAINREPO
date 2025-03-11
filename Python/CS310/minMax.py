@@ -11,10 +11,11 @@ def test_timing(state):
 def minimax_prune(state):
     piles, turn = state
     if turn == 1:
-        value = maxPrune(state, {}, float("-inf"), float("inf"))
+        value, best_move = maxPrune(state, {}, float("-inf"), float("inf"))
     else:
-        value = minPrune(state, {}, float("-inf"), float("inf"))
-    return value
+        value, best_move = minPrune(state, {}, float("-inf"), float("inf"))
+
+    return value, best_move
 
 
 def nextMoves(state):
@@ -48,59 +49,67 @@ def nextMoves(state):
 def maxPrune(state, visited, alpha, beta):
     piles, turn = state
     if len(piles) == 0:
-        return 1
+        return 1, None
 
     value = float("-inf")
+    best_move = None
 
     newStates = nextMoves(state)
     for newState in newStates:
         newPiles, newTurn = newState
         newKey = (tuple(newPiles), newTurn)
-        already_calcuated = newKey in visited
-        m = (
+        already_calculated = newKey in visited
+        m, _ = (
             minPrune(newState, visited, alpha, beta)
-            if not already_calcuated
-            else visited[newKey]
+            if not already_calculated
+            else (visited[newKey], None)
         )
 
-        value = max(value, m)
-        if m >= beta:
-            return value
-        alpha = max(alpha, m)
+        if m > value:
+            value = m
+            best_move = newState  # Store the best move
+
+        if value >= beta:
+            return value, best_move
+        alpha = max(alpha, value)
 
     stateKey = (tuple(piles), turn)
     if stateKey not in visited:
         visited[stateKey] = value
-    return value
+    return value, best_move
 
 
 def minPrune(state, visited, alpha, beta):
     piles, turn = state
     if len(piles) == 0:
-        return -1
+        return -1, None  # No move possible
 
     value = float("inf")
+    best_move = None
 
     newStates = nextMoves(state)
     for newState in newStates:
         newPiles, newTurn = newState
         newKey = (tuple(newPiles), newTurn)
-        already_calcuated = newKey in visited
-        m = (
+        already_calculated = newKey in visited
+        m, _ = (
             maxPrune(newState, visited, alpha, beta)
-            if not already_calcuated
-            else visited[newKey]
+            if not already_calculated
+            else (visited[newKey], None)
         )
 
-        value = min(value, m)
-        if m <= alpha:
-            return value
-        beta = min(beta, m)
+        if m < value:
+            value = m
+            best_move = newState  # Store the best move
+
+        if value <= alpha:
+            return value, best_move
+        beta = min(beta, value)
 
     stateKey = (tuple(piles), turn)
     if stateKey not in visited:
         visited[stateKey] = value
-    return value
+    return value, best_move
 
 
 def test():
@@ -131,4 +140,4 @@ def test():
     print("--------------------")
 
 
-test()
+#test()
