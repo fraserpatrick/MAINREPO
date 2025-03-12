@@ -73,6 +73,108 @@ def AI_player_basic(state):
     return state
 
 
+def AI_player_rollout(state):
+    maxDepth = 3
+    print("------AI move------")
+    value,bestmove = minPruneRollout(state,{},float("-inf"), float("inf"),0,maxDepth)
+    print("AI moved to:",bestmove[0])
+    return bestmove
+
+def maxPruneRollout(state,visited,alpha,beta,depth,maxDepth):
+    piles,turn = state
+    if len(piles) == 0:
+        return -1, None  # No move possible
+    
+    if depth > maxDepth:
+        return evalRollout(state),None
+    
+    value = float("-inf")
+    best_move = None
+    
+    newStates = nextMoves(state)
+    for newState in newStates:
+        newPiles, newTurn = newState
+        newKey = (tuple(newPiles), newTurn)
+        already_calculated = newKey in visited
+        m, _ = (
+            minPruneRollout(newState, visited, alpha, beta,depth+1,maxDepth)
+            if not already_calculated
+            else (visited[newKey], None)
+        )
+
+        if m > value:
+            value = m
+            best_move = newState  # Store the best move
+
+        if value >= beta:
+            return value, best_move
+        alpha = max(alpha, value)
+
+    stateKey = (tuple(piles), turn)
+    if stateKey not in visited:
+        visited[stateKey] = value
+
+    return value,best_move
+
+def minPruneRollout(state,visited,alpha,beta,depth,maxDepth):
+    print("hello")
+    piles,turn = state
+    if len(piles) == 0:
+        return -1, None
+    
+    if depth > maxDepth:
+        return evalRollout(state),None
+    
+    value = float("inf")
+    best_move = None
+    
+    newStates = nextMoves(state)
+    for newState in newStates:
+        newPiles, newTurn = newState
+        newKey = (tuple(newPiles), newTurn)
+        already_calculated = newKey in visited
+        m, _ = (
+            maxPruneRollout(newState, visited, alpha, beta,depth+1,maxDepth)
+            if not already_calculated
+            else (visited[newKey], None)
+        )
+
+        if m < value:
+            value = m
+            best_move = newState  # Store the best move
+
+        if value <= alpha:
+            return value, best_move
+        beta = min(beta, value)
+
+    stateKey = (tuple(piles), turn)
+    if stateKey not in visited:
+        visited[stateKey] = value
+
+    return value,best_move
+
+
+def evalRollout(state):
+    wins = 0
+    losses = 0
+    sims = 1
+
+    for i in range(sims):
+        print(i)
+        simResult = simGames(state)
+        if simResult == 1:
+            wins += 1
+        else:
+            losses += 1
+    return (wins - losses) / sims
+
+def simGames(state):
+    while state[0] != []:
+        newMoves = nextMoves(state)
+        if not newMoves:
+            return -1 if move[1] == 1 else 1
+        move = random.choice(newMoves)
+    return -1 if move[1] == 1 else 1
 
 # Given a state, start the game
 def game_begin(state):
@@ -87,8 +189,7 @@ def game_begin(state):
         if(game_state[1]==1):
             game_state = userturn(game_state)
         else:
-            game_state = AI_player_basic(game_state)
-        # game_state = AI_player_basic(game_state)
+            game_state = AI_player_rollout(game_state)
         print("\nState is", game_state)
 
     # if final state is 1, 2 wins
