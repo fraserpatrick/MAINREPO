@@ -1,6 +1,4 @@
 import random
-import time
-import math
 from minMax import nextMoves, minimax_prune
 
 # Main function to run game
@@ -117,7 +115,6 @@ def maxPruneRollout(state,visited,alpha,beta,depth,maxDepth):
     return value,best_move
 
 def minPruneRollout(state,visited,alpha,beta,depth,maxDepth):
-    print("hello")
     piles,turn = state
     if len(piles) == 0:
         return -1, None
@@ -157,10 +154,9 @@ def minPruneRollout(state,visited,alpha,beta,depth,maxDepth):
 def evalRollout(state):
     wins = 0
     losses = 0
-    sims = 1
+    sims = 100
 
     for i in range(sims):
-        print(i)
         simResult = simGames(state)
         if simResult == 1:
             wins += 1
@@ -172,9 +168,9 @@ def simGames(state):
     while state[0] != []:
         newMoves = nextMoves(state)
         if not newMoves:
-            return -1 if move[1] == 1 else 1
-        move = random.choice(newMoves)
-    return -1 if move[1] == 1 else 1
+            return -1 if state[1] == 1 else 1
+        state = random.choice(newMoves)
+    return -1 if state[1] == 1 else 1
 
 # Given a state, start the game
 def game_begin(state):
