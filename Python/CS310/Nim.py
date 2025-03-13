@@ -118,13 +118,13 @@ def minPruneRollout(state,visited,alpha,beta,depth,maxDepth):
     piles,turn = state
     if len(piles) == 0:
         return -1, None
-    
+
     if depth > maxDepth:
         return evalRollout(state),None
-    
+
     value = float("inf")
     best_move = None
-    
+
     newStates = nextMoves(state)
     for newState in newStates:
         newPiles, newTurn = newState
@@ -168,9 +168,9 @@ def simGames(state):
     while state[0] != []:
         newMoves = nextMoves(state)
         if not newMoves:
-            return -1 if state[1] == 1 else 1
+            return 1 if state[1] == 1 else -1
         state = random.choice(newMoves)
-    return -1 if state[1] == 1 else 1
+    return 1 if state[1] == 1 else -1
 
 # Given a state, start the game
 def game_begin(state):
