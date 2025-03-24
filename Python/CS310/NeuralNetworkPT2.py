@@ -30,7 +30,17 @@ def modelling(X_train, y_train, X_test, y_test):
 
     # Create model
     model = Sequential()
+    model.add(Dense(64, activation='relu', input_shape=(n_features,)))
+    model.add(Dense(32, activation='relu'))
+    model.add(Dense(23, activation='linear'))
     
+
+    model.compile(optimizer='adam',loss='mse',metrics=['mae'])
+    model.summary()
+
+    model.fit(X_train, y_train, epochs=2, batch_size=32, validation_data=(X_test, y_test), verbose=1)
+    model.evaluate = lambda x, y, verbose=0: model._evaluate_original(x, y, verbose=verbose)[0]
+    model.predict = lambda x: model._predict_original(np.array(x))
 
     # Return model at end
     return model
@@ -97,3 +107,9 @@ def extras_view_label(y_test, labelNo):
     ax.plot(lab)
     # Show on screen6
     plt.show()
+
+Sequential._evaluate_original = Sequential.evaluate
+Sequential._predict_original = Sequential.predict
+
+model = modelling(X_train, y_train, X_test, y_test)
+visualisation(X_test, y_test, model)
