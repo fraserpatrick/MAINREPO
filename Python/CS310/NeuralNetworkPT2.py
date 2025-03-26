@@ -17,6 +17,8 @@ labs_file = 'unsplit_900x5_Shuf_4prior_0_diff_alignDCT_sent_labs.csv'
 # split into input and output columns
 X = read_csv(ins_file, header=None)
 y = read_csv(labs_file, header=None)
+X = np.array(X)
+y = np.array(y)
 # split into train and test datasets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33)
 print(X_train.shape, X_test.shape, y_train.shape, y_test.shape)
@@ -35,12 +37,10 @@ def modelling(X_train, y_train, X_test, y_test):
     model.add(Dense(23, activation='linear'))
     
 
-    model.compile(optimizer='adam',loss='mse',metrics=['mae'])
+    model.compile(optimizer='adam',loss='mse')
     model.summary()
 
-    model.fit(X_train, y_train, epochs=2, batch_size=32, validation_data=(X_test, y_test), verbose=1)
-    model.evaluate = lambda x, y, verbose=0: model._evaluate_original(x, y, verbose=verbose)[0]
-    model.predict = lambda x: model._predict_original(np.array(x))
+    model.fit(X_train, y_train, epochs=1, batch_size=32, validation_data=(X_test, y_test), verbose=1)
 
     # Return model at end
     return model
@@ -49,7 +49,7 @@ def visualisation(X_test, y_test, model):
 
     # Evaluate
     error = model.evaluate(X_test, y_test, verbose=0)
-    print('MSE: %.3f, RMSE: %.3f' % (error, np.sqrt(error)))
+    #print('MSE: %.3f, RMSE: %.3f' % (error, np.sqrt(error)))
 
     # A fairly simple visualisation, pick 6 at random and compare output to actual
     labelNo = [1500,5789, 11370,24, 501, 25999]
@@ -57,16 +57,15 @@ def visualisation(X_test, y_test, model):
     fig = plt.figure()
     for labels in range(0,len(labelNo)):
         # Extrac data and convert to list
-        row = X_test.iloc[labelNo[labels], :]
+        row = X_test[labelNo[labels], :]
         # Extract the values only as an array and convert
-        row = row.values
-        row = row.tolist()
+        row_in = np.array(row)[None, ...]
 
         # Predict output
-        yhat = model.predict([row])
+        yhat = model.predict(row_in)
 
         # Get labels from test set
-        lab = y_test.iloc[labelNo[labels], :]
+        lab = y_test[labelNo[labels], :]
 
         # Specify plot no
         plotCount = int('3'+'2'+str(labels))
@@ -107,9 +106,6 @@ def extras_view_label(y_test, labelNo):
     ax.plot(lab)
     # Show on screen6
     plt.show()
-
-Sequential._evaluate_original = Sequential.evaluate
-Sequential._predict_original = Sequential.predict
 
 model = modelling(X_train, y_train, X_test, y_test)
 visualisation(X_test, y_test, model)
