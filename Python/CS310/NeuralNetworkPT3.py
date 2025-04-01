@@ -6,6 +6,7 @@ from pandas import read_csv
 from sklearn.model_selection import train_test_split
 from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import LSTM
 
 
 ins_file = 'unsplit_900x5_Shuf_4prior_0_diff_alignDCT_sent_ins.csv'
@@ -22,25 +23,25 @@ y = np.array(y)
 # split into train and test datasets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33)
 print(X_train.shape, X_test.shape, y_train.shape, y_test.shape)
+X_train = X_train.reshape(X_train.shape[0],4,24)
+X_test = X_test.reshape(X_test.shape[0],4,24)
 
 def modelling(X_train, y_train, X_test, y_test):
     # All model work should be submitted in this function
     # THis includes creation, training, evaluation etc.
 
-    # determine the number of input features
-    n_features = X_train.shape[1]
 
     # Create model
     model = Sequential()
-    model.add(Dense(90, activation='sigmoid', input_shape=(n_features,)))
-    model.add(Dense(32, activation='relu'))
-    model.add(Dense(23, activation='linear'))
+    model.add(LSTM(90, return_sequences=True, activation='sigmoid', input_shape=(4,24)))
+    model.add(LSTM(32, return_sequences=True, activation='relu'))
+    model.add(LSTM(23, return_sequences=False, activation='linear'))
     
 
     model.compile(optimizer='adam',loss='mse')
     model.summary()
 
-    model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_test, y_test), verbose=1)
+    model.fit(X_train, y_train, epochs=1, batch_size=32, validation_data=(X_test, y_test), verbose=1)
 
     # Return model at end
     return model
