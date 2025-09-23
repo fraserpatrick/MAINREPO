@@ -15,9 +15,6 @@ You may use the java iterator built in.
 - `BookShelfTest.java`: JUnit tests to verify your implementation.
 
 ### Your Tasks
-1. Complete the `Book` class:
-   - Implement the constructor.
-   - Implement `getTitle()` and `getAuthor()` methods.
 
 2. Implement the `BookShelfIterator` class:
    - It should implement `Iterator<Book>`.
