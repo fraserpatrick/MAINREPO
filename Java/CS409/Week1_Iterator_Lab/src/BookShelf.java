@@ -11,7 +11,14 @@ public class BookShelf implements Iterable<Book> {
 
     @Override
     public Iterator<Book> iterator() {
-        // TODO: Return an instance of your custom iterator
-        return null;
+        return new BookShelfIterator(this);
+    }
+
+    public int getLength() {
+        return books.size();
+    }
+
+    public Book getBookAt(int index) {
+        return books.get(index);
     }
 }

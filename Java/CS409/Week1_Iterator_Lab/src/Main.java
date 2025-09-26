@@ -5,6 +5,8 @@ public class Main {
         shelf.addBook(new Book("Brave New World", "Aldous Huxley"));
         shelf.addBook(new Book("Seven Pillars of Wisdom", "T. E. Lawrence"));
 
-        // TODO: Use a for-each loop to print book titles using your iterator
+        for (Book book : shelf) {
+            System.out.println(book.getTitle() + " by " + book.getAuthor());
+        }
     }
 }
