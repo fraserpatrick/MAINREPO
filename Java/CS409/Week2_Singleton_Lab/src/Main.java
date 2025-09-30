@@ -7,5 +7,7 @@ public class Main {
 
         logger1.log("Hello");
         logger2.log("World!");
+
+        System.out.println("Are the instances the same? " + (logger1==logger2));
     }
 }
