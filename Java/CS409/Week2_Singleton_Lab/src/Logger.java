@@ -1,11 +1,18 @@
 import java.time.LocalDateTime;
 
 public class Logger {
-    // TODO: Declare a private static instance of Logger
-    // TODO: Implement a private constructor
-    // TODO: Implement public static getInstance() method
+    private static Logger inst;
+
+    private Logger(){}
+
+    public static Logger getInstance(){
+        if (inst == null){
+            inst = new Logger();
+        }
+        return inst;
+    }
 
     public void log(String message) {
-        // TODO: Create a printout which gives the time, and then prints a messge
+        System.out.println(LocalDateTime.now() + " " + message);
     }
 }
