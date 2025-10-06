@@ -1,0 +1,43 @@
+1. What are the benefits and drawbacks of using the Singleton pattern?
+	Benefits: 
+		Controlled access to a single instance
+			This ensures only one instance of a class exists throughout the entire program
+		Global access
+			A controlled global variable so can be accessed from anywhere in the program
+	Drawbacks:
+		Concurrency issues
+			A non-thread safe program could possibly create multiple instances
+		Global state
+			Can be issues due to every class in the program having access to it
+
+
+2. How would you make your Singleton implementation thread-safe?
+	Eager initialisation
+		This creates the instance of the class as soon as the class is first loaded, this ensures the instance is available immediately.
+	CODE SNIPPET
+		public class Singleton {
+			private static final Singleton inst = new Singleton();
+
+			private Singleton() {
+				System.out.println("Singleton instance created");
+			}
+
+			public static Singleton getInstance() {
+				return inst;
+			}
+		}
+	END OF CODE SNIPPET
+
+	Pros:
+		Immediate availability
+			Due to the instance being created on class loading, it will be already created and available when requested
+		Thread safe
+			As the instance is created on class load it means that it can't be loaded by multiple threads
+	Cons:
+		Resource waste
+			Due to the instance being created on class load, there is a chance that it's not actually needed during the programs runtime, and therefore using uncessicary resources
+		Slow overhead
+			Being created on start up can mean that the start up can be slowed down due to the extra process of creating an instance
+		
+
+3. In what scenarios should Singleton be avoided, and why?
