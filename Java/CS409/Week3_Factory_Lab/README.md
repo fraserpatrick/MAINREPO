@@ -23,5 +23,5 @@ Each notification type has its own class and behavior. You will use the Factory 
 
 ## Reflective Questions
 1. How does the simple and standard factory patterns differ? What version is implimented here, and why?
-2. What are the benefits of using an abstract product class in this pattern?
+2. What are the benefits of using an interface product class in this pattern?
 3. How would you extend this system to support new notification types (a Pager for example) without modifying existing code?
