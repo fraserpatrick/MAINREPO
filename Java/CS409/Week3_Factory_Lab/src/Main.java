@@ -1,6 +1,15 @@
 public class Main {
     public static void main(String[] args) {
-        // TODO: Create factories for Email, SMS, and Push notifications
-        // TODO: Use each factory to create a notification and send a message
+        NotificationFactory emailFactory = new EmailFactory();
+        NotificationFactory smsFactory = new SMSFactory();
+        NotificationFactory pushFactory = new PushFactory();
+
+        Notification emailNotification = emailFactory.createNotification();
+        Notification smsNotification = smsFactory.createNotification();
+        Notification pushNotification = pushFactory.createNotification();
+
+        emailNotification.send("Hello world!");
+        smsNotification.send("Hola world!");
+        pushNotification.send("Bonjour world!");
     }
 }
