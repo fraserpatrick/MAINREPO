@@ -1,15 +1,15 @@
 public interface PizzaBuilder {
-    // TODO: Define method to set crust type
+    public PizzaBuilder setCrust(String crust);
 
-    // TODO: Define method to set sauce type
+    public PizzaBuilder setSauce(String sauce);
 
-    // TODO: Add method to include cheese
+    public PizzaBuilder addCheese();
 
-    // TODO: Add method to include pepperoni
+    public PizzaBuilder addPepperoni();
 
-    // TODO: Add method to include mushrooms
+    public PizzaBuilder addMushrooms();
 
-    // TODO: Add method to set gluten-free option
+    public PizzaBuilder setGlutenFree(boolean glutenFree);
 
-    // TODO: Finalise and build the Pizza object
+    public Pizza build();
 }
