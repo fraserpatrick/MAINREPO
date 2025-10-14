@@ -1,3 +1,38 @@
 1. How does the simple and standard factory patterns differ? What version is implimented here, and why?
+    Simple
+        The factory class decides what to create
+        Used for small apps as there is only a few product types
+        Harder to extend as you need to modify the factory itself
+    Standard
+        The subclass of the factory decides what to create
+        Used for larger apps where there is a larger range of product types
+        Easy to extend as you just need to create a new subclass of the factory
+
+    The version implemented here is a standard factory as we use subclasses of factory to decide what type to create
+
+
 2. What are the benefits of using an interface product class in this pattern?
+    Encapsulation
+        By using a common interface, the client code should never depend on the concrete classes
+    Extendable
+        An interface allows subclasses to be created for any new types that are needed
+    Polymorphism
+        As all the product types use the same parent class we can treat them all uniformly as each child should have the same methods but will act differently
+
+
 3. How would you extend this system to support new notification types (a Pager for example) without modifying existing code?
+    Create 2 new classes, a PagerFactory and a PagerNotification. This is because it is a standard factory
+    CODE SNIPPETS
+        public class PagerFactory extends NotificationFactory {
+            @Override
+            public Notification createNotification() {
+                return new PagerNotification();
+            }
+        }
+        public class PagerNotification implements Notification {
+            @Override
+            public void send(String message) {
+                System.out.println("Pager: " + message);
+            }
+        }
+    END OF CODE SNIPPETS
