@@ -13,10 +13,10 @@
 
 2. How would you make your Singleton implementation thread-safe?
 	Eager initialisation
-		This creates the instance of the class as soon as the class is first loaded, this ensures the instance is available immediately.
+		This creates the instance of the class as soon as the class is first loaded, this ensures the instance is available immediately and is safe as Java's class loading is thread safe.
 	CODE SNIPPET
 		public class Singleton {
-			private static final Singleton inst = new Singleton();
+			private static final Singleton inst = new Singleton();		This is the line that creates the instance on class load
 
 			private Singleton() {
 				System.out.println("Singleton instance created");
@@ -45,4 +45,5 @@
 		Singletons use a single instance, if there is a possibility that multiple instances are needed later on in the code then a singleton should be avoided from the start as changing later on means lots of code being refactored
 	When you are planning to run tests on your code
 		Due to the singleton being a global variable it can be hard to replace with a mock to run tests. It can also not be in the state that is expected due to the globally shared state
-	
+	Managing shared states
+		As singletons are in a global mutable state there can be hidden coupling between components

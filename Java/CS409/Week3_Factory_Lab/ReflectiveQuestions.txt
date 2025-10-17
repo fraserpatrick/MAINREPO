@@ -21,7 +21,7 @@
 
 
 3. How would you extend this system to support new notification types (a Pager for example) without modifying existing code?
-    Create 2 new classes, a PagerFactory and a PagerNotification. This is because it is a standard factory
+    Create 2 new classes, a PagerFactory and a PagerNotification. This is because it is a standard factory and is therefore expandable without having to refactor older code
     CODE SNIPPETS
         public class PagerFactory extends NotificationFactory {
             @Override
