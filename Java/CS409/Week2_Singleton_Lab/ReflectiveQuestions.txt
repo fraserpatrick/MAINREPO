@@ -41,3 +41,8 @@
 		
 
 3. In what scenarios should Singleton be avoided, and why?
+	Possible multiple instances
+		Singletons use a single instance, if there is a possibility that multiple instances are needed later on in the code then a singleton should be avoided from the start as changing later on means lots of code being refactored
+	When you are planning to run tests on your code
+		Due to the singleton being a global variable it can be hard to replace with a mock to run tests. It can also not be in the state that is expected due to the globally shared state
+	

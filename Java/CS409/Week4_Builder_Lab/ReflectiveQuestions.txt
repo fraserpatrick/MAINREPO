@@ -1,3 +1,42 @@
 1. Why is the Builder pattern more appropriate here than using a constructor with many parameters?
+    Builder separates the construction of a complex object from its representation
+    Means client doesn't need to pass nulls or defaults for unused parameters
+    Builder makes object creation more readable, safer, and easier to evolve as you just add another method and internal variable
+
+
 2. How does method chaining of the fluent builder improve readability and maintainability?
+    Fluent method chaining lets the client build objects in a sequence of calls that reads like a sentence instead of separate calls on each line
+    CODE SNIPPET
+        Pizza p = new PizzaBuilder().size(Large).addCheese().addPepperoni().build();
+    Instead of
+        Pizza p = new PizzaBuilder();
+        p.size(Large);
+        p.addCheese();
+        p.addPepperoni();
+        p.build();
+    END OF CODE SNIPPET
+    
+    Due to the builder handling everything internally, the code is less boilerplate and easier to modify without breaking existing methods
+
+
 3. How would you extend this builder to support validation (e.g., no cheese on vegan pizzas)?
+    Each setter can check if the requested pizza change is valid and then update the pizza
+    CODE SNIPPET
+    	public PizzaBuilder setVegan(boolean vegan) {
+            if (vegan && !cheese){
+                this.vegan = vegan;
+            }
+            return this;
+        }
+    END OF CODE SNIPPET
+
+    Or each setter can update the other variables to follow the most recent method call
+    CODE SNIPPET
+        public PizzaBuilder setVegan(boolean vegan) {
+            if (vegan && cheese){
+                this.cheese = false;
+            }
+            this.vegan = vegan;
+            return this;
+        }
+    END OF CODE SNIPPET
