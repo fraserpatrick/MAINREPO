@@ -1,10 +1,10 @@
 public class Main {
     public static void main(String[] args) {
-        // TODO: Create an instance of LegacyRobot
+        LegacyRobot legacyRobot = new LegacyRobot();
 
-        // TODO: Create an instance of RobotAdapter using the LegacyRobot
+        RobotAdapter robotAdapter = new RobotAdapter(legacyRobot);
 
-        // TODO: Use controller to turn and move the robot
-
+        robotAdapter.turn(90);
+        robotAdapter.move(20);
     }
 }
