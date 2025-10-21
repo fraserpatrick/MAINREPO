@@ -1,0 +1,7 @@
+1. What are the pros and cons of using an adapter versus rewriting the legacy class?
+
+
+2. How does the Adapter pattern help with integrating third-party or legacy systems?
+
+
+3. How would you handle adapting more complex behaviors, like obstacle avoidance or path planning? Would you still use an adapter?
