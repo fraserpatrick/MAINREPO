@@ -1,7 +1,23 @@
 1. What are the pros and cons of using an adapter versus rewriting the legacy class?
+    Pros
+        Fast Implementation
+            Tends to be a faster than refactoring a whole code base
+        Backward compatibility
+            Both old and new systems can maintain compatibility meaning old systems can continue running without issue
+        Low risk
+            Refactoring a whole code base comes with the risk of breaking stable code, whereas adding an adapter is low risk
+    Cons
+        Complexity
+            The extra added layer creates added complexity which can make the program harder to read and understand
+        Constrained flexibility
+            The design of the legacy code cannot be changed therefore it can be hard to add new features 
 
 
 2. How does the Adapter pattern help with integrating third-party or legacy systems?
+    Connects mismatched interfaces
+        The legacy code can have differently named variables and methods, the adapter can connect the 2 to allow both systems to keep working
+    Not able to refactor
+        Some third-party or legacy codebases are not able to be refactored, an adapter means they don't have to be
 
 
 3. How would you handle adapting more complex behaviors, like obstacle avoidance or path planning? Would you still use an adapter?
