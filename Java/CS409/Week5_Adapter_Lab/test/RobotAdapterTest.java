@@ -20,8 +20,7 @@ public class RobotAdapterTest {
 
         controller.move(2.0);
         // answer should be 2 numbers which equal to 2
-        assertEquals(1.0, legacy.getLastSpeed(), 2);
-        assertEquals(2.0, legacy.getLastDuration(), 2);
+        assertEquals(2.0, legacy.getLastSpeed()*legacy.getLastDuration(), 0.001);
     }
 
 }
