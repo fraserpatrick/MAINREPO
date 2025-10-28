@@ -1,0 +1,7 @@
+1. What advantages does the Decorator Pattern offer over subclassing?
+
+
+2. What challenges might arise when stacking multiple decorators?
+
+
+3. Could this pattern be used for input validation or logging? Why or why not?
