@@ -7,6 +7,6 @@ public class TimestampPrinter extends PrinterDecorator {
 
     @Override
     public String print(String input) {
-        return LocalDateTime.now() + " " + super.print(input);
+        return "[" + LocalDateTime.now() + "]" + super.print(input);
     }
 }

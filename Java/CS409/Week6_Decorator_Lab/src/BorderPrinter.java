@@ -5,6 +5,6 @@ public class BorderPrinter extends PrinterDecorator {
 
     @Override
     public String print(String input) {
-        return "[" + super.print(input) + "]";
+        return "* " + super.print(input) + " *";
     }
 }
