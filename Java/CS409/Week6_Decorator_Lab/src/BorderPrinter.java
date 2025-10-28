@@ -1,9 +1,10 @@
 public class BorderPrinter extends PrinterDecorator {
-    // TODO: Create a constructor that passes the wrapped printer to the base class
+    public BorderPrinter(Printer wrappedPrinter) {
+        super(wrappedPrinter);
+    }
 
     @Override
     public String print(String input) {
-        // TODO: Add a border around the result of super.print(input)
-        return null;
+        return "[" + super.print(input) + "]";
     }
 }

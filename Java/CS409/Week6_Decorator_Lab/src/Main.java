@@ -1,9 +1,9 @@
 public class Main {
     public static void main(String[] args) {
-        // TODO: Create a BasicPrinter
+        Printer printer = new BasicPrinter();
 
-        // TODO: Wrap it with one or more decorators (e.g., UpperCasePrinter, BorderPrinter)
+        printer = new HtmlPrinter(new TimestampPrinter(new BorderPrinter(new UpperCasePrinter(printer))));
 
-        // TODO: Print a sample string using the decorated printer
+        System.out.println(printer.print("Hello World!"));
     }
 }

@@ -1,11 +1,12 @@
 public abstract class PrinterDecorator implements Printer {
-    // TODO: Declare a protected Printer field to wrap
+    protected Printer wrappedPrinter;
 
-    // TODO: Create a constructor that accepts a Printer and assigns it to the field
+    public PrinterDecorator(Printer wrappedPrinter) {
+        this.wrappedPrinter = wrappedPrinter;
+    }
 
     @Override
     public String print(String input) {
-        // TODO: Delegate to the wrapped printer
-        return null;
+        return wrappedPrinter.print(input);
     }
 }
