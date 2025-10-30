@@ -21,3 +21,6 @@
 
 
 3. How would you handle adapting more complex behaviors, like obstacle avoidance or path planning? Would you still use an adapter?
+    No, you would not use an adapter as an adapter only adapts old, already written methods and variables.
+    You would use adapters to connect the old code to the new, and would then use a different design pattern to add more complex behaviors.
+    If the old code is too awkward to adapt then you could consider refactoring.
