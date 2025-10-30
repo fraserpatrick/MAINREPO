@@ -1,7 +1,23 @@
 1. What advantages does the Decorator Pattern offer over subclassing?
+    Dynamic at runtime
+        Decorator's are able to be added, removed or combined dynamically at runtime just by wrapping different objects in different combinations
+        Subclassing modifies the object at compile so it's behavior is then fixed
+    Class explosion
+        Adding extra options creates more and more combinations, having a new subclass for each combination means that you could end up with hundereds of classes
+        Whereas decorators mean you only need to make a new class for each option
+    Single Responsibility Principle
+        Each decorator only needs to deal with a single responsibility, this makes the decorators more readable and easier to maintain.
 
 
 2. What challenges might arise when stacking multiple decorators?
+    Ordering
+        The order in which decorators are applied can have an effect on the output of the decorated class, meaning that the output you get might not be the output you expect
+    Debugging
+        Due to there being multiple layers of decorators debugging can be an issue as it can be hard to find where the bug is coming from
+    Identity issues
+        There can be issues as the object that is outputed after being passed through a decorator will not be the same class type as the inputed object meaning that some calls might throw errors
 
 
 3. Could this pattern be used for input validation or logging? Why or why not?
+    Yes
+        You can create a decorater class to add the extra code functionalilty without having to change main code
