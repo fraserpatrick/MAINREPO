@@ -1,0 +1,8 @@
+1. What are the pros and cons of treating individual and grouped objects uniformly?
+
+
+2. How would you extend this system to support transformations (e.g., scaling, rotation)?
+
+
+3. What challenges might arise when deeply nesting groups?
+
