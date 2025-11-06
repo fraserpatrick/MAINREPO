@@ -3,9 +3,9 @@
         Simplifies client code
             The client does not need to be able to distinguish between an object and a composition of objects, reducing conditional logic and therefore cleans up code
         Scalable and consistant
-            It is easy to add new Leaf types as they will still get treated the same way due to them implementing a common interface
+            New Leaf objects or compositions can be added without any change to the client code due to them implementing a common interface and therefore being treated uniformly
         Recursion
-            Recursion is handled very well using this design pattern
+            This design supports recursion on hierarchial structures
     Cons
         Added complexity
             Adding the layer of abstraction required to treat a Leaf and a Composition as the same, adds additonal complexity
@@ -14,17 +14,21 @@
 
 
 2. How would you extend this system to support transformations (e.g., scaling, rotation)?
-    Add transformation methods to the abstract interface
-    Create variables to store the transformations in each object
-        Leaf
-            Apply transformation directly to the single Leaf object
-        Composite
-            Iterate through children and apply transformation to each Leaf
+    Add transformation methods to the abstract interface, like scale() or rotate()
+    Create variables to store the transformations in each Leaf object
+    Leaf implemetation
+        Apply transformation directly to the single Leaf object
+    Composite implemetation
+        Iterate through children and apply transformation to each Leaf
 
 
 3. What challenges might arise when deeply nesting groups?
     Performance
-        There is the possibility of a significant number of recursive calls. Each call adds to the call stack
+        There is the possibility of a significant number of recursive calls and each call adds to the call stack. 
+        This can lead to a high memory usage and slower processing
     Complexity
-
+        Deep structures are harder to understand, maintain and debug due to the higher level of complexity
+        Traversing or changing the hierarchy is a lot more error-prone in a deep structure
     Cyclic Issues
+        There is a chance of there being accidental cycles where a composition could indirectly contain itself
+        This can lead to infinite loops or stack overflow issues
