@@ -21,7 +21,7 @@ public class PrinterTest {
     public void testTimestampPrinter() {
         Printer printer = new TimestampPrinter(new BasicPrinter());
         String result = printer.print("hello");
-        assertTrue(result.matches("\[.*\] hello"));
+        assertTrue(result.matches("\\[.*\\] hello"));
     }
 
     @Test
