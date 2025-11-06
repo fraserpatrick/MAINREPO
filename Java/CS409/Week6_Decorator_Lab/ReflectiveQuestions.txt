@@ -22,3 +22,16 @@
     Yes
         You can create a decorater class to add the extra code functionalilty without having to change main codebase.
         This makes the system more flexible as classes can be wrapped in each decorator as required
+    CODE SNIPPET
+        public class LoggerValidationPrinter extends PrinterDecorator {
+            public LoggerValidationPrinter(Printer wrappedPrinter) {
+                super(wrappedPrinter);
+            }
+
+            @Override
+            public String print(String input) {
+                SOME LOGGING OR VALIDATION FUNCTIONALILTY
+                return super.print(input);
+            }
+        }
+    END OF CODE SNIPPET
